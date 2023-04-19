@@ -33,6 +33,7 @@ library(REdaS)
 
 ```{r}
 df <- read.csv2('Case Study III_Structural Equation Modeling.csv', na.strings = '999', sep = ',')
+df <- df[, c(1:23, 25:36)]
 head(df)
 ```
 
@@ -143,4 +144,11 @@ List factors that you get from the analysis
 
 # Confirmatory Factor Analysis
 
-
+```{r}
+model <- "
+RI =~ C_REP1 + C_REP2 + C_REP3
+CI =~ C_CR1 + C_CR3 + C_CR4
+CS =~ 
+x =~ ri+ri2+
+"
+```
