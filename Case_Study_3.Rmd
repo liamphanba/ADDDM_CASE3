@@ -1,0 +1,146 @@
+---
+title: "Case Study 3"
+author: "Michael Daniel Bigler and Liam Arthur Phan"
+date: "`r Sys.Date()`"
+output:
+  rmdformats::downcute:
+    code_folding: hide
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	message = FALSE,
+	warning = FALSE,
+	include = TRUE,
+	fig.align = "center")
+rm(list = ls())
+cat("\014")
+```
+
+# Packages {.unnumbered}
+
+```{r}
+library(psych)
+library(corrplot)
+library(ggplot2)
+library(car)
+library(naniar)
+library(REdaS)
+```
+
+# Data Loading
+
+```{r}
+df <- read.csv2('Case Study III_Structural Equation Modeling.csv', na.strings = '999', sep = ',')
+head(df)
+```
+
+```{r}
+describe(df)
+```
+
+```{r}
+dim(df)
+```
+
+```{r}
+gg_miss_var(df, show_pct = TRUE)
+```
+
+```{r}
+naniar::vis_miss(df)
+```
+
+```{r}
+df <- na.omit(df)
+```
+
+# Exploratory Factor Analysis
+
+## check assumptions
+
+```{r}
+df_1 <- df[,1:22]
+```
+
+```{r}
+M <- cor(df_1)
+corrplot(M, method='circle', number.cex = 0.5, tl.cex = 0.7)
+```
+
+Correlation matrix seems alright
+
+```{r}
+KMOTEST <- KMO(M)
+sort(KMOTEST$MSAi)
+```
+no problems seen in each factors anti image correlation
+
+```{r}
+KMOTEST$MSA
+```
+
+With 0.89 sampling adequacy is very high. 
+
+```{r}
+cortest.bartlett(df_1)
+```
+
+Factor analysis can be done as the test indicates a p-value of 0.
+
+## Factor analysis
+
+```{r}
+# parallel <- fa.parallel(df_1)
+# parallel$fa.values
+# parallel$pc.values
+```
+
+FA says 2, PCA says 5
+
+```{r}
+fa_result <- fa(df_1, rotate = "varimax", fm = "pa")
+n_factors <- length(fa_result$values)
+scree     <- data.frame(Factor_n =  as.factor(1:n_factors), Eigenvalue = fa_result$values)
+
+ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
+  geom_point() + geom_line() +
+  xlab("Number of factors") +
+  ylab("Initial eigenvalue") +
+  labs( title = "Scree Plot",
+        subtitle = "(Based on the unreduced correlation matrix)") +
+  geom_hline(yintercept = 1)
+
+factors_kaiser <- sum(fa_result$values>1)
+```
+
+According to factor analysis only two factors.
+
+```{r}
+fa_result <- fa(df_1, rotate = "promax", fm = "pa", nfactors = 2) # 6
+print(fa_result$loadings, cutoff=0.3,sort=TRUE)
+```
+Factor 1: Large assortment and good products
+Factor 2: Sell french gourmet products
+
+If we have more factors than it is better distinguishable as there are clearer loadings
+
+```{r}
+sort(fa_result$communality)
+```
+
+A lot of communalities below 0.5 -> Problematic
+with 6 it would be better -> question sent
+
+```{r}
+fa.diagram(fa_result)
+```
+
+## Dimensions by which GLF is perceived? 
+
+List factors that you get from the analysis
+
+# Confirmatory Factor Analysis
+
+
