@@ -27,6 +27,9 @@ library(ggplot2)
 library(car)
 library(naniar)
 library(REdaS)
+library(zoo)
+library(foreign) 
+library(lavaan)
 ```
 
 # Data Loading
@@ -49,12 +52,20 @@ dim(df)
 gg_miss_var(df, show_pct = TRUE)
 ```
 
+This is not too bad. 
+
 ```{r}
 naniar::vis_miss(df)
 ```
 
+If we look at this plot though we see that the missing values are in a lot of the observations. Thereby we probably can not omit the data but need to replace it with the mean. 
+
 ```{r}
-df <- na.omit(df)
+dim(na.omit(df))
+```
+
+```{r}
+df <- na.aggregate(df)
 ```
 
 # Exploratory Factor Analysis
@@ -102,8 +113,8 @@ FA says 2, PCA says 5
 
 ```{r}
 fa_result <- fa(df_1, rotate = "varimax", fm = "pa")
-n_factors <- length(fa_result$values)
-scree     <- data.frame(Factor_n =  as.factor(1:n_factors), Eigenvalue = fa_result$values)
+n_factors <- length(fa_result$e.values)
+scree     <- data.frame(Factor_n =  as.factor(1:n_factors), Eigenvalue = fa_result$e.values)
 
 ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
   geom_point() + geom_line() +
@@ -113,26 +124,24 @@ ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
         subtitle = "(Based on the unreduced correlation matrix)") +
   geom_hline(yintercept = 1)
 
-factors_kaiser <- sum(fa_result$values>1)
+factors_kaiser <- sum(fa_result$e.values>1)
 ```
 
-According to factor analysis only two factors.
+According to factor analysis six factors.
 
 ```{r}
-fa_result <- fa(df_1, rotate = "promax", fm = "pa", nfactors = 2) # 6
+fa_result <- fa(df_1, rotate = "promax", fm = "pa", nfactors = 6)
+colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
 print(fa_result$loadings, cutoff=0.3,sort=TRUE)
 ```
-Factor 1: Large assortment and good products
-Factor 2: Sell french gourmet products
 
-If we have more factors than it is better distinguishable as there are clearer loadings
+With six factors we clear loadings except for some variables.
 
 ```{r}
 sort(fa_result$communality)
 ```
 
-A lot of communalities below 0.5 -> Problematic
-with 6 it would be better -> question sent
+Only some communalities under 0.5. Need to look out for lm11, lm16, lm9 and lm19
 
 ```{r}
 fa.diagram(fa_result)
@@ -146,11 +155,51 @@ List factors that you get from the analysis
 
 ```{r}
 model <- "
-RI =~ C_REP1 + C_REP2 + C_REP3
-CI =~ C_CR1 + C_CR3 + C_CR4
-CS =~ 
-x =~ ri+ri2+
+F1 =~Im6+Im7+Im8+Im10+Im14+Im9
+F2 =~Im3+Im4+Im5
+F3 =~Im1+Im2+Im15+Im16+Im19
+F4 =~Im11+Im12+Im13
+F5 =~Im20+Im21+Im22
+F6 =~Im17+Im18+Im9+Im6
 "
+fit <- cfa(model, data=df_1)
+summary(fit, fit.measures=TRUE, standardized=TRUE)
 ```
 
+Remove Im16, Im9 and Im6
+
+```{r}
+library(dplyr)
+modificationindices(fit) %>% filter(mi>10)
+```
+CFA looks alright we can do structure modelling
+
 # Structure modelling on factors 
+
+```{r}
+model <- "
+F1 =~Im6+Im7+Im8+Im10+Im14+Im9
+F2 =~Im3+Im4+Im5
+F3 =~Im1+Im2+Im15+Im16+Im19
+F4 =~Im11+Im12+Im13
+F5 =~Im20+Im21+Im22
+F6 =~Im17+Im18+Im9+Im6
+
+CS ~ F1 + F2 + F3 + F4 + F5 + F6
+AC ~ F1 + F2 + F3 + F4 + F5 + F6
+
+CS =~ SAT_1 + SAT_2 + SAT_3
+AC =~ COM_A1 + COM_A2 + COM_A3 + COM_A4
+
+RI =~ C_REP1 + C_REP2 + C_REP3
+CI =~ C_CR1 + C_CR3 + C_CR4
+
+RI ~ CS + AC + F1 + F2 + F3 + F4 + F5 + F6
+CI ~ CS + AC + F1 + F2 + F3 + F4 + F5 + F6
+"
+
+fit10<-cfa(model, data=df, missing="ML")
+
+inspect(fit10)
+```
+
