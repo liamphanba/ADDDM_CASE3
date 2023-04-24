@@ -154,7 +154,8 @@ As we can see, We have some multicolinearity among the variables, at least 6 var
 
 ### **Kaiser–Meyer–Olkin test (KMO)**
 
-> In his delightfully flamboyant style, Kaiser (1975) suggested that KMO > .9 were marvelous, in the .80s, mertitourious, in the .70s, middling, in the .60s, medicore, in the 50s, miserable, and less than .5, unacceptable.
+![](Table1.2.png){width=250px}
+
 
 [KMO: Find the Kaiser, Meyer, Olkin Measure of Sampling Adequacy](https://www.rdocumentation.org/packages/psych/versions/2.3.3/topics/KMO)
 
@@ -192,7 +193,6 @@ Factor analysis can be done as the test indicates a p-value under 0 (P-value < 0
 ```
 
 FA says 2, PCA says 5
-
 
 ### Factors Quantity
 
@@ -244,6 +244,14 @@ print(fa_result$loadings, cutoff=cutoff_1,sort=TRUE)
 
 With six factors we clear loadings except for some variables.
 
+<center>
+
+![](Table2.png){width=250px}
+
+[Exploratory factor analysis and Cronbach’s alpha
+Questionnaire Validation Workshop, 10/10/2017, USM Health Campus](https://wnarifin.github.io/workshop/qvw2017/efa.pdf)
+
+</center>
 
 ### Communalities
 
@@ -253,7 +261,9 @@ sort(fa_result$communality)
 
 ```
 
-Only some communalities under 0.5. Need to look out for lm11, lm16, lm9 and lm19
+Only some communalities under 0.5. Need to look out for lm11, lm16, lm9 and lm16
+
+### Cronbach’s alpha
 
 ### Diagram
 
