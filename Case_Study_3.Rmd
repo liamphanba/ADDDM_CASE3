@@ -18,7 +18,7 @@ rm(list = ls())
 cat("\014")
 ```
 
-# Packages {.unnumbered}
+# **Packages** {.unnumbered}
 
 ```{r}
 library(psych)
@@ -34,7 +34,7 @@ library(ggcorrplot)
 library(lares)
 ```
 
-# Data 
+# **Data**
 
 ```{r}
 df <- read.csv2('Case Study III_Structural Equation Modeling.csv', na.strings = '999', sep = ',')
@@ -82,7 +82,7 @@ na_remove_count[1] <- abs(na_remove_count[1])
 
 ```
 
-Thus, we remove a lot of observations with listwise deletion, up to r`na_remove_count[1]`
+Thus, we remove a lot of observations with listwise deletion, up to `r na_remove_count[1]`
 
 
 ```{r}
@@ -93,13 +93,13 @@ Thus, we remove a lot of observations with listwise deletion, up to r`na_remove_
 df <- na.omit(df)
 ```
 
-# Exploratory Factor Analysis
+# **Exploratory Factor Analysis**
 
 For exploratory factor analysis: please only consider variables image1 to image22, and use listwise deletion to handle missing data before starting exploratory factor analysis.
 
 From Assistant
 
-## Assumptions Check
+## **Assumptions Check**
 
 ```{r}
 df_1 <- df[,1:22]
@@ -126,7 +126,7 @@ corr_cross(df_1, # name of dataset
 
 ```
 
-As we can see, We have some multicolinearity among the variables, at least 6 variables can be considered with high-colinearity. 
+As we can see, We have some multicolinearity among the variables, at least 6 variables can be considered with high-colinearity. Im3+Im4, Im1+Im2m, Im6+Im7, Im4+Im5, Im8+Im10 and Im8+Im14. 
 
 <center>
 
@@ -204,7 +204,7 @@ fa.diagram(fa_result)
 
 List factors that you get from the analysis
 
-# Confirmatory Factor Analysis
+# **Confirmatory Factor Analysis**
 
 For confirmatory factor analysis (CFA) and structural equation modeling (SEM), please use the raw data (which includes the missing values) to perform CFA and SEM, and use maximum likelihood (ML) to handle the missing data.
 
@@ -231,7 +231,7 @@ modificationindices(fit) %>% filter(mi>10)
 ```
 CFA looks alright we can do structure modelling
 
-# Structure modelling on factors 
+# **Structure modelling on factors**
 
 ```{r}
 model <- "
