@@ -263,7 +263,6 @@ sort(fa_result$communality)
 
 Only some communalities under 0.5. Need to look out for lm11, lm16, lm9 and lm16
 
-### Seperating Factors  
 
 ```{r}
 
@@ -271,30 +270,90 @@ Only some communalities under 0.5. Need to look out for lm11, lm16, lm9 and lm16
 French_cuisine <- fa_result$loadings[,1]
 French_cuisine <- French_cuisine[French_cuisine>0.3]
 
+French_cuisine_Names <- names(French_cuisine)
+
 # FACTOR 2
 Appealing_store <- fa_result$loadings[,2]
 Appealing_store <- Appealing_store[Appealing_store>0.3]
+
+Appealing_store_Names <- names(Appealing_store)
 
 # FACTOR 3
 Large_assortment <- fa_result$loadings[,3]
 Large_assortment <- Large_assortment[Large_assortment>0.3]
 
+Large_assortment_Names <- names(Large_assortment)
+
 # FACTOR 4
 Luxury_quality <- fa_result$loadings[,4]
 Luxury_quality <- Luxury_quality[Luxury_quality>0.3]
+
+Luxury_quality_Names <- names(Luxury_quality)
 
 # FACTOR 5
 Relaxing_store <- fa_result$loadings[,5]
 Relaxing_store <- Relaxing_store[Relaxing_store>0.3]
 
+Relaxing_store_Names <- names(Relaxing_store)
+
 # FACTOR 6
 Hip_and_Trendy <- fa_result$loadings[,6]
 Hip_and_Trendy <- Hip_and_Trendy[Hip_and_Trendy>0.3]
+
+Hip_and_Trendy_Names <- names(Hip_and_Trendy)
 
 
 ```
 
 ### Cronbach’s alpha
+
+<center>
+
+![](Table4.png){width=500px}
+
+</center>
+
+**French cuisine**
+
+```{r}
+alpha.pa1 = psych::alpha(df_1[French_cuisine_Names])
+alpha.pa1$item
+```
+
+**Appealing store**
+
+```{r}
+alpha.pa1 = psych::alpha(df_1[Appealing_store_Names])
+alpha.pa1$item
+```
+
+**Large assortment**
+
+```{r}
+alpha.pa1 = psych::alpha(df_1[Large_assortment_Names])
+alpha.pa1$item
+```
+
+**Luxury and High quality**
+
+```{r}
+alpha.pa1 = psych::alpha(df_1[Luxury_quality_Names])
+alpha.pa1$item
+```
+
+**Relaxing store**
+
+```{r}
+alpha.pa1 = psych::alpha(df_1[Relaxing_store_Names])
+alpha.pa1$item
+```
+
+**Hip and Trendy**
+
+```{r}
+alpha.pa1 = psych::alpha(df_1[Hip_and_Trendy_Names])
+alpha.pa1$item
+```
 
 ### Diagram
 
