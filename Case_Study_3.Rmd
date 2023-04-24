@@ -177,7 +177,7 @@ KMOTEST$MSA
 
 With 0.87 sampling adequacy is very high. 
 
-### **Bartlett’s test (Homogeneity of Variances)** 
+### **Bartlett’s Test of Sphericity** 
 
 ```{r}
 cortest.bartlett(df_1)
