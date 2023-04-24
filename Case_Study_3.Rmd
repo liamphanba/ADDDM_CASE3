@@ -34,12 +34,13 @@ library(ggcorrplot)
 library(lares)
 ```
 
-# Data Loading
+# Data 
 
 ```{r}
 df <- read.csv2('Case Study III_Structural Equation Modeling.csv', na.strings = '999', sep = ',')
 df <- df[, c(1:23, 25:36)]
-head(df)
+
+DT::datatable(df)
 ```
 
 ## Dimensions
@@ -52,7 +53,7 @@ dim_before_na
 ## Summary Statistics
 
 ```{r}
-describe(df)
+DT::datatable(describe(df))
 ```
 
 ## Missing Analysis
@@ -108,28 +109,32 @@ df_1 <- df[,1:22]
 
 ```{r}
 
-
-
 # Correlation Values Matrix
-Corr_Values <- round(cor(df_1), 1)
+M <- round(cor(df_1), 1)
 
 # P-Value
 p.mat <- cor_pmat(df_1)
 
 # Correlation Plot
-ggcorrplot(Corr_Values, hc.order = TRUE, type = "lower", lab = TRUE, p.mat = p.mat, sig.level=0.05, lab_size = 2, tl.cex = 10,outline.col = "white", ggtheme = ggplot2::theme_minimal(), colors = c("#308259", "white", "#823038")) 
+ggcorrplot(M, hc.order = TRUE, type = "lower", lab = TRUE, p.mat = p.mat, sig.level=0.05, lab_size = 2, tl.cex = 10,outline.col = "white", ggtheme = ggplot2::theme_minimal(), colors = c("#823038", "white", "#2596be")) 
 
 # Ranked Cross-Correlations
 corr_cross(df_1, # name of dataset
   max_pvalue = 0.05, # display only significant correlations (at 5% level)
-  top = 10 # display top 10 couples of variables (by correlation coefficient)
+  top = 9 # display top 10 couples of variables (by correlation coefficient)
 )
 
 ```
 
-Correlation matrix seems alright (Michael)
+As we can see, We have some multicolinearity among the variables, at least 6 variables can be considered with high-colinearity. 
 
-> Liam:
+<center>
+
+![](Table1.png)
+
+[A guide to appropriate use of Correlation coefficient in medical research](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3576830/#:~:text=A%20correlation%20coefficient%20of%20zero,between%20%E2%88%921%20and%20%2B1.)
+
+</center>
 
 ```{r}
 KMOTEST <- KMO(M)
