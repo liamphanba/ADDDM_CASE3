@@ -99,7 +99,7 @@ For exploratory factor analysis: please only consider variables image1 to image2
 
 From Assistant
 
-## **Check Assumptions For Factor Analysis**
+## Check Assumptions
 
 ```{r}
 df_1 <- df_listwise[,1:22]
@@ -152,7 +152,7 @@ As we can see, We have some multicolinearity among the variables, at least 6 var
 
 </center>
 
-##### **Kaiser–Meyer–Olkin test (KMO)**
+### **Kaiser–Meyer–Olkin test (KMO)**
 
 > In his delightfully flamboyant style, Kaiser (1975) suggested that KMO > .9 were marvelous, in the .80s, mertitourious, in the .70s, middling, in the .60s, medicore, in the 50s, miserable, and less than .5, unacceptable.
 
@@ -177,7 +177,7 @@ KMOTEST$MSA
 
 With 0.87 sampling adequacy is very high. 
 
-##### **Bartlett’s test (Homogeneity of Variances)** 
+### **Bartlett’s test (Homogeneity of Variances)** 
 
 ```{r}
 cortest.bartlett(df_1)
