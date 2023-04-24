@@ -167,9 +167,7 @@ sort(KMOTEST$MSAi)
 
 No problem seen in each factor anti-image correlation.
 
-<center>
 **KMO Overall Measure of sampling adequacy**
-</center>
 
 ```{r}
 KMOTEST$MSA
@@ -195,10 +193,16 @@ Factor analysis can be done as the test indicates a p-value under 0 (P-value < 0
 
 FA says 2, PCA says 5
 
+
+### Factors Quantity
+
+#### Scree-plot
+
 ```{r}
+
 fa_result <- fa(df_1, rotate = "varimax", fm = "pa")
 n_factors <- length(fa_result$e.values)
-scree     <- data.frame(Factor_n =  as.factor(1:n_factors), Eigenvalue = fa_result$e.values)
+scree <- data.frame(Factor_n =  as.factor(1:n_factors), Eigenvalue = fa_result$e.values)
 
 ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
   geom_point() + geom_line() +
@@ -206,29 +210,57 @@ ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
   ylab("Initial eigenvalue") +
   labs( title = "Scree Plot",
         subtitle = "(Based on the unreduced correlation matrix)") +
-  geom_hline(yintercept = 1)
+  geom_hline(yintercept = 1, color="#2596be") + theme_minimal() 
+
+```
+
+Look at the elbow: would only select 3-4 factors
+
+#### Kaisers-Criterion
+
+```{r}
 
 factors_kaiser <- sum(fa_result$e.values>1)
+
+print(paste("Kaiser-Criterion:", factors_kaiser,"Factors"))
+
 ```
 
 According to factor analysis six factors.
 
+
+### Factors Loadings
+
 ```{r}
-fa_result <- fa(df_1, rotate = "promax", fm = "pa", nfactors = 6)
+
+fa_result <- fa(df_1, rotate = "varimax", fm = "pa", nfactors = 6)
 colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
-print(fa_result$loadings, cutoff=0.3,sort=TRUE)
+
+cutoff_1 <- 0.3
+
+print(fa_result$loadings, cutoff=cutoff_1,sort=TRUE)
+
 ```
 
 With six factors we clear loadings except for some variables.
 
+
+### Communalities
+
 ```{r}
+
 sort(fa_result$communality)
+
 ```
 
 Only some communalities under 0.5. Need to look out for lm11, lm16, lm9 and lm19
 
+### Diagram
+
 ```{r}
+
 fa.diagram(fa_result)
+
 ```
 
 ## Dimensions by which GLF is perceived? 
@@ -260,9 +292,10 @@ Remove Im16, Im9 and Im6
 library(dplyr)
 modificationindices(fit) %>% filter(mi>10)
 ```
+
 CFA looks alright we can do structure modelling
 
-# **Structure modelling on factors**
+# **Structure Equation Modelling**
 
 ```{r}
 model <- "
