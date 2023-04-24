@@ -62,13 +62,13 @@ DT::datatable(describe(df))
 gg_miss_var(df, show_pct = TRUE)
 ```
 
-This is not too bad. 
+This is not too bad, we can see that SAT_3 is the one with the most NA values, up to 7%. 
 
 ```{r}
 naniar::vis_miss(df)
 ```
 
-If we look at this plot though we see that the missing values are in a lot of the observations. Thereby we probably can not omit the data but need to replace it with the mean. 
+If we look at this plot though we see that the missing values are in a lot of the observations. Therefore, we will to handle the Confirmatory Analysis with a method for replacing those missing values. 
 
 ## Dimensions after listwise deletion
 
