@@ -154,10 +154,14 @@ As we can see, We have some multicolinearity amongst the variables, at least 6 v
 
 ### **Kaiser–Meyer–Olkin test (KMO)**
 
+<center>
+
 ![](Table1.2.png){width=250px}
 
 
 [KMO: Find the Kaiser, Meyer, Olkin Measure of Sampling Adequacy](https://www.rdocumentation.org/packages/psych/versions/2.3.3/topics/KMO)
+
+</center>
 
 **KMO Index**
 
