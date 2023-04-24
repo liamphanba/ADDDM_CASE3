@@ -142,7 +142,7 @@ corr_cross(df_1, # name of dataset
 
 ```
 
-As we can see, We have some multicolinearity among the variables, at least 6 variables can be considered with high-colinearity. Im3+Im4, Im1+Im2m, Im6+Im7, Im4+Im5, Im8+Im10 and Im8+Im14. 
+As we can see, We have some multicolinearity amongst the variables, at least 6 variables can be considered with high-colinearity. Im3+Im4, Im1+Im2m, Im6+Im7, Im4+Im5, Im8+Im10 and Im8+Im14. 
 
 <center>
 
@@ -187,9 +187,9 @@ Factor analysis can be done as the test indicates a p-value under 0 (P-value < 0
 ## Factor analysis
 
 ```{r}
-# parallel <- fa.parallel(df_1)
-# parallel$fa.values
-# parallel$pc.values
+parallel <- fa.parallel(df_1)
+parallel$fa.values
+parallel$pc.values
 ```
 
 FA says 2, PCA says 5
@@ -262,6 +262,37 @@ sort(fa_result$communality)
 ```
 
 Only some communalities under 0.5. Need to look out for lm11, lm16, lm9 and lm16
+
+### Seperating Factors  
+
+```{r}
+
+# FACTOR 1
+French_cuisine <- fa_result$loadings[,1]
+French_cuisine <- French_cuisine[French_cuisine>0.3]
+
+# FACTOR 2
+Appealing_store <- fa_result$loadings[,2]
+Appealing_store <- Appealing_store[Appealing_store>0.3]
+
+# FACTOR 3
+Large_assortment <- fa_result$loadings[,3]
+Large_assortment <- Large_assortment[Large_assortment>0.3]
+
+# FACTOR 4
+Luxury_quality <- fa_result$loadings[,4]
+Luxury_quality <- Luxury_quality[Luxury_quality>0.3]
+
+# FACTOR 5
+Relaxing_store <- fa_result$loadings[,5]
+Relaxing_store <- Relaxing_store[Relaxing_store>0.3]
+
+# FACTOR 6
+Hip_and_Trendy <- fa_result$loadings[,6]
+Hip_and_Trendy <- Hip_and_Trendy[Hip_and_Trendy>0.3]
+
+
+```
 
 ### Cronbach’s alpha
 
