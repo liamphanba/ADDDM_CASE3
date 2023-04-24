@@ -90,7 +90,7 @@ Thus, we remove a lot of observations with listwise deletion, up to `r na_remove
 #df <- na.aggregate(df)
 
 # But this
-df <- na.omit(df)
+df_listwise <- na.omit(df)
 ```
 
 # **Exploratory Factor Analysis**
@@ -99,10 +99,10 @@ For exploratory factor analysis: please only consider variables image1 to image2
 
 From Assistant
 
-## **Assumptions Check**
+## **Check Assumptions For Factor Analysis**
 
 ```{r}
-df_1 <- df[,1:22]
+df_1 <- df_listwise[,1:22]
 ```
 
 ### Multicolinearity
@@ -110,13 +110,29 @@ df_1 <- df[,1:22]
 ```{r}
 
 # Correlation Values Matrix
-M <- round(cor(df_1), 1)
+M <- cor(df_1)
 
 # P-Value
 p.mat <- cor_pmat(df_1)
 
+```
+
+<center>
+**Correlation Plot**
+</center>
+
+```{r}
+
 # Correlation Plot
 ggcorrplot(M, hc.order = TRUE, type = "lower", lab = TRUE, p.mat = p.mat, sig.level=0.05, lab_size = 2, tl.cex = 10,outline.col = "white", ggtheme = ggplot2::theme_minimal(), colors = c("#823038", "white", "#2596be")) 
+
+```
+
+<center>
+**Correlation Ranking**
+</center>
+
+```{r}
 
 # Ranked Cross-Correlations
 corr_cross(df_1, # name of dataset
@@ -130,29 +146,44 @@ As we can see, We have some multicolinearity among the variables, at least 6 var
 
 <center>
 
-![](Table1.png)
+![](Table1.png){width=400px}
 
 [A guide to appropriate use of Correlation coefficient in medical research](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3576830/#:~:text=A%20correlation%20coefficient%20of%20zero,between%20%E2%88%921%20and%20%2B1.)
 
 </center>
 
+##### **Kaiser–Meyer–Olkin test (KMO)**
+
+> In his delightfully flamboyant style, Kaiser (1975) suggested that KMO > .9 were marvelous, in the .80s, mertitourious, in the .70s, middling, in the .60s, medicore, in the 50s, miserable, and less than .5, unacceptable.
+
+[KMO: Find the Kaiser, Meyer, Olkin Measure of Sampling Adequacy](https://www.rdocumentation.org/packages/psych/versions/2.3.3/topics/KMO)
+
+**KMO Index**
+
 ```{r}
 KMOTEST <- KMO(M)
 sort(KMOTEST$MSAi)
 ```
-no problems seen in each factors anti image correlation
+
+No problem seen in each factor anti-image correlation.
+
+<center>
+**KMO Overall Measure of sampling adequacy**
+</center>
 
 ```{r}
 KMOTEST$MSA
 ```
 
-With 0.89 sampling adequacy is very high. 
+With 0.87 sampling adequacy is very high. 
+
+##### **Bartlett’s test (Homogeneity of Variances)** 
 
 ```{r}
 cortest.bartlett(df_1)
 ```
 
-Factor analysis can be done as the test indicates a p-value of 0.
+Factor analysis can be done as the test indicates a p-value under 0 (P-value < 0).
 
 ## Factor analysis
 
