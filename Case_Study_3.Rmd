@@ -30,6 +30,8 @@ library(REdaS)
 library(zoo)
 library(foreign) 
 library(lavaan)
+library(ggcorrplot)
+library(lares)
 ```
 
 # Data Loading
@@ -40,13 +42,20 @@ df <- df[, c(1:23, 25:36)]
 head(df)
 ```
 
+## Dimensions
+
+```{r}
+dim_before_na <- dim(df)
+dim_before_na
+```
+
+## Summary Statistics
+
 ```{r}
 describe(df)
 ```
 
-```{r}
-dim(df)
-```
+## Missing Analysis
 
 ```{r}
 gg_miss_var(df, show_pct = TRUE)
@@ -60,12 +69,27 @@ naniar::vis_miss(df)
 
 If we look at this plot though we see that the missing values are in a lot of the observations. Thereby we probably can not omit the data but need to replace it with the mean. 
 
-```{r}
-dim(na.omit(df))
-```
+## Dimensions after listwise deletion
 
 ```{r}
-df <- na.aggregate(df)
+
+dim_after_na <- dim(na.omit(df))
+dim_after_na
+
+na_remove_count <- dim_after_na - dim_before_na
+na_remove_count[1] <- abs(na_remove_count[1])
+
+```
+
+Thus, we remove a lot of observations with listwise deletion, up to r`na_remove_count[1]`
+
+
+```{r}
+# We should not do this
+#df <- na.aggregate(df)
+
+# But this
+df <- na.omit(df)
 ```
 
 # Exploratory Factor Analysis
@@ -74,18 +98,33 @@ For exploratory factor analysis: please only consider variables image1 to image2
 
 From Assistant
 
-## check assumptions
+## Assumptions Check
 
 ```{r}
 df_1 <- df[,1:22]
 ```
 
+### Multicolinearity
+
 ```{r}
-M <- cor(df_1)
-corrplot(M, method='circle', number.cex = 0.5, tl.cex = 0.7)
+
+
+corr_cross(mtcars, rm.na = T, max_pvalue = 0.05, top = 15, grid = T)
+
+# Correlation Values Matrix
+Corr_Values <- round(cor(df_1), 1)
+
+# P-Value
+p.mat <- cor_pmat(df_1)
+
+# Correlation Plot
+ggcorrplot(Corr_Values, hc.order = TRUE, type = "lower", lab = TRUE, p.mat = p.mat, sig.level=0.05, lab_size = 2, tl.cex = 10,outline.col = "white", ggtheme = ggplot2::theme_minimal(), colors = c("#308259", "white", "#823038")) 
+
 ```
 
-Correlation matrix seems alright
+Correlation matrix seems alright (Michael)
+
+> Liam:
 
 ```{r}
 KMOTEST <- KMO(M)
