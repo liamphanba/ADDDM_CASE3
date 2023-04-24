@@ -317,43 +317,46 @@ Hip_and_Trendy_Names <- names(Hip_and_Trendy)
 
 ```{r}
 alpha.pa1 = psych::alpha(df_1[French_cuisine_Names])
-alpha.pa1$item
+alpha.pa1$item.stats
 ```
 
 **Appealing store**
 
 ```{r}
 alpha.pa1 = psych::alpha(df_1[Appealing_store_Names])
-alpha.pa1$item
+alpha.pa1$item.stats
 ```
 
 **Large assortment**
 
 ```{r}
 alpha.pa1 = psych::alpha(df_1[Large_assortment_Names])
-alpha.pa1$item
+alpha.pa1$item.stats
 ```
 
 **Luxury and High quality**
 
 ```{r}
 alpha.pa1 = psych::alpha(df_1[Luxury_quality_Names])
-alpha.pa1$item
+alpha.pa1$item.stats
 ```
 
 **Relaxing store**
 
 ```{r}
 alpha.pa1 = psych::alpha(df_1[Relaxing_store_Names])
-alpha.pa1$item
+alpha.pa1$item.stats
 ```
+
+
 
 **Hip and Trendy**
 
 ```{r}
 alpha.pa1 = psych::alpha(df_1[Hip_and_Trendy_Names])
-alpha.pa1$item
+alpha.pa1$item.stats
 ```
+
 
 ### Diagram
 
