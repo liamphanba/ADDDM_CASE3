@@ -196,7 +196,7 @@ parallel$fa.values
 parallel$pc.values
 ```
 
-FA says 2, PCA says 5
+FA says 2, PCA says 5 --> do fa with fa an pca with principal --> different results
 
 ### Factors Quantity
 
