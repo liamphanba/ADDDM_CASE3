@@ -426,6 +426,8 @@ print(fa_result, cut = 0.3, digits = 3)
 
 ```
 
+ISSUE -> HAVING IM8 LOADINGS ON 2 FACTORS EVEN AFTER 8 FACTORS ANALYSIS. 
+
 ### Factors Names
 
 ```{r}
