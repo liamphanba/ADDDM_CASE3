@@ -62,13 +62,13 @@ DT::datatable(describe(df))
 gg_miss_var(df, show_pct = TRUE)
 ```
 
-This is not too bad, we can see that SAT_3 is the one with the most NA values, up to 7%. 
+This is not too bad, we can see that SAT_3 is the one with the most NA values, up to 7%.
 
 ```{r}
 naniar::vis_miss(df)
 ```
 
-If we look at this plot though we see that the missing values are in a lot of the observations. Therefore, we will to handle the Confirmatory Analysis with a method for replacing those missing values. 
+If we look at this plot though we see that the missing values are in a lot of the observations. Therefore, we will to handle the Confirmatory Analysis with a method for replacing those missing values.
 
 ## Dimensions after listwise deletion
 
@@ -84,12 +84,8 @@ na_remove_count[1] <- abs(na_remove_count[1])
 
 Thus, we remove a lot of observations with listwise deletion, up to `r na_remove_count[1]`
 
-
 ```{r}
-# We should not do this
-#df <- na.aggregate(df)
-
-# But this
+# We do list-wise deletion as ask by the TA
 df_listwise <- na.omit(df)
 ```
 
@@ -117,9 +113,7 @@ p.mat <- cor_pmat(df_1)
 
 ```
 
-<center>
-**Correlation Plot**
-</center>
+<center>**Correlation Plot**</center>
 
 ```{r}
 
@@ -128,9 +122,7 @@ ggcorrplot(M, hc.order = TRUE, type = "lower", lab = TRUE, p.mat = p.mat, sig.le
 
 ```
 
-<center>
-**Correlation Ranking**
-</center>
+<center>**Correlation Ranking**</center>
 
 ```{r}
 
@@ -140,24 +132,24 @@ corr_cross(df_1, # name of dataset
   top = 9 # display top 10 couples of variables (by correlation coefficient)
 )
 
+
 ```
 
-As we can see, We have some multicolinearity amongst the variables, at least 6 variables can be considered with high-colinearity. Im3+Im4, Im1+Im2m, Im6+Im7, Im4+Im5, Im8+Im10 and Im8+Im14. 
+As we can see, We have some multicolinearity amongst the variables, at least 6 variables can be considered with high-colinearity. Im3+Im4, Im1+Im2m, Im6+Im7, Im4+Im5, Im8+Im10 and Im8+Im14.
 
 <center>
 
-![](Table1.png){width=400px}
+![](Table1.png){width="400px"}
 
 [A guide to appropriate use of Correlation coefficient in medical research](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3576830/#:~:text=A%20correlation%20coefficient%20of%20zero,between%20%E2%88%921%20and%20%2B1.)
 
 </center>
 
-### **Kaiser–Meyer–Olkin test (KMO)**
+### **Kaiser--Meyer--Olkin test (KMO)**
 
 <center>
 
-![](Table1.2.png){width=250px}
-
+![](Table1.2.png){width="250px"}
 
 [KMO: Find the Kaiser, Meyer, Olkin Measure of Sampling Adequacy](https://www.rdocumentation.org/packages/psych/versions/2.3.3/topics/KMO)
 
@@ -170,7 +162,7 @@ KMOTEST <- KMO(M)
 sort(KMOTEST$MSAi)
 ```
 
-No problem seen in each factor anti-image correlation.
+Most KMO Index are Middling, Meritorious or even Marvelous. Im6 is the lowest KMO index being Middling.
 
 **KMO Overall Measure of sampling adequacy**
 
@@ -178,15 +170,15 @@ No problem seen in each factor anti-image correlation.
 KMOTEST$MSA
 ```
 
-With 0.87 sampling adequacy is very high. 
+With 0.87, sampling adequacy is very high.
 
-### **Bartlett’s Test of Sphericity** 
+### **Bartlett's Test of Sphericity**
 
 ```{r}
 cortest.bartlett(df_1)
 ```
 
-Factor analysis can be done as the test indicates a p-value under 0 (P-value < 0).
+Factor analysis can be done as the test indicates a p-value under 0 (P-value \< 0) and thus can reject the null hypothesis (Identity Matrix).
 
 ## Factor analysis
 
@@ -196,11 +188,13 @@ parallel$fa.values
 parallel$pc.values
 ```
 
-FA says 2, PCA says 5 --> do fa with fa an pca with principal --> different results
+FA says 2, PCA says 5 --\> do fa with fa an pca with principal --\> different results
 
 ### Factors Quantity
 
 #### Scree-plot
+
+We can do a factor analysis using rotation **varimax**
 
 ```{r}
 
@@ -218,7 +212,7 @@ ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
 
 ```
 
-Look at the elbow: would only select 3-4 factors
+Looking at the elbow, we would hesitate between 7 or 8 factors.
 
 #### Kaisers-Criterion
 
@@ -230,43 +224,209 @@ print(paste("Kaiser-Criterion:", factors_kaiser,"Factors"))
 
 ```
 
-According to factor analysis six factors.
+According to the Kaiser-Criterion, we would use 6 factors.
 
+### Factors Loadings - 6 Factors
 
-### Factors Loadings
+We will compute the loadings with 6 factors and **oblimin rotation** and use a cutoff of 0.3.
+
+**What we need to look for:**
+
+1.  Factor loadings (FL).
+2.  Communalities.
+3.  Factor correlations
 
 ```{r}
 
-fa_result <- fa(df_1, rotate = "varimax", fm = "pa", nfactors = 6)
-colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
+fa_result <- fa(df_1, rotate = "oblimin", fm = "pa", nfactors = 6)
 
-cutoff_1 <- 0.3
+#colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
 
-print(fa_result$loadings, cutoff=cutoff_1,sort=TRUE)
+fa_result <- fa(df_1, nfactors = 6, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
 
 ```
 
-With six factors we clear loadings except for some variables.
+With six factors, we can see that a lot of **Im** variables are not very distinct from each factors. For example, **Im19** is loaded with above 0.4 on **PA5** and **PA1**, **Im17** is on **PA4** and **PA6** with very close loading value (0.439 - 0.416) and finally **Im7** is loaded into both **PA2** and **PA6**.
 
 <center>
 
-![](Table2.png){width=250px}
+![](Table2.png){width="250px"}
 
-[Exploratory factor analysis and Cronbach’s alpha
-Questionnaire Validation Workshop, 10/10/2017, USM Health Campus](https://wnarifin.github.io/workshop/qvw2017/efa.pdf)
+[Exploratory factor analysis and Cronbach's alpha Questionnaire Validation Workshop, 10/10/2017, USM Health Campus](https://wnarifin.github.io/workshop/qvw2017/efa.pdf)
 
 </center>
 
-### Communalities
+**1.  Factor loadings (FL)**
+
+We used a **cut-off** value of **0.3** on the factors loading, therefore we only see loadings \> **0.3** in the table above. As we can see, **complexity** measure should be close to **1 unit per item** because it indicate the cross-loading on a factor. That is clearly not the case for **Im17** and **Im18**, as well as **Im16** and **Im19** where they both are \> **2** **complexity**. Nevertheless **Im16** doesn't have cross-loading, then only **Im17-18-19** and **Im8** (with **complexity** of 1.6) have cross-loadings.
+
+
+Cross-Loadings (Measured with Complexity measure):
+
+Im17 > Im18 > Im16 > Im19 > Im9 > Im8 > 1.49
+
+
+**2.  Communalities**
+
+On the table, it is column **h2**. As we can see, **Im9**, **Im11** and **Im16** communalities are < 0.5 
+
+Low Communalities: 
+
+Im9 < Im16 < 0.5
+
+
+**3.  Factor correlations**
+
+![](Factors Correlation - 6 Factors.png)
+
+"In general, correlations of < 0.85 between factors are expectable in health sciences. If the correlations are > 0.85, the factors are not distinct from each other (factor overlap, or multicollinearity), thus they can be
+combined (Brown, 2015). In EFA context, this can be done by reducing the number of extracted factors."
+
+As we can see on this correlation matrix, the highest correlation is between PA1 and PA5 but under 0.85. 
+
+[Github - Exploratory Factor Analysis and Cronbach's alpha](https://wnarifin.github.io/workshop/qvw2017/efa.pdf)
+
+
+### Removing Im9 (Low Communality and High Complexity)
+
+We can also see that when doing factors analysis with 7 or 8 factors, Im9 is still having the same issue across the analysis, therefore we would remove it first. He has low communality and 2 factors cross-loadings (high complexity measure of 1.89).
 
 ```{r}
 
-sort(fa_result$communality)
+fa_result <- fa(df_1[!names(df_1) %in% c("Im9")], nfactors = 6, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
+```
+### Removing Im17 (Moderate Communality and High Complexity)
+
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17")], nfactors = 6, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
 
 ```
 
-Only some communalities under 0.5. Need to look out for lm11, lm16, lm9 and lm16
+### Removing Im19 (Low Communality and High Complexity, Low Loadings)
 
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17","Im19")], nfactors = 6, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
+```
+
+
+### Removing Im18 (Low Communality and High Complexity, Low Loadings)
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17","Im19","Im18")], nfactors = 6, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
+```
+
+As we can see, removing Im9, Im17, Im18 and Im19 helps a lot in getting lower communalities and lower complexity while getting better factors loadings overall. We may also want to remove Im16 as it has low communalitiy and high complexity (above 2). 
+
+
+### Removing Im16 (Low Communality and High Complexity)
+
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17","Im19","Im18","Im16")], nfactors = 6, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
+```
+
+### Removing Im11 (Low Communality, High Complexity)
+
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17","Im19","Im18","Im16","Im11")], nfactors = 6, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
+```
+
+As we can see, removing items doesn't necessary lower the factors correlation nor the cross-loadings when considering communalities or complexity. We may want to check if we can improve the item removal by first looking at higher factor dimensions (above 6 factors).
+
+### Factors Loadings - 7 Factors
+
+We will compute the loadings with 7 factors and **oblimin rotation** and use a cutoff of 0.3.
+
+**What we need to look for:**
+
+1.  Factor loadings (FL).
+2.  Communalities.
+3.  Factor correlations
+
+```{r}
+
+#colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
+
+fa_result <- fa(df_1, nfactors = 7, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
+```
+
+As we can see, we got overall better loadings separation into factors, the overall complexity per items is lower than with 6 factors (7 factors: Mean item complexity =  1.3, 6 factors: Mean item complexity =  1.6). We also see better communalities overall and factors correlations is still under 0.85. We can remove remove some items with the same criterion as before.
+
+### Removing Im16 (Low Communality, High Complexity)
+
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im16")], nfactors = 7, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
+```
+
+### Removing Im19 (Low Communality, High Complexity)
+
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im16","Im19")], nfactors = 7, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
+```
+
+### Removing Im9 (Low Communality, High Complexity)
+
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im16","Im19","Im9")], nfactors = 7, fm = "pa", rotate = "oblimin")
+
+# Loadings with Cut-off 0.3
+print(fa_result, cut = 0.3, digits = 3)
+
+```
+
+### Factors Names
 
 ```{r}
 
@@ -309,13 +469,9 @@ Hip_and_Trendy_Names <- names(Hip_and_Trendy)
 
 ```
 
-### Cronbach’s alpha
+### Cronbach's alpha
 
-<center>
-
-![](Table4.png){width=500px}
-
-</center>
+<center>![](Table4.png){width="500px"}</center>
 
 **French cuisine**
 
@@ -352,15 +508,12 @@ alpha.pa1 = psych::alpha(df_1[Relaxing_store_Names])
 alpha.pa1$item.stats
 ```
 
-
-
 **Hip and Trendy**
 
 ```{r}
 alpha.pa1 = psych::alpha(df_1[Hip_and_Trendy_Names])
 alpha.pa1$item.stats
 ```
-
 
 ### Diagram
 
@@ -370,7 +523,7 @@ fa.diagram(fa_result)
 
 ```
 
-## Dimensions by which GLF is perceived? 
+## Dimensions by which GLF is perceived?
 
 List factors that you get from the analysis
 
@@ -430,4 +583,3 @@ fit10<-cfa(model, data=df, missing="ML")
 
 inspect(fit10)
 ```
-
