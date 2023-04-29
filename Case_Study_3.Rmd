@@ -513,7 +513,7 @@ Store_Decoration <- c("Im3","Im4","Im5")
 Luxury_Brands <- c("Im11","Im12","Im13")
 French_Culture <- c("Im6","Im7","Im9")
 Product_Assortment <- c("Im1","Im2")
-Grourmet_Food <- c("Im10","Im14")
+Gourmet_Food <- c("Im10","Im14")
 Trendiness <- c("Im17","Im18")
 Professionalism <- c("Im16","Im19")
 
@@ -528,81 +528,136 @@ fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "
 
 ### Internal consistency reliability
 
-#### Cronbach's alpha
+Our next step is to assess the internal consistency reliability of the factors that were identified through the EFA. To accomplish this, we will use **Cronbach's alpha**. We will evaluate the reliability of each factor individually by incorporating only the chosen items for that particular factor.
 
-<center>![](Table4.png){width="500px"}</center>
+We need to look at:
+
+**1. Cronbach's alpha**
+
+The Cronbach’s alpha indicates the internal consistency reliability. The interpretation is detailed as follows
+(DeVellis, 2012, pp. 95–96):
+
+<center>
+![](Table4.png){width="500px"}
+</center>
+
+**2. Corrected item-total correlation**
+
+There are four item-total correlations provided in psych. We consider these two:
+
+  r.cor = Item-total correlation, corrected for item overlap (Revelle, 2017). This is recommended by
+Revelle (2017).
+
+Ideally must be > 0.5 (Hair et al., 2010)
+
+
+[EFA and Cronbach's alpha](https://wnarifin.github.io/workshop/qvw2017/efa.pdf)
+
 
 **Shopping Experience**
 
 ```{r}
-alpha.pa1 = psych::alpha(df_1[Shopping_Experience])
-alpha.pa1$item.stats
+alpha.pa1 <- psych::alpha(df_1[Shopping_Experience])
+alpha.pa1$total
 ```
 
-**Appealing store**
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Store Decoration**
 
 ```{r}
-alpha.pa1 = psych::alpha(df_1[Appealing_store_Names])
-alpha.pa1$item.stats
+alpha.pa1 <- psych::alpha(df_1[Store_Decoration])
+alpha.pa1$total
 ```
 
-**Shopping Experience**
-
-```{r}
-alpha.pa1 = psych::alpha(df_1[Store_Decoration])
-alpha.pa1$item.stats
-```
+raw_alpha is over 0.7 and average items correlation is above 0.5
 
 **Luxury Brands**
 
 ```{r}
-alpha.pa1 = psych::alpha(df_1[Luxury_Brands])
-alpha.pa1$item.stats
+alpha.pa1 <- psych::alpha(df_1[Luxury_Brands])
+alpha.pa1$total
 ```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
 
 **French Culture**
 
 ```{r}
-alpha.pa1 = psych::alpha(df_1[French_Culture])
-alpha.pa1$item.stats
+alpha.pa1 <- psych::alpha(df_1[French_Culture])
+alpha.pa1$total
 ```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
 
 **Product Assortment**
 
 ```{r}
-alpha.pa1 = psych::alpha(df_1[Product_Assortment])
-alpha.pa1$item.stats
+alpha.pa1 <- psych::alpha(df_1[Product_Assortment])
+alpha.pa1$total
 ```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
 
 **Gourmet Food**
 
 ```{r}
-alpha.pa1 = psych::alpha(df_1[Grourmet_Food])
-alpha.pa1$item.stats
+alpha.pa1 <- psych::alpha(df_1[Gourmet_Food])
+alpha.pa1$total
 ```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
 
 **Trendiness**
 
 ```{r}
-alpha.pa1 = psych::alpha(df_1[Trendiness])
-alpha.pa1$item.stats
+alpha.pa1 <- psych::alpha(df_1[Trendiness])
+alpha.pa1$total
 ```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
 
 **Professionalism**
 
 ```{r}
-alpha.pa1 = psych::alpha(df_1[Professionalism])
-alpha.pa1$item.stats
+alpha.pa1 <- psych::alpha(df_1[Professionalism])
+alpha.pa1$total
 ```
 
+raw_alpha is over 0.7 and average items correlation is above 0.5
 
 
-
+Our assessment suggests that the factors extracted are reliable, and therefore it is advisable to retain all the items related to these factors.
 
 
 ## Dimensions by which GLF is perceived?
 
-List factors that you get from the analysis
+List factors that you get from the analysis:
+
+```{r , fig.width = 6, fig.height=5}
+
+fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "Galeries Lafayette - Perception Dimensions", digits = 2, l.cex = 1)
+
+```
+
+**Dimensions Definitions:**
+
+1. **Product Assortment**: This group pertains to the variety and range of products offered by the store.
+
+2. **Store Decoration**: This group pertains to the aesthetic elements of the store's interior and exterior, such as the artistic and creative decoration of the sales area, and the appealing arrangement of shop windows.
+
+3. **French Culture**: This group pertains to elements of French culture, such as French savoir-vivre, fashion, and cuisine.
+
+4. **Gourmet Food**: This group pertains to high-quality food and cosmetic products offered by the store.
+
+5. **Luxury Brands**: This group pertains to the presence of luxury and designer brands in the store.
+
+6. **Professionalism**: This group pertains to elements of professionalism, such as the store's professional appearance towards customers and professional organization.
+
+7. **Trendiness**: This group pertains to the store's ability to stay current and up-to-date with the latest trends in the market.
+
+8. **Shopping Experience**: This group pertains to the overall shopping experience, including elements such as relaxing shopping, a great place to stroll, and an intimate shop atmosphere.
+
 
 # **Confirmatory Factor Analysis**
 
