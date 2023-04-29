@@ -32,6 +32,7 @@ library(foreign)
 library(lavaan)
 library(ggcorrplot)
 library(lares)
+library(MVN)
 ```
 
 # **Data**
@@ -89,17 +90,44 @@ Thus, we remove a lot of observations with listwise deletion, up to `r na_remove
 df_listwise <- na.omit(df)
 ```
 
-# **Exploratory Factor Analysis**
+# **Assumptions for EFA**
 
-For exploratory factor analysis: please only consider variables image1 to image22, and use listwise deletion to handle missing data before starting exploratory factor analysis.
+**From Assistant**
+Please only consider variables image1 to image22, and use listwise deletion to handle missing data before starting exploratory factor analysis.
 
-From Assistant
 
-## Check Assumptions
+## Basic Assumptions
 
 ```{r}
 df_1 <- df_listwise[,1:22]
 ```
+
+
+### Normality - Shapiro Wilk's test
+
+```{r}
+
+apply(df_1, 2, shapiro.test)
+
+```
+
+We reject null-hypothesis for all variables and thus don't accept normality of the data. 
+
+### Multivariate normality - Mardia's Multivariate Normality Test
+
+To say the data are multivariate normal:
+
+• z-kurtosis < 5 (Bentler, 2006) and the P-value should be ≥ 0.05.
+• The plot should also form a straight line (Arifin, 2015).
+
+```{r}
+
+MVN::mvn(df_1, mvnTest = "mardia", multivariatePlot = "qq", desc = FALSE)
+
+```
+
+The data are not normally distributed at multivariate level. Our extraction method PAF can deal with this
+non-normality. 
 
 ### Multicolinearity
 
@@ -145,7 +173,9 @@ As we can see, We have some multicolinearity amongst the variables, at least 6 v
 
 </center>
 
-### **Kaiser--Meyer--Olkin test (KMO)**
+## Factors Analysis Assumptions
+
+### **Kaiser-Meyer-Olkin test (KMO)**
 
 <center>
 
@@ -178,21 +208,35 @@ With 0.87, sampling adequacy is very high.
 cortest.bartlett(df_1)
 ```
 
-Factor analysis can be done as the test indicates a p-value under 0 (P-value \< 0) and thus can reject the null hypothesis (Identity Matrix).
+EFA can be done as the test indicates a p-value under 0 (P-value \< 0) and thus can reject the null hypothesis (Identity Matrix).
 
-## Factor analysis
+## Exploratory Factor analysis
+
+### Determine the number of factors
+
+1. Kaiser’s eigenvalue > 1 rule.
+2. Cattell’s scree test.
+3. Parallel analysis.
+4. Very simple structure (VSS).
+5. Velicer’s minimum average partial (MAP).
+
+#### Kaiser's eigevalue > 1 rule
+
+Factors with eigenvalues > 1 are retained. Eigenvalue can be interpreted as the proportion of the information
+in a factor. The cut-off of 1 means the factor contains information = 1 item. Thus it is not worthwhile
+keeping factor with information < 1 item.
 
 ```{r}
-parallel <- fa.parallel(df_1)
-parallel$fa.values
-parallel$pc.values
+
+factors_kaiser <- sum(fa_result$e.values>1)
+
+print(paste("Kaiser-Criterion:", factors_kaiser,"Factors"))
+
 ```
 
-FA says 2, PCA says 5 --\> do fa with fa an pca with principal --\> different results
+According to the Kaiser-Criterion, we would use 6 factors.
 
-### Factors Quantity
-
-#### Scree-plot
+#### Catell's scree test
 
 We can do a factor analysis using rotation **varimax**
 
@@ -212,19 +256,47 @@ ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
 
 ```
 
-Looking at the elbow, we would hesitate between 7 or 8 factors.
+We would say 6 factors (above blue line of eigenvalue > 1)
 
-#### Kaisers-Criterion
+#### Parallel analysis
 
 ```{r}
 
-factors_kaiser <- sum(fa_result$e.values>1)
+parallel <- fa.parallel(df_1, fm = "pa", fa = "fa")
 
-print(paste("Kaiser-Criterion:", factors_kaiser,"Factors"))
+print(parallel)
 
 ```
 
-According to the Kaiser-Criterion, we would use 6 factors.
+As we can see in parallel analysis, it also suggest 6 factors, nevertheless, factors up to 7 or 8 can also be considered.
+
+
+#### Very simple structure (VSS) criterion and Velicer’s minimum average partial (MAP) criterion
+
+```{r}
+
+vss(df_1, rotate = "varimax", fm = "pa")
+
+```
+
+
+VSS indicates 1/2 factors (vss1 largest at 1 and 2 factors), while MAP indicates 8 factors (map smallest at 8
+factors).
+
+[VSS criterion for the number of factors (in R's psych package)](https://stats.stackexchange.com/questions/32669/vss-criterion-for-the-number-of-factors-in-rs-psych-package)
+
+
+### Extraction Method
+
+Our data are not normally distributed, hence the extraction method of choice is principal axis factoring
+(**PAF**), because it does not assume normality of data (Brown, 2015). The rotation method is **varimax**.
+
+We run EFA by
+
+1. fixing the number of factors as decided from previous step. 6 or 8 factors are reasonable.
+2. choosing an appropriate extraction method. We use PAF, fm = "pa" (Principal Axis Factoring).
+3. choosing an appropriate varimax rotation method. We use varimax, rotate = "varimax"
+
 
 ### Factors Loadings - 6 Factors
 
@@ -238,14 +310,11 @@ We will compute the loadings with 6 factors and **varimax rotation** and use a c
 
 ```{r}
 
-fa_result <- fa(df_1, rotate = "varimax", fm = "pa", nfactors = 6)
+fa_result <- fa(df_1, nfactors = 8, fm = "pa", rotate = "varimax")
+
+print(fa_result, cut = 0.3, digits = 3)
 
 #colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
-
-fa_result <- fa(df_1, nfactors = 6, fm = "pa", rotate = "varimax")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
 
 
 ```
