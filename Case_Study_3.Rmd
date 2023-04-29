@@ -213,7 +213,7 @@ cortest.bartlett(df_1)
 
 EFA can be done as the test indicates a p-value under 0 (P-value \< 0) and thus can reject the null hypothesis (Identity Matrix).
 
-# Exploratory Factor analysis
+# **Exploratory Factor analysis**
 
 ## Determine the number of factors
 
@@ -404,7 +404,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 We removed **Im17, Im18, Im8 and Im9** until achieving clear loadings separation. 
 
-```{r , fig.width = 6, fig.height=5}
+```{r , fig.width = 12, fig.height=12}
 
 fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Factors Analysis with 6 factors", digits = 2, l.cex = 1)
 
@@ -470,7 +470,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 We removed **Im15, Im8** until achieving clear loadings separation. Therefore we removed 2 variables less than 6 Factors Analysis done previously
 
-```{r , fig.width = 6, fig.height=5}
+```{r , fig.width = 12, fig.height=12}
 
 fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Factors Analysis with 8 factors", digits = 2, l.cex = 1)
 
@@ -526,7 +526,7 @@ Professionalism <- c("Im16","Im19")
 
 
 
-```{r , fig.width = 6, fig.height=5}
+```{r , fig.width = 12, fig.height=12}
 
 fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "Conclusion of Factors Analysis - with 8 labeled factors", digits = 2, l.cex = 1)
 
@@ -639,7 +639,7 @@ Our assessment suggests that the factors extracted are reliable, and therefore i
 
 ## Dimensions by which Galeries Layfayette is perceived?
 
-```{r , fig.width = 6, fig.height=5}
+```{r , fig.width = 12, fig.height= 12}
 
 fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "Galeries Lafayette - Perception Dimensions", digits = 2, l.cex = 1)
 
@@ -685,21 +685,26 @@ fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
 
 summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
-standardizedsolution(fit)
+standardizedsolution(fit_CFA)
+
+
+```
+
+```{r}
+
+#modificationindices(fit_CFA) %>% filter(mi>10)
+
+```
+
+## CFA Visualization
+
+```{r, fig.height=12, fig.width=12}
 
 lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
 
 lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE,sig = 0.05, covs = TRUE, digits = 2)
 
 ```
-
-```{r}
-
-modificationindices(fit) %>% filter(mi>10)
-
-```
-
-CFA looks alright we can do structure modelling
 
 # **Structure Equation Modelling**
 
@@ -735,13 +740,18 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
 standardizedsolution(fit_SEM)
 
-lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
-
-lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE,sig = 0.05, covs = TRUE, digits = 2)
 
 ```
 
+## SEM Visualization
 
+```{r, fig.height=12, fig.width=12}
+
+lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "steelblue4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
+
+lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "steelblue4"), coefs = TRUE,sig = 0.05, covs = TRUE, digits = 2)
+
+```
 
 
 
