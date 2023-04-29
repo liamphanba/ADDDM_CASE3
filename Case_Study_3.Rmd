@@ -404,7 +404,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 We removed **Im17, Im18, Im8 and Im9** until achieving clear loadings separation. 
 
-```{r , fig.width = 6, fig.height=5}
+```{r , fig.width = 12, fig.height=12}
 
 fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Factors Analysis with 6 factors", digits = 2, l.cex = 1)
 
@@ -470,7 +470,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 We removed **Im15, Im8** until achieving clear loadings separation. Therefore we removed 2 variables less than 6 Factors Analysis done previously
 
-```{r , fig.width = 6, fig.height=5}
+```{r , fig.width = 12, fig.height=12}
 
 fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Factors Analysis with 8 factors", digits = 2, l.cex = 1)
 
@@ -526,7 +526,7 @@ Professionalism <- c("Im16","Im19")
 
 
 
-```{r , fig.width = 6, fig.height=5}
+```{r , fig.width = 12, fig.height=12}
 
 fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "Conclusion of Factors Analysis - with 8 labeled factors", digits = 2, l.cex = 1)
 
@@ -639,7 +639,7 @@ Our assessment suggests that the factors extracted are reliable, and therefore i
 
 ## Dimensions by which Galeries Layfayette is perceived?
 
-```{r , fig.width = 6, fig.height=5}
+```{r , fig.width = 12, fig.height=12}
 
 fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "Galeries Lafayette - Perception Dimensions", digits = 2, l.cex = 1)
 
@@ -671,6 +671,14 @@ For confirmatory factor analysis (CFA) and structural equation modeling (SEM), p
 
 ```{r}
 
+df <- read.csv2('Case Study III_Structural Equation Modeling.csv', na.strings = '999', sep = ',')
+
+```
+
+
+
+```{r}
+
 model_CFA <-"
 Shopping_Experience =~ Im20+Im21+Im22
 Store_Decoration =~ Im3+Im4+Im5
@@ -685,27 +693,35 @@ fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
 
 summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
-standardizedsolution(fit)
+standardizedsolution(fit_CFA)
+
+```
+
+## **CFA Visualization**
+
+```{r, fig.height=12, fig.width=12}
 
 lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
 
 lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE,sig = 0.05, covs = TRUE, digits = 2)
 
+
 ```
+
 
 ```{r}
 
-modificationindices(fit) %>% filter(mi>10)
+#modificationindices(fit) %>% filter(mi>10)
 
 ```
 
-CFA looks alright we can do structure modelling
 
 # **Structure Equation Modelling**
 
 ```{r}
 
-model_SEM <- " Shopping_Experience =~ Im20+Im21+Im22
+model_SEM <- " 
+Shopping_Experience =~ Im20+Im21+Im22
 Store_Decoration =~ Im3+Im4+Im5
 Luxury_Brands =~ Im11+Im12+Im13
 French_Culture =~ Im6+Im7+Im9
@@ -714,14 +730,14 @@ Gourmet_Food =~ Im10+Im14
 Trendiness =~ Im17+Im18
 Professionalism =~ Im16+Im19
 
-CS ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
-AC ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
-
 CS =~ SAT_1 + SAT_2 + SAT_3
 AC =~ COM_A1 + COM_A2 + COM_A3 + COM_A4
 
 RI =~ C_REP1 + C_REP2 + C_REP3
 CI =~ C_CR1 + C_CR3 + C_CR4
+
+CS ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
+AC ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
 
 RI ~ CS + AC + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
 CI ~ CS + AC + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism "
@@ -729,15 +745,19 @@ CI ~ CS + AC + Shopping_Experience + Store_Decoration + Luxury_Brands + French_C
 
 fit_SEM <- lavaan::cfa(model_SEM, data=df, missing="ML")
 
-inspect(fit_SEM)
-
 summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
 standardizedsolution(fit_SEM)
 
-lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
+```
 
-lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE,sig = 0.05, covs = TRUE, digits = 2)
+## **SEM Visualization**
+
+```{r, fig.height=12, fig.width=12}
+
+lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "steelblue4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
+
+lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "steelblue4"), coefs = TRUE,sig = 0.05, covs = TRUE, digits = 2)
 
 ```
 
