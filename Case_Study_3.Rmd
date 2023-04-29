@@ -33,6 +33,7 @@ library(lavaan)
 library(ggcorrplot)
 library(lares)
 library(MVN)
+library(dplyr)
 ```
 
 # **Data**
@@ -210,9 +211,9 @@ cortest.bartlett(df_1)
 
 EFA can be done as the test indicates a p-value under 0 (P-value \< 0) and thus can reject the null hypothesis (Identity Matrix).
 
-## Exploratory Factor analysis
+# Exploratory Factor analysis
 
-### Determine the number of factors
+## Determine the number of factors
 
 1. Kaiser’s eigenvalue > 1 rule.
 2. Cattell’s scree test.
@@ -220,7 +221,7 @@ EFA can be done as the test indicates a p-value under 0 (P-value \< 0) and thus 
 4. Very simple structure (VSS).
 5. Velicer’s minimum average partial (MAP).
 
-#### Kaiser's eigevalue > 1 rule
+### Kaiser's eigevalue > 1 rule
 
 Factors with eigenvalues > 1 are retained. Eigenvalue can be interpreted as the proportion of the information
 in a factor. The cut-off of 1 means the factor contains information = 1 item. Thus it is not worthwhile
@@ -236,7 +237,7 @@ print(paste("Kaiser-Criterion:", factors_kaiser,"Factors"))
 
 According to the Kaiser-Criterion, we would use 6 factors.
 
-#### Catell's scree test
+### Catell's scree test
 
 We can do a factor analysis using rotation **varimax**
 
@@ -258,7 +259,7 @@ ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
 
 We would say 6 factors (above blue line of eigenvalue > 1)
 
-#### Parallel analysis
+### Parallel analysis
 
 ```{r}
 
@@ -271,7 +272,7 @@ print(parallel)
 As we can see in parallel analysis, it also suggest 6 factors, nevertheless, factors up to 7 or 8 can also be considered.
 
 
-#### Very simple structure (VSS) criterion and Velicer’s minimum average partial (MAP) criterion
+### Very simple structure (VSS) criterion and Velicer’s minimum average partial (MAP) criterion
 
 ```{r}
 
@@ -286,7 +287,7 @@ factors).
 [VSS criterion for the number of factors (in R's psych package)](https://stats.stackexchange.com/questions/32669/vss-criterion-for-the-number-of-factors-in-rs-psych-package)
 
 
-### Extraction Method
+## Extraction Method
 
 Our data are not normally distributed, hence the extraction method of choice is principal axis factoring
 (**PAF**), because it does not assume normality of data (Brown, 2015). The rotation method is **varimax**.
@@ -298,7 +299,7 @@ We run EFA by
 3. choosing an appropriate rotation method. We use varimax, rotate = "varimax".
 
 
-#### 6 Factors
+### 6 Factors
 
 We will compute the loadings with 6 factors and **varimax rotation**
 
@@ -348,7 +349,7 @@ Low Communalities are :
 **Im9 < Im11 < Im16 < 0.5**
 
 
-##### Removing Im17 (Lowest Communality and High Complexity)
+#### Removing Im17 (Lowest Communality and High Complexity)
 
 
 ```{r}
@@ -360,7 +361,7 @@ print(fa_result, cut = 0.4, digits = 3)
 ```
 
 
-##### Removing Im18 (Lowest loadings and High Complexity)
+#### Removing Im18 (Lowest loadings and High Complexity)
 
 
 ```{r}
@@ -372,7 +373,7 @@ print(fa_result, cut = 0.4, digits = 3)
 ```
 
 
-##### Removing Im8 (Cross-loadings (High Complexity))
+#### Removing Im8 (Cross-loadings (High Complexity))
 
 
 ```{r}
@@ -384,7 +385,7 @@ print(fa_result, cut = 0.4, digits = 3)
 ```
 
 
-##### Removing Im19 (Low Communality and High Complexity)
+#### Removing Im19 (Low Communality and High Complexity)
 
 
 ```{r}
@@ -395,7 +396,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 ```
 
-#### 6 Factors - Conclusion
+### 6 Factors - Conclusion
 
 We removed **Im17, Im18, Im8 and Im9** until achieving clear loadings separation. 
 
@@ -408,7 +409,7 @@ fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Fa
 Most Factors have good loadings (at least 2 above 0.7), while PA6 has only 2 variables loaded.
 
 
-#### 8 Factors 
+### 8 Factors 
 
 We will redo the same analysis with 8 factors this time and using **varimax** rotation as well.
 
@@ -439,7 +440,7 @@ Low Communalities are :
 **Im9 < Im11 < 0.5** (same low items communalities than in 6 Factor analysis )
 
 
-##### Removing Im15 (Low Communality and High Complexity)
+#### Removing Im15 (Low Communality and High Complexity)
 
 ```{r}
 
@@ -449,7 +450,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 ```
 
-##### Removing Im8 (Low Communality and High Complexity)
+#### Removing Im8 (Low Communality and High Complexity)
 
 
 ```{r}
@@ -461,7 +462,7 @@ print(fa_result, cut = 0.4, digits = 3)
 ```
 
 
-#### 8 Factors - Conclusion
+### 8 Factors - Conclusion
 
 We removed **Im15, Im8** until achieving clear loadings separation. Therefore we removed 2 variables less than 6 Factors Analysis done previously
 
@@ -518,6 +519,8 @@ Trendiness <- c("Im17","Im18")
 Professionalism <- c("Im16","Im19")
 
 ```
+
+
 
 ```{r , fig.width = 6, fig.height=5}
 
@@ -630,9 +633,7 @@ raw_alpha is over 0.7 and average items correlation is above 0.5
 Our assessment suggests that the factors extracted are reliable, and therefore it is advisable to retain all the items related to these factors.
 
 
-## Dimensions by which GLF is perceived?
-
-List factors that you get from the analysis:
+## Dimensions by which Galeries Layfayette is perceived?
 
 ```{r , fig.width = 6, fig.height=5}
 
@@ -642,46 +643,46 @@ fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "
 
 **Dimensions Definitions:**
 
-1. **Product Assortment**: This group pertains to the variety and range of products offered by the store.
+  **Product Assortment**: This group pertains to the variety and range of products offered by the store.
 
-2. **Store Decoration**: This group pertains to the aesthetic elements of the store's interior and exterior, such as the artistic and creative decoration of the sales area, and the appealing arrangement of shop windows.
+  **Store Decoration**: This group pertains to the aesthetic elements of the store's interior and exterior, such as the artistic and creative decoration of the sales area, and the appealing arrangement of shop windows.
 
-3. **French Culture**: This group pertains to elements of French culture, such as French savoir-vivre, fashion, and cuisine.
+  **French Culture**: This group pertains to elements of French culture, such as French savoir-vivre, fashion. 
 
-4. **Gourmet Food**: This group pertains to high-quality food and cosmetic products offered by the store.
+  **Gourmet Food**: This group pertains to high-quality food and cosmetic products offered by the store.
 
-5. **Luxury Brands**: This group pertains to the presence of luxury and designer brands in the store.
+  **Luxury Brands**: This group pertains to the presence of luxury and designer brands in the store.
 
-6. **Professionalism**: This group pertains to elements of professionalism, such as the store's professional appearance towards customers and professional organization.
+  **Professionalism**: This group pertains to elements of professionalism, such as the store's professional appearance towards customers and professional organization.
 
-7. **Trendiness**: This group pertains to the store's ability to stay current and up-to-date with the latest trends in the market.
+  **Trendiness**: This group pertains to the store's ability to stay current and up-to-date with the latest trends in the market.
 
-8. **Shopping Experience**: This group pertains to the overall shopping experience, including elements such as relaxing shopping, a great place to stroll, and an intimate shop atmosphere.
+  **Shopping Experience**: This group pertains to the overall shopping experience, including elements such as relaxing shopping, a great place to stroll, and an intimate shop atmosphere.
 
 
 # **Confirmatory Factor Analysis**
 
+**From Assistant**
 For confirmatory factor analysis (CFA) and structural equation modeling (SEM), please use the raw data (which includes the missing values) to perform CFA and SEM, and use maximum likelihood (ML) to handle the missing data.
-
-From Assistant
 
 ```{r}
 model <- "
-F1 =~Im6+Im7+Im8+Im10+Im14+Im9
-F2 =~Im3+Im4+Im5
-F3 =~Im1+Im2+Im15+Im16+Im19
-F4 =~Im11+Im12+Im13
-F5 =~Im20+Im21+Im22
-F6 =~Im17+Im18+Im9+Im6
+F1 =~
+F2 =~
+F3 =~
+F4 =~
+F5 =~
+F6 =~
+F7 =~
+F8 =~
 "
 fit <- cfa(model, data=df_1)
 summary(fit, fit.measures=TRUE, standardized=TRUE)
 ```
 
-Remove Im16, Im9 and Im6
+
 
 ```{r}
-library(dplyr)
 modificationindices(fit) %>% filter(mi>10)
 ```
 
