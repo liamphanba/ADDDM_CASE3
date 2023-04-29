@@ -295,10 +295,10 @@ We run EFA by
 
 1. fixing the number of factors as decided from previous step. 6 or 8 factors are reasonable.
 2. choosing an appropriate extraction method. We use PAF, fm = "pa" (Principal Axis Factoring).
-3. choosing an appropriate varimax rotation method. We use varimax, rotate = "varimax"
+3. choosing an appropriate rotation method. We use varimax, rotate = "varimax".
 
 
-### Factors Loadings - 6 Factors
+#### 6 Factors
 
 We will compute the loadings with 6 factors and **varimax rotation** and use a cutoff of 0.3.
 
@@ -346,7 +346,7 @@ Low Communalities:
 Im9 < Im16 < 0.5
 
 
-### Removing Im9 (Low Communality and High Complexity)
+##### Removing Im9 (Low Communality and High Complexity)
 
 We can also see that when doing factors analysis with 7 or 8 factors, Im9 is still having the same issue across the analysis, therefore we would remove it first. He has low communality and 2 factors cross-loadings (high complexity measure of 1.89).
 
@@ -358,6 +358,14 @@ fa_result <- fa(df_1[!names(df_1) %in% c("Im9")], nfactors = 6, fm = "pa", rotat
 print(fa_result, cut = 0.3, digits = 3)
 
 ```
+
+
+#### 8 Factors 
+
+#### Removing... 
+
+
+
 
 
 ### Factors Names
