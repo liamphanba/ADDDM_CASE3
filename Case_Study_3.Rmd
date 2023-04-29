@@ -228,7 +228,7 @@ According to the Kaiser-Criterion, we would use 6 factors.
 
 ### Factors Loadings - 6 Factors
 
-We will compute the loadings with 6 factors and **oblimin rotation** and use a cutoff of 0.3.
+We will compute the loadings with 6 factors and **varimax rotation** and use a cutoff of 0.3.
 
 **What we need to look for:**
 
@@ -238,19 +238,17 @@ We will compute the loadings with 6 factors and **oblimin rotation** and use a c
 
 ```{r}
 
-fa_result <- fa(df_1, rotate = "oblimin", fm = "pa", nfactors = 6)
+fa_result <- fa(df_1, rotate = "varimax", fm = "pa", nfactors = 6)
 
 #colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
 
-fa_result <- fa(df_1, nfactors = 6, fm = "pa", rotate = "oblimin")
+fa_result <- fa(df_1, nfactors = 6, fm = "pa", rotate = "varimax")
 
 # Loadings with Cut-off 0.3
 print(fa_result, cut = 0.3, digits = 3)
 
 
 ```
-
-With six factors, we can see that a lot of **Im** variables are not very distinct from each factors. For example, **Im19** is loaded with above 0.4 on **PA5** and **PA1**, **Im17** is on **PA4** and **PA6** with very close loading value (0.439 - 0.416) and finally **Im7** is loaded into both **PA2** and **PA6**.
 
 <center>
 
@@ -279,18 +277,6 @@ Low Communalities:
 Im9 < Im16 < 0.5
 
 
-**3.  Factor correlations**
-
-![](Factors Correlation - 6 Factors.png)
-
-"In general, correlations of < 0.85 between factors are expectable in health sciences. If the correlations are > 0.85, the factors are not distinct from each other (factor overlap, or multicollinearity), thus they can be
-combined (Brown, 2015). In EFA context, this can be done by reducing the number of extracted factors."
-
-As we can see on this correlation matrix, the highest correlation is between PA1 and PA5 but under 0.85. 
-
-[Github - Exploratory Factor Analysis and Cronbach's alpha](https://wnarifin.github.io/workshop/qvw2017/efa.pdf)
-
-
 ### Removing Im9 (Low Communality and High Complexity)
 
 We can also see that when doing factors analysis with 7 or 8 factors, Im9 is still having the same issue across the analysis, therefore we would remove it first. He has low communality and 2 factors cross-loadings (high complexity measure of 1.89).
@@ -303,130 +289,7 @@ fa_result <- fa(df_1[!names(df_1) %in% c("Im9")], nfactors = 6, fm = "pa", rotat
 print(fa_result, cut = 0.3, digits = 3)
 
 ```
-### Removing Im17 (Moderate Communality and High Complexity)
 
-
-```{r}
-
-fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17")], nfactors = 6, fm = "pa", rotate = "oblimin")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
-
-```
-
-### Removing Im19 (Low Communality and High Complexity, Low Loadings)
-
-```{r}
-
-fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17","Im19")], nfactors = 6, fm = "pa", rotate = "oblimin")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
-
-```
-
-
-### Removing Im18 (Low Communality and High Complexity, Low Loadings)
-
-```{r}
-
-fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17","Im19","Im18")], nfactors = 6, fm = "pa", rotate = "oblimin")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
-
-```
-
-As we can see, removing Im9, Im17, Im18 and Im19 helps a lot in getting lower communalities and lower complexity while getting better factors loadings overall. We may also want to remove Im16 as it has low communalitiy and high complexity (above 2). 
-
-
-### Removing Im16 (Low Communality and High Complexity)
-
-
-```{r}
-
-fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17","Im19","Im18","Im16")], nfactors = 6, fm = "pa", rotate = "oblimin")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
-
-```
-
-### Removing Im11 (Low Communality, High Complexity)
-
-
-```{r}
-
-fa_result <- fa(df_1[!names(df_1) %in% c("Im9","Im17","Im19","Im18","Im16","Im11")], nfactors = 6, fm = "pa", rotate = "oblimin")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
-
-```
-
-As we can see, removing items doesn't necessary lower the factors correlation nor the cross-loadings when considering communalities or complexity. We may want to check if we can improve the item removal by first looking at higher factor dimensions (above 6 factors).
-
-### Factors Loadings - 7 Factors
-
-We will compute the loadings with 7 factors and **oblimin rotation** and use a cutoff of 0.3.
-
-**What we need to look for:**
-
-1.  Factor loadings (FL).
-2.  Communalities.
-3.  Factor correlations
-
-```{r}
-
-#colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
-
-fa_result <- fa(df_1, nfactors = 7, fm = "pa", rotate = "oblimin")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
-
-```
-
-As we can see, we got overall better loadings separation into factors, the overall complexity per items is lower than with 6 factors (7 factors: Mean item complexity =  1.3, 6 factors: Mean item complexity =  1.6). We also see better communalities overall and factors correlations is still under 0.85. We can remove remove some items with the same criterion as before.
-
-### Removing Im16 (Low Communality, High Complexity)
-
-
-```{r}
-
-fa_result <- fa(df_1[!names(df_1) %in% c("Im16")], nfactors = 7, fm = "pa", rotate = "oblimin")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
-
-```
-
-### Removing Im19 (Low Communality, High Complexity)
-
-
-```{r}
-
-fa_result <- fa(df_1[!names(df_1) %in% c("Im16","Im19")], nfactors = 7, fm = "pa", rotate = "oblimin")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
-
-```
-
-### Removing Im9 (Low Communality, High Complexity)
-
-
-```{r}
-
-fa_result <- fa(df_1[!names(df_1) %in% c("Im16","Im19","Im9")], nfactors = 7, fm = "pa", rotate = "oblimin")
-
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
-
-```
-
-ISSUE -> HAVING IM8 LOADINGS ON 2 FACTORS EVEN AFTER 8 FACTORS ANALYSIS. 
 
 ### Factors Names
 
