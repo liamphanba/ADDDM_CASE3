@@ -300,22 +300,25 @@ We run EFA by
 
 #### 6 Factors
 
-We will compute the loadings with 6 factors and **varimax rotation** and use a cutoff of 0.3.
+We will compute the loadings with 6 factors and **varimax rotation**
 
 **What we need to look for:**
 
-1.  Factor loadings (FL).
-2.  Communalities.
-3.  Factor correlations
+1.  Factor loadings
+
+Multiple threshold exist (as many rules of thumb), in our analysis we will use the standard 0.4 cut-off.
+
+[What thresholds should I use for factor loading cut-offs?](https://imaging.mrc-cbu.cam.ac.uk/statswiki/FAQ/thresholds)
+
+2.  Communalities
+
+We use the standard cut-off of 0.5, all above are good.
 
 ```{r}
 
-fa_result <- fa(df_1, nfactors = 8, fm = "pa", rotate = "varimax")
+fa_result <- fa(df_1, nfactors = 6, fm = "pa", rotate = "varimax")
 
-print(fa_result, cut = 0.3, digits = 3)
-
-#colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
-
+print(fa_result, cut = 0.4, digits = 3)
 
 ```
 
@@ -327,42 +330,115 @@ print(fa_result, cut = 0.3, digits = 3)
 
 </center>
 
-**1.  Factor loadings (FL)**
+**1.  Factor loadings**
 
-We used a **cut-off** value of **0.3** on the factors loading, therefore we only see loadings \> **0.3** in the table above. As we can see, **complexity** measure should be close to **1 unit per item** because it indicate the cross-loading on a factor. That is clearly not the case for **Im17** and **Im18**, as well as **Im16** and **Im19** where they both are \> **2** **complexity**. Nevertheless **Im16** doesn't have cross-loading, then only **Im17-18-19** and **Im8** (with **complexity** of 1.6) have cross-loadings.
+We can see that we have 3 cross-loadings, Im7, Im17 and Im19. 
 
+Cross-Loadings (Measured with Complexity measure: *com* > 1):
 
-Cross-Loadings (Measured with Complexity measure):
-
-Im17 > Im18 > Im16 > Im19 > Im9 > Im8 > 1.49
+**Im17 > Im19 > Im7 > 1**
 
 
 **2.  Communalities**
 
-On the table, it is column **h2**. As we can see, **Im9**, **Im11** and **Im16** communalities are < 0.5 
+On the table, it is column **h2** 
 
-Low Communalities: 
+Low Communalities are : 
 
-Im9 < Im16 < 0.5
+**Im9 < Im11 < Im16 < 0.5**
 
 
-##### Removing Im9 (Low Communality and High Complexity)
+##### Removing Im17 (Lowest Communality and High Complexity)
 
-We can also see that when doing factors analysis with 7 or 8 factors, Im9 is still having the same issue across the analysis, therefore we would remove it first. He has low communality and 2 factors cross-loadings (high complexity measure of 1.89).
 
 ```{r}
 
-fa_result <- fa(df_1[!names(df_1) %in% c("Im9")], nfactors = 6, fm = "pa", rotate = "oblimin")
+fa_result <- fa(df_1[!names(df_1) %in% c("Im17")], nfactors = 6, fm = "pa", rotate = "varimax")
 
-# Loadings with Cut-off 0.3
-print(fa_result, cut = 0.3, digits = 3)
+print(fa_result, cut = 0.4, digits = 3)
 
 ```
 
 
+##### Removing Im18 (Lowest loadings and High Complexity)
+
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im17","Im18")], nfactors = 6, fm = "pa", rotate = "varimax")
+
+print(fa_result, cut = 0.4, digits = 3)
+
+```
+
+
+##### Removing Im8 (Cross-loadings (High Complexity))
+
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im17","Im18","Im8")], nfactors = 6, fm = "pa", rotate = "varimax")
+
+print(fa_result, cut = 0.4, digits = 3)
+
+```
+
+
+##### Removing Im19 (Low Communality and High Complexity)
+
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im17","Im18","Im8","Im19")], nfactors = 6, fm = "pa", rotate = "varimax")
+
+print(fa_result, cut = 0.4, digits = 3)
+
+```
+
+#### 6 Factors - Conclusion
+
+We removed **Im17, Im18, Im8 and Im9** until achieving clear loadings separation. 
+
+```{r , fig.width = 6, fig.height=5}
+
+fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Factors Analysis with 6 factors", digits = 2, l.cex = 1)
+
+```
+
+Most Factors have nice loadings (at least 2 above 0.7)l, while PA6 has only 2 variables loaded.
+
+
 #### 8 Factors 
 
-#### Removing... 
+We will redo the same analysis with 8 factors this time and using **varimax** rotation as well.
+
+```{r}
+
+fa_result <- fa(df_1, nfactors = 8, fm = "pa", rotate = "varimax")
+
+print(fa_result, cut = 0.4, digits = 3)
+
+```
+
+
+**1.  Factor loadings**
+
+We can see that we have 3 cross-loadings, Im7, Im17 and Im19. 
+
+Cross-Loadings (Measured with Complexity measure: *com* > 1):
+
+**Im17 > Im19 > Im7 > 1**
+
+
+**2.  Communalities**
+
+On the table, it is column **h2** 
+
+Low Communalities are : 
+
+**Im9 < Im11 < Im16 < 0.5**
+
+
 
 
 
@@ -371,6 +447,9 @@ print(fa_result, cut = 0.3, digits = 3)
 ### Factors Names
 
 ```{r}
+
+colnames(fa_result$loadings) <- c('French cuisine', 'Appealing store', 'Large assortment', 'Luxury and high quality', 'Relaxing store', 'Hip and Trendy')
+
 
 # FACTOR 1
 French_cuisine <- fa_result$loadings[,1]
