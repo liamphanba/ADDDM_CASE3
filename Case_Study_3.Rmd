@@ -30,10 +30,12 @@ library(REdaS)
 library(zoo)
 library(foreign) 
 library(lavaan)
+library(lavaanPlot)
 library(ggcorrplot)
 library(lares)
 library(MVN)
 library(dplyr)
+library(knitr)
 ```
 
 # **Data**
@@ -679,19 +681,17 @@ Gourmet_Food =~ Im10+Im14
 Trendiness =~ Im17+Im18
 Professionalism =~ Im16+Im19"
 
-fit <- cfa(model_CFA, data=df, missing="ML")
+fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
 
-summary(fit)
+summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
+
+standardizedsolution(fit)
+
+lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
+
+lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE,sig = 0.05, covs = TRUE, digits = 2)
 
 ```
-
-```{r}
-
-summary(fit, fit.measures=TRUE, standardized=TRUE)
-
-```
-
-
 
 ```{r}
 
@@ -704,7 +704,7 @@ CFA looks alright we can do structure modelling
 # **Structure Equation Modelling**
 
 ```{r}
-model <- "
+model_SEM <- "
 F1 =~Im6+Im7+Im8+Im10+Im14+Im9
 F2 =~Im3+Im4+Im5
 F3 =~Im1+Im2+Im15+Im16+Im19
@@ -725,7 +725,8 @@ RI ~ CS + AC + F1 + F2 + F3 + F4 + F5 + F6
 CI ~ CS + AC + F1 + F2 + F3 + F4 + F5 + F6
 "
 
-fit10<-cfa(model, data=df, missing="ML")
+fit_SEM <-cfa(model_SEM, data=df, missing="ML")
 
-inspect(fit10)
+inspect(fit_SEM)
+
 ```
