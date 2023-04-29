@@ -698,7 +698,7 @@ standardizedsolution(fit_CFA)
 
 ## CFA Visualization
 
-```{r, fig.height=12, fig.width=12}
+```{r, fig.height=10, fig.width=10}
 
 lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
 
@@ -745,7 +745,7 @@ standardizedsolution(fit_SEM)
 
 ## SEM Visualization
 
-```{r, fig.height=12, fig.width=12}
+```{r, fig.height=10, fig.width=10}
 
 lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "steelblue4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
 
