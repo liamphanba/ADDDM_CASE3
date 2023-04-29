@@ -405,7 +405,7 @@ fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Fa
 
 ```
 
-Most Factors have nice loadings (at least 2 above 0.7)l, while PA6 has only 2 variables loaded.
+Most Factors have good loadings (at least 2 above 0.7), while PA6 has only 2 variables loaded.
 
 
 #### 8 Factors 
@@ -423,11 +423,11 @@ print(fa_result, cut = 0.4, digits = 3)
 
 **1.  Factor loadings**
 
-We can see that we have 3 cross-loadings, Im7, Im17 and Im19. 
+We can see that we have 2 cross-loadings, Im8 and Im15. Therefore 1 less cross-loadings than 6 Factors Analysis.
 
 Cross-Loadings (Measured with Complexity measure: *com* > 1):
 
-**Im17 > Im19 > Im7 > 1**
+**Im15 > Im8 > 1**
 
 
 **2.  Communalities**
@@ -436,12 +436,45 @@ On the table, it is column **h2**
 
 Low Communalities are : 
 
-**Im9 < Im11 < Im16 < 0.5**
+**Im9 < Im11 < 0.5** (same low items communalities than in 6 Factor analysis )
 
 
+##### Removing Im15 (Low Communality and High Complexity)
+
+```{r}
+
+fa_result <- fa(df_1[!names(df_1) %in% c("Im15")], nfactors = 8, fm = "pa", rotate = "varimax")
+
+print(fa_result, cut = 0.4, digits = 3)
+
+```
+
+##### Removing Im8 (Low Communality and High Complexity)
 
 
+```{r}
 
+fa_result <- fa(df_1[!names(df_1) %in% c("Im15","Im8")], nfactors = 8, fm = "pa", rotate = "varimax")
+
+print(fa_result, cut = 0.4, digits = 3)
+
+```
+
+
+#### 8 Factors - Conclusion
+
+We removed **Im15, Im8** until achieving clear loadings separation. Therefore we removed 2 variables less than 6 Factors Analysis done previously
+
+```{r , fig.width = 6, fig.height=5}
+
+fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Factors Analysis with 8 factors", digits = 2, l.cex = 1)
+
+```
+
+Most Factors have nice loadings (at least 2 above 0.7), but PA8 has 2 variables with only 0.62-0.69 loadings (but close to 0.7).  
+
+
+### 
 
 
 ### Factors Names
