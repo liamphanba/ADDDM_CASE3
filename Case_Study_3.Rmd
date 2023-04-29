@@ -471,10 +471,12 @@ fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Fa
 
 ```
 
-Most Factors have nice loadings (at least 2 above 0.7), but PA8 has 2 variables with only 0.62-0.69 loadings (but close to 0.7).  
+Most Factors have nice loadings (at least 2 above 0.7), but **PA8** has 2 variables with only 0.62-0.69 loadings (but close to 0.7).  
 
 
-### 
+### Deciding between 6 or 8 Factors
+
+
 
 
 ### Factors Names
@@ -569,13 +571,6 @@ alpha.pa1 = psych::alpha(df_1[Hip_and_Trendy_Names])
 alpha.pa1$item.stats
 ```
 
-### Diagram
-
-```{r}
-
-fa.diagram(fa_result)
-
-```
 
 ## Dimensions by which GLF is perceived?
 
