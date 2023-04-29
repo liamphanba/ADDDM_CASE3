@@ -667,17 +667,18 @@ For confirmatory factor analysis (CFA) and structural equation modeling (SEM), p
 
 ```{r}
 model <- "
-F1 =~
-F2 =~
-F3 =~
-F4 =~
-F5 =~
-F6 =~
-F7 =~
-F8 =~
+Shopping_Experience =~ Im20 + Im21 + Im22
+Store_Decoration =~ Im3 + Im4 + Im5
+Luxury_Brands =~ Im11 + Im12 + Im13
+French_Culture =~ Im6 + Im7 + Im9
+Product_Assortment =~ Im1 + Im2
+Gourmet_Food =~ Im10 + Im14
+Trendiness =~ Im17 + Im18
+Professionalism =~ Im16 + Im19 
 "
-fit <- cfa(model, data=df_1)
+fit <- cfa(model, data=df)
 summary(fit, fit.measures=TRUE, standardized=TRUE)
+
 ```
 
 
