@@ -99,14 +99,14 @@ df_listwise <- na.omit(df)
 Please only consider variables image1 to image22, and use listwise deletion to handle missing data before starting exploratory factor analysis.
 
 
-## Basic Assumptions
+## **Basic Assumptions**
 
 ```{r}
 df_1 <- df_listwise[,1:22]
 ```
 
 
-### Normality - Shapiro Wilk's test
+### **Normality - Shapiro Wilk's test**
 
 ```{r}
 
@@ -116,7 +116,7 @@ apply(df_1, 2, shapiro.test)
 
 We reject null-hypothesis for all variables and thus don't accept normality of the data. 
 
-### Multivariate normality - Mardia's Multivariate Normality Test
+### **Multivariate normality - Mardia's Multivariate Normality Test**
 
 To say the data are multivariate normal:
 
@@ -132,7 +132,7 @@ MVN::mvn(df_1, mvnTest = "mardia", multivariatePlot = "qq", desc = FALSE)
 The data are not normally distributed at multivariate level. Our extraction method PAF can deal with this
 non-normality. 
 
-### Multicolinearity
+### **Multicolinearity**
 
 ```{r}
 
@@ -215,7 +215,7 @@ EFA can be done as the test indicates a p-value under 0 (P-value \< 0) and thus 
 
 # **Exploratory Factor analysis**
 
-## Determine the number of factors
+## **Determine the number of factors**
 
 1. Kaiser’s eigenvalue > 1 rule.
 2. Cattell’s scree test.
@@ -223,7 +223,7 @@ EFA can be done as the test indicates a p-value under 0 (P-value \< 0) and thus 
 4. Very simple structure (VSS).
 5. Velicer’s minimum average partial (MAP).
 
-### Kaiser's eigevalue > 1 rule
+### **Kaiser's eigevalue > 1 rule**
 
 Factors with eigenvalues > 1 are retained. Eigenvalue can be interpreted as the proportion of the information
 in a factor. The cut-off of 1 means the factor contains information = 1 item. Thus it is not worthwhile
@@ -241,7 +241,7 @@ print(paste("Kaiser-Criterion:", factors_kaiser,"Factors"))
 
 According to the Kaiser-Criterion, we would use 6 factors.
 
-### Catell's scree test
+### **Catell's scree test**
 
 We can do a factor analysis using rotation **varimax**
 
@@ -263,7 +263,7 @@ ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
 
 We would say 6 factors (above blue line of eigenvalue > 1)
 
-### Parallel analysis
+### **Parallel analysis**
 
 ```{r}
 
@@ -276,7 +276,7 @@ print(parallel)
 As we can see in parallel analysis, it also suggest 6 factors, nevertheless, factors up to 7 or 8 can also be considered.
 
 
-### Very simple structure (VSS) criterion and Velicer’s minimum average partial (MAP) criterion
+### **Very simple structure (VSS) criterion and Velicer’s minimum average partial (MAP) criterion**
 
 ```{r}
 
@@ -291,7 +291,7 @@ factors).
 [VSS criterion for the number of factors (in R's psych package)](https://stats.stackexchange.com/questions/32669/vss-criterion-for-the-number-of-factors-in-rs-psych-package)
 
 
-## Extraction Method
+## **Extraction Method**
 
 Our data are not normally distributed, hence the extraction method of choice is principal axis factoring
 (**PAF**), because it does not assume normality of data (Brown, 2015). The rotation method is **varimax**.
@@ -303,7 +303,7 @@ We run EFA by
 3. choosing an appropriate rotation method. We use varimax, rotate = "varimax".
 
 
-### 6 Factors
+### **6 Factors**
 
 We will compute the loadings with 6 factors and **varimax rotation**
 
@@ -400,7 +400,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 ```
 
-### 6 Factors - Conclusion
+### **6 Factors - Conclusion**
 
 We removed **Im17, Im18, Im8 and Im9** until achieving clear loadings separation. 
 
@@ -413,7 +413,7 @@ fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Fa
 Most Factors have good loadings (at least 2 above 0.7), while PA6 has only 2 variables loaded.
 
 
-### 8 Factors 
+### **8 Factors**
 
 We will redo the same analysis with 8 factors this time and using **varimax** rotation as well.
 
@@ -466,7 +466,7 @@ print(fa_result, cut = 0.4, digits = 3)
 ```
 
 
-### 8 Factors - Conclusion
+### **8 Factors - Conclusion**
 
 We removed **Im15, Im8** until achieving clear loadings separation. Therefore we removed 2 variables less than 6 Factors Analysis done previously
 
@@ -479,7 +479,7 @@ fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Fa
 Most Factors have nice loadings (at least 2 above 0.7), but **PA8** has 2 variables with only 0.62-0.69 loadings (but close to 0.7).  
 
 
-### Deciding between 6 or 8 Factors
+### **Deciding between 6 or 8 Factors**
 
 ```{r}
 
@@ -497,7 +497,7 @@ For **8 Factors Analysis**, we obtain a **cumulative proportion variance** of 0.
 
 BIC is lower with 8 factors than 6 factors, therefore may allow more generalization in future sample. 
 
-We should also check the root mean square of residuals (RMSR). An acceptable value should be closer to 0. In **6 Factors Analysis** we have **0.067** and in **8 Factors Analysis** we have 0.052 (closer to 0). 
+We should also check the root mean square of residuals (RMSR). An acceptable value should be closer to 0. In **6 Factors Analysis** we have **0.067** and in **8 Factors Analysis** we have **0.052** (closer to 0). 
 
 Finally, we must check the Tucker-Lewis Index (TLI). An acceptable value must be greater over 0.9. In **6 Factors Analysis** we have **0.946** and in **8 Factors Analysis** we have **0.964**. 
 
@@ -506,7 +506,7 @@ Therefore **8 Factors Analysis** is overall better, with better BIC, RMSR and TL
 [Choosing the Optimal Number of Factors in Exploratory Factor Analysis: A Model Selection Perspective](https://quantpsy.org/pubs/preacher_zhang_kim_mels_2013.pdf)
 
 
-### Labeling 8 Factors 
+### **Labeling 8 Factors** 
 
 ```{r}
 
@@ -533,7 +533,7 @@ fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "
 ```
 
 
-### Internal consistency reliability
+### **Internal consistency reliability**
 
 Our next step is to assess the internal consistency reliability of the factors that were identified through the EFA. To accomplish this, we will use **Cronbach's alpha**. We will evaluate the reliability of each factor individually by incorporating only the chosen items for that particular factor.
 
@@ -637,7 +637,7 @@ raw_alpha is over 0.7 and average items correlation is above 0.5
 Our assessment suggests that the factors extracted are reliable, and therefore it is advisable to retain all the items related to these factors.
 
 
-## Dimensions by which Galeries Layfayette is perceived?
+## **Dimensions by which Galeries Layfayette is perceived?**
 
 ```{r , fig.width = 12, fig.height= 12}
 
@@ -653,7 +653,7 @@ fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "
 
   **French Culture**: This group pertains to elements of French culture, such as French savoir-vivre, fashion. 
 
-  **Gourmet Food**: This group pertains to high-quality food and cosmetic products offered by the store.
+  **Gourmet Food**: This group pertains to high-quality offered by the store.
 
   **Luxury Brands**: This group pertains to the presence of luxury and designer brands in the store.
 
@@ -668,6 +668,8 @@ fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "
 
 **From Assistant**
 For confirmatory factor analysis (CFA) and structural equation modeling (SEM), please use the raw data (which includes the missing values) to perform CFA and SEM, and use maximum likelihood (ML) to handle the missing data.
+
+## **Summary of CFA Model**
 
 ```{r}
 
@@ -685,10 +687,9 @@ fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
 
 summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
-standardizedsolution(fit_CFA)
-
 
 ```
+
 
 ```{r}
 
@@ -696,17 +697,27 @@ standardizedsolution(fit_CFA)
 
 ```
 
-## CFA Visualization
+## **CFA Visualization**
 
-```{r, fig.height=10, fig.width=10}
+### **Model without Covariances**
+
+```{r, fig.height=4, fig.width=10}
 
 lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
+
+```
+
+### **Model with Covariances**
+
+```{r, fig.height=4, fig.width=10}
 
 lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE,sig = 0.05, covs = TRUE, digits = 2)
 
 ```
 
 # **Structure Equation Modelling**
+
+## **Summary of SEM Model**
 
 ```{r}
 
@@ -734,25 +745,29 @@ CI ~ CS + AC + Shopping_Experience + Store_Decoration + Luxury_Brands + French_C
 
 fit_SEM <- lavaan::cfa(model_SEM, data=df, missing="ML")
 
-inspect(fit_SEM)
-
 summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
-
-standardizedsolution(fit_SEM)
 
 
 ```
 
-## SEM Visualization
+## **SEM Visualization**
 
-```{r, fig.height=10, fig.width=10}
+### **Model without Covariances**
+
+```{r, fig.height=4, fig.width=10}
 
 lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "steelblue4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
+
+
+```
+
+### **Model with Covariances**
+
+```{r, fig.height=4, fig.width=10}
 
 lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "steelblue4"), coefs = TRUE,sig = 0.05, covs = TRUE, digits = 2)
 
 ```
-
 
 
 
