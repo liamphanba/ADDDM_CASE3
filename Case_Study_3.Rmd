@@ -669,6 +669,12 @@ fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "
 **From Assistant**
 For confirmatory factor analysis (CFA) and structural equation modeling (SEM), please use the raw data (which includes the missing values) to perform CFA and SEM, and use maximum likelihood (ML) to handle the missing data.
 
+```{r}
+
+df <- read.csv2('Case Study III_Structural Equation Modeling.csv', na.strings = '999', sep = ',')
+
+```
+
 ## **Summary of CFA Model**
 
 ```{r}
@@ -685,7 +691,7 @@ Professionalism =~ Im16+Im19"
 
 fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
 
-model_CFA
+fit_CFA
 
 summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
@@ -732,21 +738,23 @@ Gourmet_Food =~ Im10+Im14
 Trendiness =~ Im17+Im18
 Professionalism =~ Im16+Im19
 
-CS ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
-AC ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
+Consumer_Satisfaction ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
 
-CS =~ SAT_1 + SAT_2 + SAT_3
-AC =~ COM_A1 + COM_A2 + COM_A3 + COM_A4
+Affective_Commitment ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
 
-RI =~ C_REP1 + C_REP2 + C_REP3
-CI =~ C_CR1 + C_CR3 + C_CR4
+Consumer_Satisfaction =~ SAT_1 + SAT_2 + SAT_3
+Affective_Commitment =~ COM_A1 + COM_A2 + COM_A3 + COM_A4
 
-RI ~ CS + AC + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
-CI ~ CS + AC + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism "
+Repurchase_Intention =~ C_REP1 + C_REP2 + C_REP3
+Cocreation_Intention =~ C_CR1 + C_CR3 + C_CR4
 
-model_SEM
+Repurchase_Intention ~ Consumer_Satisfaction + Affective_Commitment + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
+
+Cocreation_Intention ~ Consumer_Satisfaction + Affective_Commitment + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism "
 
 fit_SEM <- lavaan::cfa(model_SEM, data=df, missing="ML")
+
+fit_SEM
 
 summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
