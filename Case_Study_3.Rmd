@@ -47,20 +47,20 @@ df <- df[, c(1:23, 25:36)]
 DT::datatable(df)
 ```
 
-## Dimensions
+## **Dimensions**
 
 ```{r}
 dim_before_na <- dim(df)
 dim_before_na
 ```
 
-## Summary Statistics
+## **Summary Statistics**
 
 ```{r}
 DT::datatable(describe(df))
 ```
 
-## Missing Analysis
+## **Missing Analysis**
 
 ```{r}
 gg_miss_var(df, show_pct = TRUE)
@@ -74,7 +74,7 @@ naniar::vis_miss(df)
 
 If we look at this plot though we see that the missing values are in a lot of the observations. Therefore, we will to handle the Confirmatory Analysis with a method for replacing those missing values.
 
-## Dimensions after listwise deletion
+## **Dimensions after listwise deletion**
 
 ```{r}
 
@@ -176,7 +176,7 @@ As we can see, We have some multicolinearity amongst the variables, at least 6 v
 
 </center>
 
-## Factors Analysis Assumptions
+## **Factors Analysis Assumptions**
 
 ### **Kaiser-Meyer-Olkin test (KMO)**
 
@@ -685,6 +685,8 @@ Professionalism =~ Im16+Im19"
 
 fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
 
+model_CFA
+
 summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 
@@ -742,6 +744,7 @@ CI =~ C_CR1 + C_CR3 + C_CR4
 RI ~ CS + AC + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
 CI ~ CS + AC + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism "
 
+model_SEM
 
 fit_SEM <- lavaan::cfa(model_SEM, data=df, missing="ML")
 
