@@ -1133,7 +1133,15 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
 ### Model Criterions
 
-RMSEA: 0.041 Akaike (AIC): 46722.504 Bayesian (BIC): 47430.223 Comparative Fit Index (CFI): 0.966 Tucker-Lewis Index (TLI): 0.958
+RMSEA: 0.041
+
+Akaike (AIC): 46722.504
+
+Bayesian (BIC): 47430.223
+
+Comparative Fit Index (CFI): 0.966
+
+Tucker-Lewis Index (TLI): 0.958
 
 Overall good fitting of this model
 
@@ -1322,7 +1330,15 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
 ### Model Criterions
 
-RMSEA: 0.035 Akaike (AIC): 38776.151 Bayesian (BIC): 39371.670 Comparative Fit Index (CFI): 0.980 Tucker-Lewis Index (TLI): 0.974
+RMSEA: 0.035
+
+Akaike (AIC): 38776.151
+
+Bayesian (BIC): 39371.670
+
+Comparative Fit Index (CFI): 0.980
+
+Tucker-Lewis Index (TLI): 0.974
 
 Overall good fitting of this model even better than the previous model with 8 factors
 
