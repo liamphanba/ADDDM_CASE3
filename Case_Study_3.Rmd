@@ -20,6 +20,8 @@ cat("\014")
 
 # **Packages** {.unnumbered}
 
+First we load all the necessary packages for the analysis.
+
 ```{r}
 library(psych)
 library(corrplot)
@@ -40,6 +42,8 @@ library(knitr)
 
 # **Data**
 
+Here we load the data and select only the necessary value for the analysis.
+
 ```{r}
 df <- read.csv2('Case Study III_Structural Equation Modeling.csv', na.strings = '999', sep = ',')
 df <- df[, c(1:23, 25:36)]
@@ -49,12 +53,18 @@ DT::datatable(df)
 
 ## **Dimensions**
 
+To see how much data we have we look at the dimensions of the data.
+
 ```{r}
 dim_before_na <- dim(df)
 dim_before_na
 ```
 
+We see that we have `r dim_before_na[1]` rows and `r dim_before_na[2]` columns. 
+
 ## **Summary Statistics**
+
+Here we use summary statistics on the data.
 
 ```{r}
 DT::datatable(describe(df))
@@ -62,19 +72,23 @@ DT::datatable(describe(df))
 
 ## **Missing Analysis**
 
+As not all further analysis do work with missing values we need to check the existence of them. 
+
 ```{r}
 gg_miss_var(df, show_pct = TRUE)
 ```
 
-This is not too bad, we can see that SAT_3 is the one with the most NA values, up to 7%.
+We see that there are a lot of columns which have some percentage of values missing. To see if the missing values are in some observations only or if they are spread out between a lot of the observations we use a plot which highlights the missing values in every observation. 
 
 ```{r}
 naniar::vis_miss(df)
 ```
 
-If we look at this plot though we see that the missing values are in a lot of the observations. Therefore, we will to handle the Confirmatory Analysis with a method for replacing those missing values.
+If we look at this plot though we see that the missing values are in a lot of the observations. Most EFA methods do not work well with missing values. For the Confirmatory Analysis we will need to choose a method which can handle missing values.
 
-## **Dimensions after listwise deletion**
+## **Dimensions after list wise deletion**
+
+Based on the input of the assistant we will use list wise deletion for EFA. 
 
 ```{r}
 
@@ -86,27 +100,29 @@ na_remove_count[1] <- abs(na_remove_count[1])
 
 ```
 
-Thus, we remove a lot of observations with listwise deletion, up to `r na_remove_count[1]`
+Thus, we remove `r na_remove_count[1]` with list wise deletion which is a lot of observations compared to the size of the whole dataset. 
 
 ```{r}
-# We do list-wise deletion as ask by the TA
+# We do list-wise deletion as asked by the TA
 df_listwise <- na.omit(df)
 ```
 
 # **Assumptions for EFA**
 
 **From Assistant**
-Please only consider variables image1 to image22, and use listwise deletion to handle missing data before starting exploratory factor analysis.
-
+Please only consider variables image1 to image22, and use list wise deletion to handle missing data before starting exploratory factor analysis.
 
 ## **Basic Assumptions**
+
+Here we select the images which whe need for the EFA.
 
 ```{r}
 df_1 <- df_listwise[,1:22]
 ```
 
-
 ### **Normality - Shapiro Wilk's test**
+
+In this part we check if the data is normally distributed.
 
 ```{r}
 
@@ -114,7 +130,7 @@ apply(df_1, 2, shapiro.test)
 
 ```
 
-We reject null-hypothesis for all variables and thus don't accept normality of the data. 
+We reject the null-hypothesis for all variables and thus don't accept normality of the data. 
 
 ### **Multivariate normality - Mardia's Multivariate Normality Test**
 
@@ -134,6 +150,8 @@ non-normality.
 
 ### **Multicolinearity**
 
+Here we check for multicolinearity in the data. First of all we will do a correlation plot and then a correlation ranking plot. 
+
 ```{r}
 
 # Correlation Values Matrix
@@ -146,6 +164,8 @@ p.mat <- cor_pmat(df_1)
 
 <center>**Correlation Plot**</center>
 
+Here we see the correlation plot of the images. 
+
 ```{r}
 
 # Correlation Plot
@@ -153,7 +173,11 @@ ggcorrplot(M, hc.order = TRUE, type = "lower", lab = TRUE, p.mat = p.mat, sig.le
 
 ```
 
+We see that there are some correlations between the images.  
+
 <center>**Correlation Ranking**</center>
+
+Here we show the highest correlation from the plot before.
 
 ```{r}
 
@@ -166,7 +190,7 @@ corr_cross(df_1, # name of dataset
 
 ```
 
-As we can see, We have some multicolinearity amongst the variables, at least 6 variables can be considered with high-colinearity. Im3+Im4, Im1+Im2m, Im6+Im7, Im4+Im5, Im8+Im10 and Im8+Im14.
+As we can see, We have some multicolinearity amongst the variables, at least 6 variables can be considered with high-colinearity. Im3+Im4, Im1+Im2, Im6+Im7, Im4+Im5, Im8+Im10 and Im8+Im14.
 
 <center>
 
@@ -178,7 +202,11 @@ As we can see, We have some multicolinearity amongst the variables, at least 6 v
 
 ## **Factors Analysis Assumptions**
 
+Here we check the assumptions needed for factor analysis.
+
 ### **Kaiser-Meyer-Olkin test (KMO)**
+
+First of all we look at the kaiser-meyer-olkin test which checks the sampling adequacy of all of our images. Thereby a score classifies the adequacy as it can be seen in the picture below.  
 
 <center>
 
@@ -190,32 +218,42 @@ As we can see, We have some multicolinearity amongst the variables, at least 6 v
 
 **KMO Index**
 
+Now we show the KMO value for all of our images.  
+
 ```{r}
 KMOTEST <- KMO(M)
 sort(KMOTEST$MSAi)
 ```
 
-Most KMO Index are Middling, Meritorious or even Marvelous. Im6 is the lowest KMO index being Middling.
+As one can see most KMO Index are either Meritorious or  Marvelous. Im6 is the lowest KMO index being Middling.
 
 **KMO Overall Measure of sampling adequacy**
+
+From all of these scores a general sampling adequacy can be computed.
 
 ```{r}
 KMOTEST$MSA
 ```
 
-With 0.87, sampling adequacy is very high.
+With 0.87 the overall sampling adequacy is very high.
 
 ### **Bartlett's Test of Sphericity**
+
+This test checks if there are correlations between the variables as EFA can not be done if there wouldn't be.
 
 ```{r}
 cortest.bartlett(df_1)
 ```
 
-EFA can be done as the test indicates a p-value under 0 (P-value \< 0) and thus can reject the null hypothesis (Identity Matrix).
+The test says that EFA can be done as the test indicates a p-value of 0 (P-value \= 0) and thus we can reject the null hypothesis that the correlation matrix look like the identity matrix.
 
 # **Exploratory Factor analysis**
 
+Now we do an exploratory factor analysis of our images. 
+
 ## **Determine the number of factors**
+
+To determine the number of factors there are five different criterions one can use which are listed below. 
 
 1. Kaiser’s eigenvalue > 1 rule.
 2. Cattell’s scree test.
@@ -235,15 +273,13 @@ fa_result <- fa(df_1, rotate = "varimax", fm = "pa")
 
 factors_kaiser <- sum(fa_result$e.values>1)
 
-print(paste("Kaiser-Criterion:", factors_kaiser,"Factors"))
-
 ```
 
-According to the Kaiser-Criterion, we would use 6 factors.
+According to the Kaiser-Criterion, we would use `r factors_kaiser` factors.
 
 ### **Catell's scree test**
 
-We can do a factor analysis using rotation **varimax**
+For the scree test criterion one needs to look at the plot of the initial eigenvalues against the used factors and choose the value where there is a dent in the curve. Here we did a factor analysis using rotation **varimax** and plotted the initial eigenvalues
 
 ```{r}
 
@@ -261,9 +297,11 @@ ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
 
 ```
 
-We would say 6 factors (above blue line of eigenvalue > 1)
+As one can see from the plot the number of factors to choose would either be 7 or 8. Additionally in the scree plot one can see the kaiser criterion which selects all the factors above the blue line of eigenvalue > 1.
 
 ### **Parallel analysis**
+
+Here we do a parallel factor analyis.
 
 ```{r}
 
@@ -275,8 +313,9 @@ print(parallel)
 
 As we can see in parallel analysis, it also suggest 6 factors, nevertheless, factors up to 7 or 8 can also be considered.
 
-
 ### **Very simple structure (VSS) criterion and Velicer’s minimum average partial (MAP) criterion**
+
+Here we do the VSS and MAP criterion.
 
 ```{r}
 
@@ -285,7 +324,7 @@ vss(df_1, rotate = "varimax", fm = "pa")
 ```
 
 
-VSS indicates 1/2 factors (vss1 largest at 1 and 2 factors), while MAP indicates 8 factors (map smallest at 8
+VSS indicates 1 or 2 factors (vss1 largest at 1 and 2 factors), while MAP indicates 8 factors (map smallest at 8
 factors).
 
 [VSS criterion for the number of factors (in R's psych package)](https://stats.stackexchange.com/questions/32669/vss-criterion-for-the-number-of-factors-in-rs-psych-package)
@@ -481,6 +520,8 @@ Most Factors have nice loadings (at least 2 above 0.7), but **PA8** has 2 variab
 
 ### **Deciding between 6 or 8 Factors**
 
+Here we show the results of the final factor analysis with 6 and 8 Factors and then evaluate how we decided between the two solutions. 
+
 ```{r}
 
 fa_result6 <- fa(df_1[!names(df_1) %in% c("Im17","Im18","Im8","Im19")], nfactors = 6, fm = "pa", rotate = "varimax")
@@ -497,9 +538,9 @@ For **8 Factors Analysis**, we obtain a **cumulative proportion variance** of 0.
 
 BIC is lower with 8 factors than 6 factors, therefore may allow more generalization in future sample. 
 
-We should also check the root mean square of residuals (RMSR). An acceptable value should be closer to 0. In **6 Factors Analysis** we have **0.067** and in **8 Factors Analysis** we have **0.052** (closer to 0). 
+We should also check the root mean square error of approximation (RMSEA). An better value should be closer to 0. In **6 Factors Analysis** we have **0.067** and in **8 Factors Analysis** we have **0.052** (closer to 0). 
 
-Finally, we must check the Tucker-Lewis Index (TLI). An acceptable value must be greater over 0.9. In **6 Factors Analysis** we have **0.946** and in **8 Factors Analysis** we have **0.964**. 
+Finally, we must check the Tucker-Lewis Index (TLI). An acceptable value must be over 0.9. In **6 Factors Analysis** we have **0.946** and in **8 Factors Analysis** we have **0.964**. 
 
 Therefore **8 Factors Analysis** is overall better, with better BIC, RMSR and TLI and also explain more the total variance with **77%**. 
 
@@ -508,8 +549,9 @@ Therefore **8 Factors Analysis** is overall better, with better BIC, RMSR and TL
 
 ### **Labeling 8 Factors** 
 
-```{r}
+Here we label the 8 factors according to the questions asked to receive the images which load on to the factor 
 
+```{r}
 
 colnames(fa_result8$loadings) <- c("Shopping Experience", "Store Decoration","Luxury Brands","French Culture","Product Assortment","Gourmet Food","Trendiness","Professionalism")
 
@@ -524,7 +566,7 @@ Professionalism <- c("Im16","Im19")
 
 ```
 
-
+And after renaming the factors we can now plot the loadings of  the factors. 
 
 ```{r , fig.width = 12, fig.height=12}
 
@@ -532,31 +574,19 @@ fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "
 
 ```
 
-
 ### **Internal consistency reliability**
 
 Our next step is to assess the internal consistency reliability of the factors that were identified through the EFA. To accomplish this, we will use **Cronbach's alpha**. We will evaluate the reliability of each factor individually by incorporating only the chosen items for that particular factor.
 
 We need to look at:
 
-**1. Cronbach's alpha**
+**1. Cronbach's alpha** (raw_alpha) which indicates the internal consistency reliability as well as **2. Corrected item-total correlation** (average_r)
 
-The Cronbach’s alpha indicates the internal consistency reliability. The interpretation is detailed as follows
+The interpretation is detailed as follows
 (DeVellis, 2012, pp. 95–96):
 
 <center>
 ![](Table4.png){width="500px"}
-</center>
-
-**2. Corrected item-total correlation**
-
-There are four item-total correlations provided in psych. We consider these two:
-
-  r.cor = Item-total correlation, corrected for item overlap (Revelle, 2017). This is recommended by
-Revelle (2017).
-
-Ideally must be > 0.5 (Hair et al., 2010)
-
 
 [EFA and Cronbach's alpha](https://wnarifin.github.io/workshop/qvw2017/efa.pdf)
 
@@ -638,6 +668,8 @@ Our assessment suggests that the factors extracted are reliable, and therefore i
 
 
 ## **Dimensions by which Galeries Layfayette is perceived?**
+
+Here we show the dimensions by which galeries layfayette is perceived according to EFA. 
 
 ```{r , fig.width = 12, fig.height= 12}
 
