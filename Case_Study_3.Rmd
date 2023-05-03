@@ -859,6 +859,75 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
+## Cronbachs alpha
+
+We once again look at cronbachs alpha as we now have more and different data than in EFA. 
+
+**Store Decoration**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Store_Decoration])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Luxury Brands**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Luxury_Brands])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**French Culture**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[French_Culture])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Product Assortment**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Product_Assortment])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Gourmet Food**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Gourmet_Food])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Trendiness**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Trendiness])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Professionalism**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Professionalism])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+Using the same evaluation methods as before we see that every factor seems to be consistent and relevant. 
+
 ## Correlation matrix
 
 Here we look at the correlation matrix of the 
@@ -870,7 +939,7 @@ std_fit$psi
 
 ```
 
-## #Individual item Reliability
+## Individual item Reliability
 
 ```{r}
 std.loadings<- inspect(fit_CFA, what="std")$lambda
