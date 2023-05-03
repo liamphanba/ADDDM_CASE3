@@ -38,6 +38,8 @@ library(lares)
 library(MVN)
 library(dplyr)
 library(knitr)
+library(dplyr)
+library(kableExtra)
 ```
 
 # **Data**
@@ -1158,10 +1160,16 @@ CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
 
 
 fit_SEM <- lavaan::cfa(model_SEM1, data=df, missing="ML")
+fit_SEM
+summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
+modificationIndices(fit_SEM) %>%filter(mi>10)
+
+fit_SEM <- lavaan::sem(model_SEM1, data=df, se = "bootstrap", bootstrap = 1000)
 
 fit_SEM
 
-summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
+lavaan::parameterEstimates(fit_SEM, boot.ci.type = "bca.simple", standardized = TRUE) %>% 
+  kable()
 
 
 ```
@@ -1295,14 +1303,18 @@ CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
 "
 
 
-
-
 fit_SEM <- lavaan::cfa(model_SEM2, data=df, missing="ML")
+fit_SEM
+summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
+modificationIndices(fit_SEM) %>%filter(mi>10)
+
+
+fit_SEM <- lavaan::sem(model_SEM1, data=df, se = "bootstrap", bootstrap = 1000)
 
 fit_SEM
 
-summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
-
+lavaan::parameterEstimates(fit_SEM, boot.ci.type = "bca.simple", standardized = TRUE) %>% 
+  kable()
 
 ```
 
