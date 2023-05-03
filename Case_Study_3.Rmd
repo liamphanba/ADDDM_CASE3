@@ -761,7 +761,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-## Modification indices 
+### Modification indices 
 
 ```{r}
 
@@ -851,7 +851,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-## Modification indices  1
+### Modification indices  
 
 ```{r}
 
