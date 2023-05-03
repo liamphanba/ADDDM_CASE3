@@ -1163,6 +1163,8 @@ fit_SEM <- lavaan::cfa(model_SEM1, data=df, missing="ML")
 fit_SEM
 summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 modificationIndices(fit_SEM) %>%filter(mi>10)
+semPaths(fit_SEM)
+
 
 fit_SEM <- lavaan::sem(model_SEM1, data=df, se = "bootstrap", bootstrap = 1000)
 
@@ -1307,6 +1309,7 @@ fit_SEM <- lavaan::cfa(model_SEM2, data=df, missing="ML")
 fit_SEM
 summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 modificationIndices(fit_SEM) %>%filter(mi>10)
+semPaths(fit_SEM)
 
 
 fit_SEM <- lavaan::sem(model_SEM1, data=df, se = "bootstrap", bootstrap = 1000)
@@ -1315,6 +1318,7 @@ fit_SEM
 
 lavaan::parameterEstimates(fit_SEM, boot.ci.type = "bca.simple", standardized = TRUE) %>% 
   kable()
+
 
 ```
 
