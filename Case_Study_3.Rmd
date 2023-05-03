@@ -1169,10 +1169,12 @@ CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
 
 # ERROR COVARIANCES
 
-
 "
 
-fit_SEM <- lavaan::cfa(model_SEM2, data=df, missing="ML")
+
+
+
+fit_SEM <- lavaan::cfa(model_SEM, data=df, missing="ML")
 
 fit_SEM
 
