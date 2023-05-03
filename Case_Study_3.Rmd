@@ -863,6 +863,19 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 We once again look at cronbachs alpha as we now have more and different data than in EFA. 
 
+
+```{r}
+
+Store_Decoration <- c("Im3","Im4","Im5")
+Luxury_Brands <- c("Im12","Im13")
+French_Culture <- c("Im6","Im7")
+Product_Assortment <- c("Im1","Im2")
+Gourmet_Food <- c("Im10","Im14")
+Trendiness <- c("Im17","Im18")
+Professionalism <- c("Im16","Im19")
+
+```
+
 **Store Decoration**
 
 ```{r}
