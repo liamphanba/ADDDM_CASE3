@@ -769,7 +769,6 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
-
 ## **Summary of CFA Model with 8 Factors - Removing Im9+Im11**
 
 ```{r}
@@ -851,7 +850,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-## Modification indices  1
+## Modification indices
 
 ```{r}
 
