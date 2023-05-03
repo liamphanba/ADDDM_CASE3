@@ -40,6 +40,7 @@ library(dplyr)
 library(knitr)
 library(dplyr)
 library(kableExtra)
+library(semPlot)
 ```
 
 # **Data**
@@ -1157,24 +1158,29 @@ CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
 "
 
 
+fit_SEM <- lavaan::sem(model_SEM1, data=df, missing="ML")
 
-
-fit_SEM <- lavaan::cfa(model_SEM1, data=df, missing="ML")
-fit_SEM
 summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
-modificationIndices(fit_SEM) %>%filter(mi>10)
-semPaths(fit_SEM)
-
-
-fit_SEM <- lavaan::sem(model_SEM1, data=df, se = "bootstrap", bootstrap = 1000)
-
-fit_SEM
-
-lavaan::parameterEstimates(fit_SEM, boot.ci.type = "bca.simple", standardized = TRUE) %>% 
-  kable()
 
 
 ```
+
+### Significant Coefficients at 10% alpha level
+
+```{r}
+
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 141)
+
+```
+
+### Significant Coefficients at 5% alpha level
+
+```{r}
+
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 141)
+
+```
+
 
 
 ## **Summary of SEM Model with 7 Factors (Im9 + Im11 Removed)**
@@ -1305,22 +1311,30 @@ CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
 "
 
 
-fit_SEM <- lavaan::cfa(model_SEM2, data=df, missing="ML")
-fit_SEM
+fit_SEM <- lavaan::sem(model_SEM2, data=df, missing="ML")
+
 summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
-modificationIndices(fit_SEM) %>%filter(mi>10)
-semPaths(fit_SEM)
-
-
-fit_SEM <- lavaan::sem(model_SEM1, data=df, se = "bootstrap", bootstrap = 1000)
-
-fit_SEM
-
-lavaan::parameterEstimates(fit_SEM, boot.ci.type = "bca.simple", standardized = TRUE) %>% 
-  kable()
 
 
 ```
+
+
+### Significant Coefficients at 5% alpha level
+
+```{r}
+
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 141)
+
+```
+
+### Significant Coefficients at 5% alpha level
+
+```{r}
+
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 141)
+
+```
+
 
 ## **SEM Visualization**
 
