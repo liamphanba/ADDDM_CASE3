@@ -1167,7 +1167,7 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 ```
 
 
-## **Summary of SEM Model with 7 Factors**
+## **Summary of SEM Model with 7 Factors (Im9 + Im11 Removed)**
 
 ```{r}
 
@@ -1178,8 +1178,8 @@ model_SEM2 <- "
 ## FACTORS CONSTRUCT
 
 Store_Decoration =~ Im3+Im4+Im5
-Luxury_Brands =~ Im11+Im12+Im13
-French_Culture =~ Im6+Im7+Im9
+Luxury_Brands =~ Im12+Im13
+French_Culture =~ Im6+Im7
 Product_Assortment =~ Im1+Im2
 Gourmet_Food =~ Im10+Im14
 Trendiness =~ Im17+Im18
@@ -1297,7 +1297,7 @@ CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
 
 
 
-fit_SEM <- lavaan::cfa(model_SEM1, data=df, missing="ML")
+fit_SEM <- lavaan::cfa(model_SEM2, data=df, missing="ML")
 
 fit_SEM
 
