@@ -63,7 +63,7 @@ dim_before_na <- dim(df)
 dim_before_na
 ```
 
-We see that we have `r dim_before_na[1]` rows and `r dim_before_na[2]` columns. 
+We see that we have `r dim_before_na[1]` rows and `r dim_before_na[2]` columns.
 
 ## **Summary Statistics**
 
@@ -75,13 +75,13 @@ DT::datatable(describe(df))
 
 ## **Missing Analysis**
 
-As not all further analysis do work with missing values we need to check the existence of them. 
+As not all further analysis do work with missing values we need to check the existence of them.
 
 ```{r}
 gg_miss_var(df, show_pct = TRUE)
 ```
 
-We see that there are a lot of columns which have some percentage of values missing. To see if the missing values are in some observations only or if they are spread out between a lot of the observations we use a plot which highlights the missing values in every observation. 
+We see that there are a lot of columns which have some percentage of values missing. To see if the missing values are in some observations only or if they are spread out between a lot of the observations we use a plot which highlights the missing values in every observation.
 
 ```{r}
 naniar::vis_miss(df)
@@ -91,7 +91,7 @@ If we look at this plot though we see that the missing values are in a lot of th
 
 ## **Dimensions after list wise deletion**
 
-Based on the input of the assistant we will use list wise deletion for EFA. 
+Based on the input of the assistant we will use list wise deletion for EFA.
 
 ```{r}
 
@@ -103,7 +103,7 @@ na_remove_count[1] <- abs(na_remove_count[1])
 
 ```
 
-Thus, we remove `r na_remove_count[1]` with list wise deletion which is a lot of observations compared to the size of the whole dataset. 
+Thus, we remove `r na_remove_count[1]` with list wise deletion which is a lot of observations compared to the size of the whole dataset.
 
 ```{r}
 # We do list-wise deletion as asked by the TA
@@ -112,8 +112,7 @@ df_listwise <- na.omit(df)
 
 # **Assumptions for EFA**
 
-**From Assistant**
-Please only consider variables image1 to image22, and use list wise deletion to handle missing data before starting exploratory factor analysis.
+**From Assistant** Please only consider variables image1 to image22, and use list wise deletion to handle missing data before starting exploratory factor analysis.
 
 ## **Basic Assumptions**
 
@@ -133,14 +132,13 @@ apply(df_1, 2, shapiro.test)
 
 ```
 
-We reject the null-hypothesis for all variables and thus don't accept normality of the data. 
+We reject the null-hypothesis for all variables and thus don't accept normality of the data.
 
 ### **Multivariate normality - Mardia's Multivariate Normality Test**
 
 To say the data are multivariate normal:
 
-• z-kurtosis < 5 (Bentler, 2006) and the P-value should be ≥ 0.05.
-• The plot should also form a straight line (Arifin, 2015).
+• z-kurtosis \< 5 (Bentler, 2006) and the P-value should be ≥ 0.05. • The plot should also form a straight line (Arifin, 2015).
 
 ```{r}
 
@@ -148,12 +146,11 @@ MVN::mvn(df_1, mvnTest = "mardia", multivariatePlot = "qq", desc = FALSE)
 
 ```
 
-The data are not normally distributed at multivariate level. Our extraction method PAF can deal with this
-non-normality. 
+The data are not normally distributed at multivariate level. Our extraction method PAF can deal with this non-normality.
 
 ### **Multicolinearity**
 
-Here we check for multicolinearity in the data. First of all we will do a correlation plot and then a correlation ranking plot. 
+Here we check for multicolinearity in the data. First of all we will do a correlation plot and then a correlation ranking plot.
 
 ```{r}
 
@@ -167,7 +164,7 @@ p.mat <- cor_pmat(df_1)
 
 <center>**Correlation Plot**</center>
 
-Here we see the correlation plot of the images. 
+Here we see the correlation plot of the images.
 
 ```{r}
 
@@ -176,7 +173,7 @@ ggcorrplot(M, hc.order = TRUE, type = "lower", lab = TRUE, p.mat = p.mat, sig.le
 
 ```
 
-We see that there are some correlations between the images.  
+We see that there are some correlations between the images.
 
 <center>**Correlation Ranking**</center>
 
@@ -209,7 +206,7 @@ Here we check the assumptions needed for factor analysis.
 
 ### **Kaiser-Meyer-Olkin test (KMO)**
 
-First of all we look at the kaiser-meyer-olkin test which checks the sampling adequacy of all of our images. Thereby a score classifies the adequacy as it can be seen in the picture below.  
+First of all we look at the kaiser-meyer-olkin test which checks the sampling adequacy of all of our images. Thereby a score classifies the adequacy as it can be seen in the picture below.
 
 <center>
 
@@ -221,14 +218,14 @@ First of all we look at the kaiser-meyer-olkin test which checks the sampling ad
 
 **KMO Index**
 
-Now we show the KMO value for all of our images.  
+Now we show the KMO value for all of our images.
 
 ```{r}
 KMOTEST <- KMO(M)
 sort(KMOTEST$MSAi)
 ```
 
-As one can see most KMO Index are either Meritorious or  Marvelous. Im6 is the lowest KMO index being Middling.
+As one can see most KMO Index are either Meritorious or Marvelous. Im6 is the lowest KMO index being Middling.
 
 **KMO Overall Measure of sampling adequacy**
 
@@ -248,27 +245,25 @@ This test checks if there are correlations between the variables as EFA can not 
 cortest.bartlett(df_1)
 ```
 
-The test says that EFA can be done as the test indicates a p-value of 0 (P-value \= 0) and thus we can reject the null hypothesis that the correlation matrix look like the identity matrix.
+The test says that EFA can be done as the test indicates a p-value of 0 (P-value = 0) and thus we can reject the null hypothesis that the correlation matrix look like the identity matrix.
 
 # **Exploratory Factor analysis**
 
-Now we do an exploratory factor analysis of our images. 
+Now we do an exploratory factor analysis of our images.
 
 ## **Determine the number of factors**
 
-To determine the number of factors there are five different criterions one can use which are listed below. 
+To determine the number of factors there are five different criterions one can use which are listed below.
 
-1. Kaiser’s eigenvalue > 1 rule.
-2. Cattell’s scree test.
-3. Parallel analysis.
-4. Very simple structure (VSS).
-5. Velicer’s minimum average partial (MAP).
+1.  Kaiser's eigenvalue \> 1 rule.
+2.  Cattell's scree test.
+3.  Parallel analysis.
+4.  Very simple structure (VSS).
+5.  Velicer's minimum average partial (MAP).
 
-### **Kaiser's eigevalue > 1 rule**
+### **Kaiser's eigevalue \> 1 rule**
 
-Factors with eigenvalues > 1 are retained. Eigenvalue can be interpreted as the proportion of the information
-in a factor. The cut-off of 1 means the factor contains information = 1 item. Thus it is not worthwhile
-keeping factor with information < 1 item.
+Factors with eigenvalues \> 1 are retained. Eigenvalue can be interpreted as the proportion of the information in a factor. The cut-off of 1 means the factor contains information = 1 item. Thus it is not worthwhile keeping factor with information \< 1 item.
 
 ```{r}
 
@@ -300,7 +295,7 @@ ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) +
 
 ```
 
-As one can see from the plot the number of factors to choose would either be 7 or 8. Additionally in the scree plot one can see the kaiser criterion which selects all the factors above the blue line of eigenvalue > 1.
+As one can see from the plot the number of factors to choose would either be 7 or 8. Additionally in the scree plot one can see the kaiser criterion which selects all the factors above the blue line of eigenvalue \> 1.
 
 ### **Parallel analysis**
 
@@ -316,7 +311,7 @@ print(parallel)
 
 As we can see in parallel analysis, it also suggest 6 factors, nevertheless, factors up to 7 or 8 can also be considered.
 
-### **Very simple structure (VSS) criterion and Velicer’s minimum average partial (MAP) criterion**
+### **Very simple structure (VSS) criterion and Velicer's minimum average partial (MAP) criterion**
 
 Here we do the VSS and MAP criterion.
 
@@ -326,24 +321,19 @@ vss(df_1, rotate = "varimax", fm = "pa")
 
 ```
 
-
-VSS indicates 1 or 2 factors (vss1 largest at 1 and 2 factors), while MAP indicates 8 factors (map smallest at 8
-factors).
+VSS indicates 1 or 2 factors (vss1 largest at 1 and 2 factors), while MAP indicates 8 factors (map smallest at 8 factors).
 
 [VSS criterion for the number of factors (in R's psych package)](https://stats.stackexchange.com/questions/32669/vss-criterion-for-the-number-of-factors-in-rs-psych-package)
 
-
 ## **Extraction Method**
 
-Our data are not normally distributed, hence the extraction method of choice is principal axis factoring
-(**PAF**), because it does not assume normality of data (Brown, 2015). The rotation method is **varimax**.
+Our data are not normally distributed, hence the extraction method of choice is principal axis factoring (**PAF**), because it does not assume normality of data (Brown, 2015). The rotation method is **varimax**.
 
 We run EFA by
 
-1. fixing the number of factors as decided from previous step. 6 or 8 factors are reasonable.
-2. choosing an appropriate extraction method. We use PAF, fm = "pa" (Principal Axis Factoring).
-3. choosing an appropriate rotation method. We use varimax, rotate = "varimax".
-
+1.  fixing the number of factors as decided from previous step. 6 or 8 factors are reasonable.
+2.  choosing an appropriate extraction method. We use PAF, fm = "pa" (Principal Axis Factoring).
+3.  choosing an appropriate rotation method. We use varimax, rotate = "varimax".
 
 ### **6 Factors**
 
@@ -377,26 +367,23 @@ print(fa_result, cut = 0.4, digits = 3)
 
 </center>
 
-**1.  Factor loadings**
+**1. Factor loadings**
 
-We can see that we have 3 cross-loadings, Im7, Im17 and Im19. 
+We can see that we have 3 cross-loadings, Im7, Im17 and Im19.
 
-Cross-Loadings (Measured with Complexity measure: *com* > 1):
+Cross-Loadings (Measured with Complexity measure: *com* \> 1):
 
-**Im17 > Im19 > Im7 > 1**
+**Im17 \> Im19 \> Im7 \> 1**
 
+**2. Communalities**
 
-**2.  Communalities**
+On the table, it is column **h2**
 
-On the table, it is column **h2** 
+Low Communalities are :
 
-Low Communalities are : 
-
-**Im9 < Im11 < Im16 < 0.5**
-
+**Im9 \< Im11 \< Im16 \< 0.5**
 
 #### Removing Im17 (Lowest Communality and High Complexity)
-
 
 ```{r}
 
@@ -406,9 +393,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 ```
 
-
 #### Removing Im18 (Lowest loadings and High Complexity)
-
 
 ```{r}
 
@@ -418,9 +403,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 ```
 
-
 #### Removing Im8 (Cross-loadings (High Complexity))
-
 
 ```{r}
 
@@ -430,9 +413,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 ```
 
-
 #### Removing Im19 (Low Communality and High Complexity)
-
 
 ```{r}
 
@@ -444,7 +425,7 @@ print(fa_result, cut = 0.4, digits = 3)
 
 ### **6 Factors - Conclusion**
 
-We removed **Im17, Im18, Im8 and Im9** until achieving clear loadings separation. 
+We removed **Im17, Im18, Im8 and Im9** until achieving clear loadings separation.
 
 ```{r , fig.width = 12, fig.height=12}
 
@@ -453,7 +434,6 @@ fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Fa
 ```
 
 Most Factors have good loadings (at least 2 above 0.7), while PA6 has only 2 variables loaded.
-
 
 ### **8 Factors**
 
@@ -467,24 +447,21 @@ print(fa_result, cut = 0.4, digits = 3)
 
 ```
 
-
-**1.  Factor loadings**
+**1. Factor loadings**
 
 We can see that we have 2 cross-loadings, Im8 and Im15. Therefore 1 less cross-loadings than 6 Factors Analysis.
 
-Cross-Loadings (Measured with Complexity measure: *com* > 1):
+Cross-Loadings (Measured with Complexity measure: *com* \> 1):
 
-**Im15 > Im8 > 1**
+**Im15 \> Im8 \> 1**
 
+**2. Communalities**
 
-**2.  Communalities**
+On the table, it is column **h2**
 
-On the table, it is column **h2** 
+Low Communalities are :
 
-Low Communalities are : 
-
-**Im9 < Im11 < 0.5** (same low items communalities than in 6 Factor analysis )
-
+**Im9 \< Im11 \< 0.5** (same low items communalities than in 6 Factor analysis )
 
 #### Removing Im15 (Low Communality and High Complexity)
 
@@ -498,7 +475,6 @@ print(fa_result, cut = 0.4, digits = 3)
 
 #### Removing Im8 (Low Communality and High Complexity)
 
-
 ```{r}
 
 fa_result <- fa(df_1[!names(df_1) %in% c("Im15","Im8")], nfactors = 8, fm = "pa", rotate = "varimax")
@@ -506,7 +482,6 @@ fa_result <- fa(df_1[!names(df_1) %in% c("Im15","Im8")], nfactors = 8, fm = "pa"
 print(fa_result, cut = 0.4, digits = 3)
 
 ```
-
 
 ### **8 Factors - Conclusion**
 
@@ -518,12 +493,11 @@ fa.diagram(fa_result, sort = TRUE, adj = 1, rsize = 4, e.size = 0.07, main = "Fa
 
 ```
 
-Most Factors have nice loadings (at least 2 above 0.7), but **PA8** has 2 variables with only 0.62-0.69 loadings (but close to 0.7).  
-
+Most Factors have nice loadings (at least 2 above 0.7), but **PA8** has 2 variables with only 0.62-0.69 loadings (but close to 0.7).
 
 ### **Deciding between 6 or 8 Factors**
 
-Here we show the results of the final factor analysis with 6 and 8 Factors and then evaluate how we decided between the two solutions. 
+Here we show the results of the final factor analysis with 6 and 8 Factors and then evaluate how we decided between the two solutions.
 
 ```{r}
 
@@ -539,20 +513,19 @@ We can see that for **6 Factors Analysis**, we obtain a **cumulative proportion 
 
 For **8 Factors Analysis**, we obtain a **cumulative proportion variance** of 0.77. In total, the extracted factors explain **77% of the variance**.
 
-BIC is lower with 8 factors than 6 factors, therefore may allow more generalization in future sample. 
+BIC is lower with 8 factors than 6 factors, therefore may allow more generalization in future sample.
 
-We should also check the root mean square error of approximation (RMSEA). An better value should be closer to 0. In **6 Factors Analysis** we have **0.067** and in **8 Factors Analysis** we have **0.052** (closer to 0). 
+We should also check the root mean square error of approximation (RMSEA). An better value should be closer to 0. In **6 Factors Analysis** we have **0.067** and in **8 Factors Analysis** we have **0.052** (closer to 0).
 
-Finally, we must check the Tucker-Lewis Index (TLI). An acceptable value must be over 0.9. In **6 Factors Analysis** we have **0.946** and in **8 Factors Analysis** we have **0.964**. 
+Finally, we must check the Tucker-Lewis Index (TLI). An acceptable value must be over 0.9. In **6 Factors Analysis** we have **0.946** and in **8 Factors Analysis** we have **0.964**.
 
-Therefore **8 Factors Analysis** is overall better, with better BIC, RMSR and TLI and also explain more the total variance with **77%**. 
+Therefore **8 Factors Analysis** is overall better, with better BIC, RMSR and TLI and also explain more the total variance with **77%**.
 
 [Choosing the Optimal Number of Factors in Exploratory Factor Analysis: A Model Selection Perspective](https://quantpsy.org/pubs/preacher_zhang_kim_mels_2013.pdf)
 
+### **Labeling 8 Factors**
 
-### **Labeling 8 Factors** 
-
-Here we label the 8 factors according to the questions asked to receive the images which load on to the factor 
+Here we label the 8 factors according to the questions asked to receive the images which load on to the factor
 
 ```{r}
 
@@ -569,7 +542,7 @@ Professionalism <- c("Im16","Im19")
 
 ```
 
-And after renaming the factors we can now plot the loadings of  the factors. 
+And after renaming the factors we can now plot the loadings of the factors.
 
 ```{r , fig.width = 12, fig.height=12}
 
@@ -585,14 +558,13 @@ We need to look at:
 
 **1. Cronbach's alpha** (raw_alpha) which indicates the internal consistency reliability as well as **2. Corrected item-total correlation** (average_r)
 
-The interpretation is detailed as follows
-(DeVellis, 2012, pp. 95–96):
+The interpretation is detailed as follows (DeVellis, 2012, pp. 95--96):
 
 <center>
+
 ![](Table4.png){width="500px"}
 
 [EFA and Cronbach's alpha](https://wnarifin.github.io/workshop/qvw2017/efa.pdf)
-
 
 **Shopping Experience**
 
@@ -666,13 +638,11 @@ alpha.pa1$total
 
 raw_alpha is over 0.7 and average items correlation is above 0.5
 
-
 Our assessment suggests that the factors extracted are reliable, and therefore it is advisable to retain all the items related to these factors.
-
 
 ## **Dimensions by which Galeries Layfayette is perceived?**
 
-Here we show the dimensions by which galeries layfayette is perceived according to EFA. 
+Here we show the dimensions by which galeries layfayette is perceived according to EFA.
 
 ```{r , fig.width = 12, fig.height= 12}
 
@@ -682,29 +652,27 @@ fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "
 
 **Dimensions Definitions:**
 
-  **Product Assortment**: This group pertains to the variety and range of products offered by the store.
+**Product Assortment**: This group pertains to the variety and range of products offered by the store.
 
-  **Store Decoration**: This group pertains to the aesthetic elements of the store's interior and exterior, such as the artistic and creative decoration of the sales area, and the appealing arrangement of shop windows.
+**Store Decoration**: This group pertains to the aesthetic elements of the store's interior and exterior, such as the artistic and creative decoration of the sales area, and the appealing arrangement of shop windows.
 
-  **French Culture**: This group pertains to elements of French culture, such as French savoir-vivre, fashion. 
+**French Culture**: This group pertains to elements of French culture, such as French savoir-vivre, fashion.
 
-  **Gourmet Food**: This group pertains to high-quality offered by the store.
+**Gourmet Food**: This group pertains to high-quality offered by the store.
 
-  **Luxury Brands**: This group pertains to the presence of luxury and designer brands in the store.
+**Luxury Brands**: This group pertains to the presence of luxury and designer brands in the store.
 
-  **Professionalism**: This group pertains to elements of professionalism, such as the store's professional appearance towards customers and professional organization.
+**Professionalism**: This group pertains to elements of professionalism, such as the store's professional appearance towards customers and professional organization.
 
-  **Trendiness**: This group pertains to the store's ability to stay current and up-to-date with the latest trends in the market.
+**Trendiness**: This group pertains to the store's ability to stay current and up-to-date with the latest trends in the market.
 
-  **Shopping Experience**: This group pertains to the overall shopping experience, including elements such as relaxing shopping, a great place to stroll, and an intimate shop atmosphere.
-
+**Shopping Experience**: This group pertains to the overall shopping experience, including elements such as relaxing shopping, a great place to stroll, and an intimate shop atmosphere.
 
 # **Confirmatory Factor Analysis**
 
 In this part we will do a confirmatory factor analysis which is based on the results of EFA from before.
 
-**From Assistant**
-For confirmatory factor analysis (CFA) and structural equation modeling (SEM), please use the raw data (which includes the missing values) to perform CFA and SEM, and use maximum likelihood (ML) to handle the missing data.
+**From Assistant** For confirmatory factor analysis (CFA) and structural equation modeling (SEM), please use the raw data (which includes the missing values) to perform CFA and SEM, and use maximum likelihood (ML) to handle the missing data.
 
 ```{r}
 
@@ -764,8 +732,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-
-## Modification indices of CFA Model with 8 Factors - Removing Im9 
+## Modification indices of CFA Model with 8 Factors - Removing Im9
 
 ```{r}
 
@@ -795,7 +762,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-## Modification indices of CFA Model with 8 Factors - Removing Im9+Im11 
+## Modification indices of CFA Model with 8 Factors - Removing Im9+Im11
 
 ```{r}
 
@@ -854,9 +821,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-
-## Modification indices of CFA Model with 7 Factors - Removing Im9+Im11 and Shopping_Experience Factor 
-
+## Modification indices of CFA Model with 7 Factors - Removing Im9+Im11 and Shopping_Experience Factor
 
 ```{r}
 
@@ -864,11 +829,11 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
-When we look at the modification indices of this CFA model we see that all the mi values are almost at 10. This is why we do not modify this model any further and stick with it. 
+When we look at the modification indices of this CFA model we see that all the mi values are almost at 10. This is why we do not modify this model any further and stick with it.
 
-## Cronbachs alpha
+## **Cronbachs alpha**
 
-We once again look at cronbachs alpha as we now have more and different data than in EFA. We hereby have to reassign the images to the factors according to the model.  
+We once again look at cronbachs alpha as we now have more and different data than in EFA. We hereby have to reassign the images to the factors according to the model.
 
 ```{r}
 
@@ -945,9 +910,9 @@ alpha.pa1$total
 
 raw_alpha is over 0.7 and average items correlation is above 0.5
 
-Using the same evaluation methods as before we see that every factor seems to be consistent and relevant. 
+Using the same evaluation methods as before we see that every factor seems to be consistent and relevant.
 
-## Correlation matrix
+## **Correlation matrix**
 
 Here we look at the correlation matrix of the constructs
 
@@ -958,9 +923,9 @@ std_fit$psi
 
 ```
 
-We see that the biggest correlation is 0.652. Thereby there are no really big correlations. 
+We see that the biggest correlation is 0.652. Thereby there are no really big correlations.
 
-## Individual item Reliability
+## **Individual item Reliability**
 
 ```{r}
 std.loadings<- inspect(fit_CFA, what="std")$lambda
@@ -975,9 +940,9 @@ IIR=std.loadings2/(colSums(std.theta)+std.loadings2)
 IIR
 ```
 
-We see that they are all above 0.4 which is the criterion they have to meet. Thereby each image expresses enough of the total variance of the factor. 
+We see that they are all above 0.4 which is the criterion they have to meet. Thereby each image expresses enough of the total variance of the factor.
 
-## Composite Construct Reliability
+## **Composite Construct Reliability**
 
 ```{r}
 #Composite/Construct Reliability (should be higher than 0.6)
@@ -988,9 +953,9 @@ CR=sum.std.loadings/(sum.std.loadings+colSums(sum.std.theta))
 CR
 ```
 
-Again this output is satisfying as every composite construct reliability is above 0.6. 
+Again this output is satisfying as every composite construct reliability is above 0.6.
 
-## Average Variance Extracted 
+## **Average Variance Extracted**
 
 ```{r}
 #Average Variance Extracted (should be higher than 0.5)
@@ -999,6 +964,7 @@ std.loadings <- std.loadings^2
 AVE=colSums(std.loadings)/(colSums(sum.std.theta)+colSums(std.loadings))
 AVE
 ```
+
 Also finally this output is also good as all the average variance extracted for each factor is above 0.5
 
 ## **CFA Visualization**
@@ -1165,7 +1131,11 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
+### Model Criterions
 
+RMSEA: 0.041 Akaike (AIC): 46722.504 Bayesian (BIC): 47430.223 Comparative Fit Index (CFI): 0.966 Tucker-Lewis Index (TLI): 0.958
+
+Overall good fitting of this model
 
 ### Significant Coefficients at 10% alpha level
 
@@ -1189,23 +1159,33 @@ parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalu
 
 **Indirect Effect**
 
-a21_b12: Shopping_Experience -> Affective_Commitment -> Repurchase_Intention (Positive)
-a12_b11: Store_Decoration -> Consumer_Satisfaction -> Repurchase_Intention (Negative)
-a14_b11: French_Culture -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
-a24_b12: French_Culture -> Affective_Commitment -> Repurchase_Intention (Positive)
-a15_b11: Product_Assortment -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
-a18_b11: Professionalism -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
-a21_b22: Shopping_Experience -> Affective_Commitment -> Cocreation_Intention (Positive)
-a24_b22: French_Culture -> Affective_Commitment -> Cocreation_Intention (Positive)
-a15_b21: Product_Assortment -> Consumer_Satisfaction -> Cocreation_Intention (Negative)
-a18_b21: Professionalism -> Consumer_Satisfaction -> Cocreation_Intention (Negative)
+a21_b12: Shopping_Experience -\> Affective_Commitment -\> Repurchase_Intention (Positive)
+
+a12_b11: Store_Decoration -\> Consumer_Satisfaction -\> Repurchase_Intention (Negative)
+
+a14_b11: French_Culture -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
+
+a24_b12: French_Culture -\> Affective_Commitment -\> Repurchase_Intention (Positive)
+
+a15_b11: Product_Assortment -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
+
+a18_b11: Professionalism -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
+
+a21_b22: Shopping_Experience -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+
+a24_b22: French_Culture -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+
+a15_b21: Product_Assortment -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
+
+a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
 
 **Total Effect**
 
 RI_Total_Shopping_Experience (Positive)
+
 CI_Total_Shopping_Experience (Positive)
 
-## **Summary of SEM Model with 7 Factors (Im9 + Im11 Removed)**
+## **Summary of SEM Model with 7 Factors (Im9 + Im11 + Store_Experience Removed)**
 
 ```{r}
 
@@ -1340,6 +1320,11 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
+### Model Criterions
+
+RMSEA: 0.035 Akaike (AIC): 38776.151 Bayesian (BIC): 39371.670 Comparative Fit Index (CFI): 0.980 Tucker-Lewis Index (TLI): 0.974
+
+Overall good fitting of this model even better than the previous model with 8 factors
 
 ### Significant Coefficients at 10% alpha level
 
@@ -1349,10 +1334,9 @@ parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalu
 
 ```
 
-
 ### Significant Coefficients at 5% alpha level
 
-We will only account those coefficient and variables for this model. 
+We will only account those coefficient and variables for this model.
 
 ```{r}
 
@@ -1364,16 +1348,25 @@ parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalu
 
 **Indirect Effect**
 
-a12_b11: Store_Decoration -> Consumer_Satisfaction -> Repurchase_Intention (Negative)
-a14_b11: French_Culture -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
-a24_b12: French_Culture -> Affective_Commitment -> Repurchase_Intention (Positive)
-a15_b11: Product_Assortment -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
-a25_b12: Product_Assortment -> Affective_Commitment -> Repurchase_Intention (Positive)
-a18_b11: Professionalism -> Consumer Satisfaction -> Repurchase_Intention (Positive)
-a24_b12: French_Culture -> Affective_Commitment -> Repurchase_Intention (Positive)
-a15_b21: Product_Assortment -> Consumer_Satisfaction -> Cocreation_Intention (Negative)
-a25_b22: Product_Assortment -> Affective_Commitment -> Cocreation_Intention (Positive)
-a18_b21: Professionalism -> Consumer_Satisfaction -> Cocreation_Intention (Negative)
+a12_b11: Store_Decoration -\> Consumer_Satisfaction -\> Repurchase_Intention (Negative)
+
+a14_b11: French_Culture -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
+
+a24_b12: French_Culture -\> Affective_Commitment -\> Repurchase_Intention (Positive)
+
+a15_b11: Product_Assortment -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
+
+a25_b12: Product_Assortment -\> Affective_Commitment -\> Repurchase_Intention (Positive)
+
+a18_b11: Professionalism -\> Consumer Satisfaction -\> Repurchase_Intention (Positive)
+
+a24_b12: French_Culture -\> Affective_Commitment -\> Repurchase_Intention (Positive)
+
+a15_b21: Product_Assortment -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
+
+a25_b22: Product_Assortment -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+
+a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
 
 ## **SEM Visualization**
 
@@ -1394,9 +1387,10 @@ lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helve
 
 ```
 
+# **Questions**
 
+**1. What are the dimensions by which Galeries Lafayette is perceived? Please explain your findings and rational for your final result.**
 
+**2. Are the mechanism driving satisfaction and affective commitment similar? Are satisfaction and affective commitment mediating the impact of image perceptions on outcomes? If yes for which outcomes?**
 
-
-
-
+**3. What is driving the two distinct outcomes (repurchase and co-creation intention): Please rank the image dimensions with respect to the total effect on each outcome? Interpret your results.**
