@@ -1323,7 +1323,7 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
 ```{r}
 
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 141)
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 118)
 
 ```
 
@@ -1331,8 +1331,8 @@ parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalu
 
 ```{r}
 
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 141)
-
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 118)
+ 
 ```
 
 
