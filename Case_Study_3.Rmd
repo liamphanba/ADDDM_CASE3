@@ -731,7 +731,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-### Modification indices 
+### Modification indices of CFA Model with 8 Factor
 
 ```{r}
 
@@ -761,7 +761,8 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-### Modification indices 
+
+## Modification indices of CFA Model with 8 Factors - Removing Im9 
 
 ```{r}
 
@@ -791,7 +792,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-### Modification indices 
+## Modification indices of CFA Model with 8 Factors - Removing Im9+Im11 
 
 ```{r}
 
@@ -821,7 +822,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-### Modification indices 
+## Modification indices of CFA Model with 8 Factors - Removing Im9+Im11+Im21
 
 ```{r}
 
@@ -829,7 +830,7 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
-## **Summary of CFA Model with 7 Factors - Removing Im9+Im11 and Shopping_Experience Factor **
+## **Summary of CFA Model with 7 Factors - Removing Im9+Im11 and Shopping_Experience Factor**
 
 ```{r}
 
@@ -850,7 +851,9 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-### Modification indices
+
+## Modification indices of CFA Model with 7 Factors - Removing Im9+Im11 and Shopping_Experience Factor 
+
 
 ```{r}
 
@@ -858,9 +861,11 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
+When we look at the modification indices of this CFA model we see that all the mi values are almost at 10. This is why we do not modify this model any further and stick with it. 
+
 ## Cronbachs alpha
 
-We once again look at cronbachs alpha as we now have more and different data than in EFA. 
+We once again look at cronbachs alpha as we now have more and different data than in EFA. We hereby have to reassign the images to the factors according to the model.  
 
 ```{r}
 
@@ -941,7 +946,7 @@ Using the same evaluation methods as before we see that every factor seems to be
 
 ## Correlation matrix
 
-Here we look at the correlation matrix of the 
+Here we look at the correlation matrix of the constructs
 
 ```{r}
 
@@ -949,6 +954,8 @@ std_fit = inspect(fit_CFA, 'std')
 std_fit$psi
 
 ```
+
+We see that the biggest correlation is 0.652. Thereby there are no really big correlations. 
 
 ## Individual item Reliability
 
@@ -965,6 +972,8 @@ IIR=std.loadings2/(colSums(std.theta)+std.loadings2)
 IIR
 ```
 
+We see that they are all above 0.4 which is the criterion they have to meet. Thereby each image expresses enough of the total variance of the factor. 
+
 ## Composite Construct Reliability
 
 ```{r}
@@ -975,6 +984,8 @@ sum.std.theta=check*sum.std.theta
 CR=sum.std.loadings/(sum.std.loadings+colSums(sum.std.theta))
 CR
 ```
+
+Again this output is satisfying t
 
 ## Average Variance Extracted 
 
