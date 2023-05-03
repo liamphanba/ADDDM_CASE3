@@ -761,7 +761,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-## Modification indices 
+### Modification indices 
 
 ```{r}
 
@@ -850,7 +850,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-## Modification indices
+### Modification indices
 
 ```{r}
 
@@ -1064,11 +1064,11 @@ Cocreation_Intention =~ C_CR1 + C_CR3 + C_CR4
 
 ## DIRECT EFFECT
 
-### CONSTRUCTS ON OUTCOMES
+### CONSTRUCTS -> OUTCOMES
 
 Repurchase_Intention ~ c11*Shopping_Experience + c12*Store_Decoration + c13*Luxury_Brands + c14*French_Culture + c15*Product_Assortment +c16*Gourmet_Food + c17*Trendiness + c18*Professionalism
 
-Affective_Commitment ~ c21*Shopping_Experience + c22*Store_Decoration + c23*Luxury_Brands + c24*French_Culture + c25*Product_Assortment +c26*Gourmet_Food + c27*Trendiness + c28*Professionalism
+Cocreation_Intention ~ c21*Shopping_Experience + c22*Store_Decoration + c23*Luxury_Brands + c24*French_Culture + c25*Product_Assortment +c26*Gourmet_Food + c27*Trendiness + c28*Professionalism
 
 ## MEDIATOR
 
@@ -1172,7 +1172,7 @@ CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
 
 
 
-fit_SEM <- lavaan::cfa(model_SEM, data=df, missing="ML")
+fit_SEM <- lavaan::cfa(model_SEM2, data=df, missing="ML")
 
 fit_SEM
 
