@@ -981,7 +981,7 @@ CR=sum.std.loadings/(sum.std.loadings+colSums(sum.std.theta))
 CR
 ```
 
-Again this output is satisfying t
+Again this output is satisfying as every composite construct reliability is above 0.6. 
 
 ## Average Variance Extracted 
 
@@ -992,7 +992,7 @@ std.loadings <- std.loadings^2
 AVE=colSums(std.loadings)/(colSums(sum.std.theta)+colSums(std.loadings))
 AVE
 ```
-
+Also finally this output is also good as all the average variance extracted for each factor is above 0.5
 
 ## **CFA Visualization**
 
