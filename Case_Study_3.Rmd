@@ -761,6 +761,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
+
 ## Modification indices of CFA Model with 8 Factors - Removing Im9 
 
 ```{r}
@@ -850,7 +851,10 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
+
 ## Modification indices of CFA Model with 7 Factors - Removing Im9+Im11 and Shopping_Experience Factor 
+
+
 ```{r}
 
 modificationindices(fit_CFA) %>% filter(mi>10)
@@ -1014,35 +1018,11 @@ lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helve
 
 # **Structure Equation Modelling**
 
-## **Summary of SEM Model**
+## **Summary of SEM Model with 8 Factors**
 
 ```{r}
 
-model_SEM <- " Shopping_Experience =~ Im20+Im21+Im22
-Store_Decoration =~ Im3+Im4+Im5
-Luxury_Brands =~ Im11+Im12+Im13
-French_Culture =~ Im6+Im7+Im9
-Product_Assortment =~ Im1+Im2
-Gourmet_Food =~ Im10+Im14
-Trendiness =~ Im17+Im18
-Professionalism =~ Im16+Im19
-
-Consumer_Satisfaction ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
-
-Affective_Commitment ~ Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
-
-Consumer_Satisfaction =~ SAT_1 + SAT_2 + SAT_3
-Affective_Commitment =~ COM_A1 + COM_A2 + COM_A3 + COM_A4
-
-Repurchase_Intention =~ C_REP1 + C_REP2 + C_REP3
-Cocreation_Intention =~ C_CR1 + C_CR3 + C_CR4
-
-Repurchase_Intention ~ Consumer_Satisfaction + Affective_Commitment + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism
-
-Cocreation_Intention ~ Consumer_Satisfaction + Affective_Commitment + Shopping_Experience + Store_Decoration + Luxury_Brands + French_Culture + Product_Assortment + Gourmet_Food + Trendiness + Professionalism "
-
-
-model_SEM2 <- "
+model_SEM1 <- "
 
 # LATENT VARIABLES
 
@@ -1071,11 +1051,11 @@ Cocreation_Intention =~ C_CR1 + C_CR3 + C_CR4
 
 ## DIRECT EFFECT
 
-### CONSTRUCTS ON OUTCOMES
+### CONSTRUCTS -> OUTCOMES
 
 Repurchase_Intention ~ c11*Shopping_Experience + c12*Store_Decoration + c13*Luxury_Brands + c14*French_Culture + c15*Product_Assortment +c16*Gourmet_Food + c17*Trendiness + c18*Professionalism
 
-Affective_Commitment ~ c21*Shopping_Experience + c22*Store_Decoration + c23*Luxury_Brands + c24*French_Culture + c25*Product_Assortment +c26*Gourmet_Food + c27*Trendiness + c28*Professionalism
+Cocreation_Intention ~ c21*Shopping_Experience + c22*Store_Decoration + c23*Luxury_Brands + c24*French_Culture + c25*Product_Assortment +c26*Gourmet_Food + c27*Trendiness + c28*Professionalism
 
 ## MEDIATOR
 
@@ -1172,14 +1152,152 @@ CI_Total_Trendiness := c27 + (a17*b21) + (a27*b21)
 CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
 
 
-# ERROR COVARIANCES
+"
+
+
+
+
+fit_SEM <- lavaan::cfa(model_SEM1, data=df, missing="ML")
+
+fit_SEM
+
+summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
+
+
+```
+
+
+## **Summary of SEM Model with 7 Factors**
+
+```{r}
+
+model_SEM2 <- "
+
+# LATENT VARIABLES
+
+## FACTORS CONSTRUCT
+
+Store_Decoration =~ Im3+Im4+Im5
+Luxury_Brands =~ Im11+Im12+Im13
+French_Culture =~ Im6+Im7+Im9
+Product_Assortment =~ Im1+Im2
+Gourmet_Food =~ Im10+Im14
+Trendiness =~ Im17+Im18
+Professionalism =~ Im16+Im19
+
+## MEDIATORS CONSTRUCT
+
+Consumer_Satisfaction =~ SAT_1 + SAT_2 + SAT_3
+Affective_Commitment =~ COM_A1 + COM_A2 + COM_A3 + COM_A4
+
+## OUTCOMES CONSTRUCT
+
+Repurchase_Intention =~ C_REP1 + C_REP2 + C_REP3
+Cocreation_Intention =~ C_CR1 + C_CR3 + C_CR4
+
+# REGRESSION
+
+## DIRECT EFFECT
+
+### CONSTRUCTS -> OUTCOMES
+
+Repurchase_Intention ~ c12*Store_Decoration + c13*Luxury_Brands + c14*French_Culture + c15*Product_Assortment +c16*Gourmet_Food + c17*Trendiness + c18*Professionalism
+
+Cocreation_Intention ~ c22*Store_Decoration + c23*Luxury_Brands + c24*French_Culture + c25*Product_Assortment +c26*Gourmet_Food + c27*Trendiness + c28*Professionalism
+
+## MEDIATOR
+
+### CONSTRUCTS -> MEDIATORS
+
+Consumer_Satisfaction ~ a12*Store_Decoration + a13*Luxury_Brands + a14*French_Culture + a15*Product_Assortment +a16*Gourmet_Food + a17*Trendiness + a18*Professionalism
+
+Affective_Commitment  ~ a22*Store_Decoration + a23*Luxury_Brands + a24*French_Culture + a25*Product_Assortment +a26*Gourmet_Food + a27*Trendiness + a28*Professionalism
+
+### MEDIATORS ON OUTCOMES
+
+Repurchase_Intention ~ b11*Consumer_Satisfaction
+Repurchase_Intention ~ b12*Affective_Commitment
+
+Cocreation_Intention ~ b21*Consumer_Satisfaction
+Cocreation_Intention ~ b22*Affective_Commitment
+
+## INDIRECT EFFECT
+
+### REPURCHASE INTENTION
+
+a12_b11 := a12*b11
+a22_b12 := a22*b12
+
+a13_b11 := a13*b11
+a23_b12 := a23*b12
+
+a14_b11 := a14*b11
+a24_b12 := a24*b12
+
+a15_b11 := a15*b11
+a25_b12 := a25*b12
+
+a16_b11 := a16*b11
+a26_b12 := a26*b12
+
+a17_b11 := a17*b11
+a27_b12 := a27*b12
+
+a18_b11 := a18*b11
+a28_b12 := a28*b12
+
+### COCREATION INTENTION
+
+a12_b21 := a12*b21
+a22_b22 := a22*b22
+
+a13_b21 := a13*b21
+a23_b22 := a23*b22
+
+a14_b21 := a14*b21
+a24_b12 := a24*b12
+
+a15_b21 := a15*b21
+a25_b22 := a25*b22
+
+a16_b21 := a16*b21
+a26_b22 := a26*b22
+
+a17_b21 := a17*b21
+a27_b22 := a27*b22
+
+a18_b21 := a18*b21
+a28_b22 := a28*b22
+
+## TOTAL EFFECT
+
+### REPURCHASE INTENTION
+
+RI_Total_Store_Decoration := c12 + (a12*b11) + (a22*b12)
+RI_Total_Luxury_Brands := c13 + (a13*b11) + (a23*b12)
+RI_Total_French_Culture := c14 + (a14*b11) + (a24*b21)
+RI_Total_Product_Assortment := c15 + (a15*b11) + (a25*b12)
+RI_Total_Gourmet_Food := c16 + (a16*b11) + (a26*b12)
+RI_Total_Trendiness := c17 + (a17*b11) + (a27*b12)
+RI_Total_Professionalism := c18 + (a18*b11) + (a28*b12)
+
+### COCREATION INTENTION
+
+CI_Total_Store_Decoration := c22 + (a12*b21) + (a22*b22)
+CI_Total_Luxury_Brands := c23 + (a13*b21) + (a23*b22)
+CI_Total_French_Culture := c24 + (a14*b21) + (a24*b22)
+CI_Total_Product_Assortment := c25 + (a15*b21) + (a25*b22)
+CI_Total_Gourmet_Food := c26 + (a16*b21) + (a26*b22)
+CI_Total_Trendiness := c27 + (a17*b21) + (a27*b21)
+CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
+
 
 "
 
 
 
 
-fit_SEM <- lavaan::cfa(model_SEM, data=df, missing="ML")
+fit_SEM <- lavaan::cfa(model_SEM1, data=df, missing="ML")
 
 fit_SEM
 
