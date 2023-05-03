@@ -1116,7 +1116,7 @@ a13_b21 := a13*b21
 a23_b22 := a23*b22
 
 a14_b21 := a14*b21
-a24_b12 := a24*b12
+a24_b22 := a24*b22
 
 a15_b21 := a15*b21
 a25_b22 := a25*b22
@@ -1137,7 +1137,7 @@ a28_b22 := a28*b22
 RI_Total_Shopping_Experience := c11 + (a11*b11) + (a21*b12)
 RI_Total_Store_Decoration := c12 + (a12*b11) + (a22*b12)
 RI_Total_Luxury_Brands := c13 + (a13*b11) + (a23*b12)
-RI_Total_French_Culture := c14 + (a14*b11) + (a24*b21)
+RI_Total_French_Culture := c14 + (a14*b11) + (a24*b12)
 RI_Total_Product_Assortment := c15 + (a15*b11) + (a25*b12)
 RI_Total_Gourmet_Food := c16 + (a16*b11) + (a26*b12)
 RI_Total_Trendiness := c17 + (a17*b11) + (a27*b12)
@@ -1151,7 +1151,7 @@ CI_Total_Luxury_Brands := c23 + (a13*b21) + (a23*b22)
 CI_Total_French_Culture := c24 + (a14*b21) + (a24*b22)
 CI_Total_Product_Assortment := c25 + (a15*b21) + (a25*b22)
 CI_Total_Gourmet_Food := c26 + (a16*b21) + (a26*b22)
-CI_Total_Trendiness := c27 + (a17*b21) + (a27*b21)
+CI_Total_Trendiness := c27 + (a17*b21) + (a27*b22)
 CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
 
 
@@ -1165,23 +1165,45 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
+
+
 ### Significant Coefficients at 10% alpha level
 
 ```{r}
 
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 141)
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 140)
 
 ```
 
 ### Significant Coefficients at 5% alpha level
 
+We will only account those coefficient and variables for this model.
+
 ```{r}
 
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 141)
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 137)
 
 ```
 
+**Coefficient Interpretation**
 
+**Indirect Effect**
+
+a21_b12: Shopping_Experience -> Affective_Commitment -> Repurchase_Intention (Positive)
+a12_b11: Store_Decoration -> Consumer_Satisfaction -> Repurchase_Intention (Negative)
+a14_b11: French_Culture -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
+a24_b12: French_Culture -> Affective_Commitment -> Repurchase_Intention (Positive)
+a15_b11: Product_Assortment -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
+a18_b11: Professionalism -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
+a21_b22: Shopping_Experience -> Affective_Commitment -> Cocreation_Intention (Positive)
+a24_b22: French_Culture -> Affective_Commitment -> Cocreation_Intention (Positive)
+a15_b21: Product_Assortment -> Consumer_Satisfaction -> Cocreation_Intention (Negative)
+a18_b21: Professionalism -> Consumer_Satisfaction -> Cocreation_Intention (Negative)
+
+**Total Effect**
+
+RI_Total_Shopping_Experience (Positive)
+CI_Total_Shopping_Experience (Positive)
 
 ## **Summary of SEM Model with 7 Factors (Im9 + Im11 Removed)**
 
@@ -1271,7 +1293,7 @@ a13_b21 := a13*b21
 a23_b22 := a23*b22
 
 a14_b21 := a14*b21
-a24_b12 := a24*b12
+a24_b22 := a24*b22
 
 a15_b21 := a15*b21
 a25_b22 := a25*b22
@@ -1291,7 +1313,7 @@ a28_b22 := a28*b22
 
 RI_Total_Store_Decoration := c12 + (a12*b11) + (a22*b12)
 RI_Total_Luxury_Brands := c13 + (a13*b11) + (a23*b12)
-RI_Total_French_Culture := c14 + (a14*b11) + (a24*b21)
+RI_Total_French_Culture := c14 + (a14*b11) + (a24*b12)
 RI_Total_Product_Assortment := c15 + (a15*b11) + (a25*b12)
 RI_Total_Gourmet_Food := c16 + (a16*b11) + (a26*b12)
 RI_Total_Trendiness := c17 + (a17*b11) + (a27*b12)
@@ -1319,22 +1341,39 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 ```
 
 
-### Significant Coefficients at 5% alpha level
+### Significant Coefficients at 10% alpha level
 
 ```{r}
 
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 118)
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 117)
 
 ```
 
+
 ### Significant Coefficients at 5% alpha level
+
+We will only account those coefficient and variables for this model. 
 
 ```{r}
 
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 118)
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 114) 
  
 ```
 
+**Coefficient Interpretation**
+
+**Indirect Effect**
+
+a12_b11: Store_Decoration -> Consumer_Satisfaction -> Repurchase_Intention (Negative)
+a14_b11: French_Culture -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
+a24_b12: French_Culture -> Affective_Commitment -> Repurchase_Intention (Positive)
+a15_b11: Product_Assortment -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
+a25_b12: Product_Assortment -> Affective_Commitment -> Repurchase_Intention (Positive)
+a18_b11: Professionalism -> Consumer Satisfaction -> Repurchase_Intention (Positive)
+a24_b12: French_Culture -> Affective_Commitment -> Repurchase_Intention (Positive)
+a15_b21: Product_Assortment -> Consumer_Satisfaction -> Cocreation_Intention (Negative)
+a25_b22: Product_Assortment -> Affective_Commitment -> Cocreation_Intention (Positive)
+a18_b21: Professionalism -> Consumer_Satisfaction -> Cocreation_Intention (Negative)
 
 ## **SEM Visualization**
 
