@@ -698,6 +698,8 @@ fa.diagram(fa_result8, sort = TRUE, adj = 1, rsize = 4, e.size = 0.061, main = "
 
 # **Confirmatory Factor Analysis**
 
+In this part we will do a confirmatory factor analysis which is based on the results of EFA from before.
+
 **From Assistant**
 For confirmatory factor analysis (CFA) and structural equation modeling (SEM), please use the raw data (which includes the missing values) to perform CFA and SEM, and use maximum likelihood (ML) to handle the missing data.
 
@@ -709,12 +711,14 @@ df <- read.csv2('Case Study III_Structural Equation Modeling.csv', na.strings = 
 
 ## **Summary of CFA Model**
 
+Here we fit the CFA model and look at its summary.
+
 ```{r}
 
 model_CFA <-"
-Shopping_Experience =~ Im20+Im21+Im22
+Shopping_Experience =~ Im20+Im22+Im21
 Store_Decoration =~ Im3+Im4+Im5
-Luxury_Brands =~ Im11+Im12+Im13
+Luxury_Brands =~ Im12+Im13+Im11
 French_Culture =~ Im6+Im7+Im9
 Product_Assortment =~ Im1+Im2
 Gourmet_Food =~ Im10+Im14
@@ -723,19 +727,223 @@ Professionalism =~ Im16+Im19"
 
 fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
 
-fit_CFA
-
 summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
-
 ```
-
 
 ```{r}
 
-#modificationindices(fit_CFA) %>% filter(mi>10)
+model_CFA <-"
+Shopping_Experience =~ Im20+Im22+Im21
+Store_Decoration =~ Im3+Im4+Im5
+Luxury_Brands =~ Im12+Im13+Im11
+French_Culture =~ Im6+Im7
+Product_Assortment =~ Im1+Im2
+Gourmet_Food =~ Im10+Im14
+Trendiness =~ Im17+Im18
+Professionalism =~ Im16+Im19"
+
+# removed: Im9
+
+fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
+
+summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
+
+```{r}
+
+model_CFA <-"
+Shopping_Experience =~ Im20+Im22+Im21
+Store_Decoration =~ Im3+Im4+Im5
+Luxury_Brands =~ Im12+Im13
+French_Culture =~ Im6+Im7
+Product_Assortment =~ Im1+Im2
+Gourmet_Food =~ Im10+Im14
+Trendiness =~ Im17+Im18
+Professionalism =~ Im16+Im19"
+
+# removed: Im9, Im11
+
+fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
+
+summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
+
+```
+
+```{r}
+
+model_CFA <-"
+Shopping_Experience =~ Im20+Im22
+Store_Decoration =~ Im3+Im4+Im5
+Luxury_Brands =~ Im12+Im13
+French_Culture =~ Im6+Im7
+Product_Assortment =~ Im1+Im2
+Gourmet_Food =~ Im10+Im14
+Trendiness =~ Im17+Im18
+Professionalism =~ Im16+Im19"
+
+# removed Im9, Im11, Im21
+
+fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
+
+summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
+
+```
+
+```{r}
+
+model_CFA <-"
+Store_Decoration =~ Im3+Im4+Im5
+Luxury_Brands =~ Im12+Im13
+French_Culture =~ Im6+Im7
+Product_Assortment =~ Im1+Im2
+Gourmet_Food =~ Im10+Im14
+Trendiness =~ Im17+Im18
+Professionalism =~ Im16+Im19"
+
+# removed Im9, Im11, Im21, Shopping_Experience =~ Im20+Im22
+
+fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
+
+summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
+```
+
+
+## Cronbachs alpha
+
+We once again look at cronbachs alpha as we now have more and different data than in EFA. 
+
+**Shopping Experience**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Shopping_Experience])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Store Decoration**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Store_Decoration])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Luxury Brands**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Luxury_Brands])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**French Culture**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[French_Culture])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Product Assortment**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Product_Assortment])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Gourmet Food**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Gourmet_Food])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Trendiness**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Trendiness])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+**Professionalism**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Professionalism])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
+
+Using the same evaluation methods as before we see that every factor seems to be consistent and relevant. 
+
+## Correlation matrix
+
+Here we look at the correlation matrix of the 
+
+```{r}
+
+std_fit = inspect(fit_CFA, 'std')
+std_fit$psi
+
+```
+
+## Modification indices 
+
+```{r}
+
+modificationindices(fit_CFA) %>% filter(mi>10)
+
+```
+
+## #Individual item Reliability
+
+```{r #Individual item Reliability}
+std.loadings<- inspect(fit_CFA, what="std")$lambda
+check=std.loadings
+check[check>0] <- 1
+std.loadings[std.loadings==0] <- NA
+std.loadings2 <- std.loadings^2
+std.theta<- inspect(fit_CFA, what="std")$theta
+
+#Individual item Reliability (should be larger than 0.4)
+IIR=std.loadings2/(colSums(std.theta)+std.loadings2)
+IIR
+```
+
+## composite construct reliability
+
+```{r composite construct reliability}
+#Composite/Construct Reliability (should be higher than 0.6)
+sum.std.loadings<-colSums(std.loadings, na.rm=TRUE)^2
+sum.std.theta<-rowSums(std.theta)
+sum.std.theta=check*sum.std.theta
+CR=sum.std.loadings/(sum.std.loadings+colSums(sum.std.theta))
+CR
+```
+
+## Average variance Exrtracted 
+
+```{r average variance extracted}
+#Average Variance Extracted (should be higher than 0.5)
+std.loadings<- inspect(fit_CFA, what="std")$lambda
+std.loadings <- std.loadings^2
+AVE=colSums(std.loadings)/(colSums(sum.std.theta)+colSums(std.loadings))
+AVE
+```
+
+
 
 ## **CFA Visualization**
 
