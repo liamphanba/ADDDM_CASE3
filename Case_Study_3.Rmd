@@ -710,6 +710,27 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
+Im9 is the main issue here, with mi over 10 < 19 < <20.5 < 22.7< 74. 
+
+## **Individual item Reliability**
+
+```{r}
+std.loadings<- inspect(fit_CFA, what="std")$lambda
+check=std.loadings
+check[check>0] <- 1
+std.loadings[std.loadings==0] <- NA
+std.loadings2 <- std.loadings^2
+std.theta<- inspect(fit_CFA, what="std")$theta
+
+#Individual item Reliability (should be larger than 0.4)
+IIR=std.loadings2/(colSums(std.theta)+std.loadings2)
+IIR
+
+```
+
+We can confirm that Im9 is also the problem here, with value under 0.4 in Individual Item Reliability. 
+
+
 ## **Summary of CFA Model with 8 Factors - Removing Im9**
 
 ```{r}
@@ -740,7 +761,27 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
-## **Summary of CFA Model with 8 Factors - Removing Im9+Im11**
+
+Now most mi are between 10 or 23 mi which can considered okay compared to sample size. Im11 and Im13 give high mi (over 20) as well.
+
+## **Individual item Reliability**
+
+```{r}
+std.loadings<- inspect(fit_CFA, what="std")$lambda
+check=std.loadings
+check[check>0] <- 1
+std.loadings[std.loadings==0] <- NA
+std.loadings2 <- std.loadings^2
+std.theta<- inspect(fit_CFA, what="std")$theta
+
+#Individual item Reliability (should be larger than 0.4)
+IIR=std.loadings2/(colSums(std.theta)+std.loadings2)
+IIR
+```
+
+Nevertheless, Im11 is still not reliable as an individual item < 0.4. We can consider removing it. 
+
+## **Summary of CFA Model with 8 Factors - Removing Im9 + Im11**
 
 ```{r}
 
@@ -754,7 +795,7 @@ Gourmet_Food =~ Im10+Im14
 Trendiness =~ Im17+Im18
 Professionalism =~ Im16+Im19"
 
-# removed: Im9, Im11
+# removed: Im9
 
 fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
 
@@ -762,7 +803,7 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
-## Modification indices of CFA Model with 8 Factors - Removing Im9+Im11
+## Modification indices of CFA Model with 8 Factors - Removing Im9 + Im11
 
 ```{r}
 
@@ -770,66 +811,24 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
-## **Summary of CFA Model with 8 Factors - Removing Im9+Im11+Im21**
+Now most mi values are good. 
+
+## **Individual item Reliability**
 
 ```{r}
+std.loadings<- inspect(fit_CFA, what="std")$lambda
+check=std.loadings
+check[check>0] <- 1
+std.loadings[std.loadings==0] <- NA
+std.loadings2 <- std.loadings^2
+std.theta<- inspect(fit_CFA, what="std")$theta
 
-model_CFA <-"
-Shopping_Experience =~ Im20+Im22
-Store_Decoration =~ Im3+Im4+Im5
-Luxury_Brands =~ Im12+Im13
-French_Culture =~ Im6+Im7
-Product_Assortment =~ Im1+Im2
-Gourmet_Food =~ Im10+Im14
-Trendiness =~ Im17+Im18
-Professionalism =~ Im16+Im19"
-
-# removed Im9, Im11, Im21
-
-fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
-
-summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
-
+#Individual item Reliability (should be larger than 0.4)
+IIR=std.loadings2/(colSums(std.theta)+std.loadings2)
+IIR
 ```
 
-## Modification indices of CFA Model with 8 Factors - Removing Im9+Im11+Im21
-
-```{r}
-
-modificationindices(fit_CFA) %>% filter(mi>10)
-
-```
-
-## **Summary of CFA Model with 7 Factors - Removing Im9+Im11 and Shopping_Experience Factor**
-
-```{r}
-
-model_CFA <-"
-Store_Decoration =~ Im3+Im4+Im5
-Luxury_Brands =~ Im12+Im13
-French_Culture =~ Im6+Im7
-Product_Assortment =~ Im1+Im2
-Gourmet_Food =~ Im10+Im14
-Trendiness =~ Im17+Im18
-Professionalism =~ Im16+Im19"
-
-# removed Im9, Im11, Im21, Shopping_Experience =~ Im20+Im22
-
-fit_CFA <- lavaan::cfa(model_CFA, data=df, missing="ML")
-
-summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
-
-```
-
-## Modification indices of CFA Model with 7 Factors - Removing Im9+Im11 and Shopping_Experience Factor
-
-```{r}
-
-modificationindices(fit_CFA) %>% filter(mi>10)
-
-```
-
-When we look at the modification indices of this CFA model we see that all the mi values are almost at 10. This is why we do not modify this model any further and stick with it.
+Now most Items are reliable individually > 0.4. 
 
 ## **Cronbachs alpha**
 
@@ -837,6 +836,7 @@ We once again look at cronbachs alpha as we now have more and different data tha
 
 ```{r}
 
+Shopping_Experience <-c("Im20","Im22","Im21")
 Store_Decoration <- c("Im3","Im4","Im5")
 Luxury_Brands <- c("Im12","Im13")
 French_Culture <- c("Im6","Im7")
@@ -846,6 +846,16 @@ Trendiness <- c("Im17","Im18")
 Professionalism <- c("Im16","Im19")
 
 ```
+
+
+**Shopping Experience**
+
+```{r}
+alpha.pa1 <- psych::alpha(df[Shopping_Experience])
+alpha.pa1$total
+```
+
+raw_alpha is over 0.7 and average items correlation is above 0.5
 
 **Store Decoration**
 
@@ -923,24 +933,8 @@ std_fit$psi
 
 ```
 
-We see that the biggest correlation is 0.652. Thereby there are no really big correlations.
+We see that the biggest correlation is 0.653 Thereby there are no really big correlations. Professionalism is slightly correlated with Store Decoration.
 
-## **Individual item Reliability**
-
-```{r}
-std.loadings<- inspect(fit_CFA, what="std")$lambda
-check=std.loadings
-check[check>0] <- 1
-std.loadings[std.loadings==0] <- NA
-std.loadings2 <- std.loadings^2
-std.theta<- inspect(fit_CFA, what="std")$theta
-
-#Individual item Reliability (should be larger than 0.4)
-IIR=std.loadings2/(colSums(std.theta)+std.loadings2)
-IIR
-```
-
-We see that they are all above 0.4 which is the criterion they have to meet. Thereby each image expresses enough of the total variance of the factor.
 
 ## **Composite Construct Reliability**
 
@@ -987,7 +981,7 @@ lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helve
 
 # **Structure Equation Modelling**
 
-## **Summary of SEM Model with 8 Factors**
+## **Summary of SEM Model with 8 Factors - Im8, Im9, Im11 and Im15 not included**
 
 ```{r}
 
@@ -999,8 +993,8 @@ model_SEM1 <- "
 
 Shopping_Experience =~ Im20+Im21+Im22
 Store_Decoration =~ Im3+Im4+Im5
-Luxury_Brands =~ Im11+Im12+Im13
-French_Culture =~ Im6+Im7+Im9
+Luxury_Brands =~ Im12+Im13
+French_Culture =~ Im6+Im7
 Product_Assortment =~ Im1+Im2
 Gourmet_Food =~ Im10+Im14
 Trendiness =~ Im17+Im18
@@ -1133,23 +1127,25 @@ summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
 
 ### Model Criterions
 
-RMSEA: 0.041
+RMSEA: 0.036
 
-Akaike (AIC): 46722.504
+Akaike (AIC): 43576.151
 
-Bayesian (BIC): 47430.223
+Bayesian (BIC): 44257.978
 
-Comparative Fit Index (CFI): 0.966
+Comparative Fit Index (CFI): 0.977
 
-Tucker-Lewis Index (TLI): 0.958
+Tucker-Lewis Index (TLI): 0.971
 
-Overall good fitting of this model
+
+Overall, we have a very good fitting of the SEM model.
+
 
 ### Significant Coefficients at 10% alpha level
 
 ```{r}
 
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 140)
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 135)
 
 ```
 
@@ -1159,7 +1155,7 @@ We will only account those coefficient and variables for this model.
 
 ```{r}
 
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 137)
+parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 131)
 
 ```
 
@@ -1189,200 +1185,10 @@ a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Neg
 
 **Total Effect**
 
-RI_Total_Shopping_Experience (Positive)
+RI_Total_Shopping_Experience (Positive) = 0.120	
 
-CI_Total_Shopping_Experience (Positive)
+CI_Total_Shopping_Experience (Positive) = 0.341	
 
-## **Summary of SEM Model with 7 Factors (Im9 + Im11 + Store_Experience Removed)**
-
-```{r}
-
-model_SEM2 <- "
-
-# LATENT VARIABLES
-
-## FACTORS CONSTRUCT
-
-Store_Decoration =~ Im3+Im4+Im5
-Luxury_Brands =~ Im12+Im13
-French_Culture =~ Im6+Im7
-Product_Assortment =~ Im1+Im2
-Gourmet_Food =~ Im10+Im14
-Trendiness =~ Im17+Im18
-Professionalism =~ Im16+Im19
-
-## MEDIATORS CONSTRUCT
-
-Consumer_Satisfaction =~ SAT_1 + SAT_2 + SAT_3
-Affective_Commitment =~ COM_A1 + COM_A2 + COM_A3 + COM_A4
-
-## OUTCOMES CONSTRUCT
-
-Repurchase_Intention =~ C_REP1 + C_REP2 + C_REP3
-Cocreation_Intention =~ C_CR1 + C_CR3 + C_CR4
-
-# REGRESSION
-
-## DIRECT EFFECT
-
-### CONSTRUCTS -> OUTCOMES
-
-Repurchase_Intention ~ c12*Store_Decoration + c13*Luxury_Brands + c14*French_Culture + c15*Product_Assortment +c16*Gourmet_Food + c17*Trendiness + c18*Professionalism
-
-Cocreation_Intention ~ c22*Store_Decoration + c23*Luxury_Brands + c24*French_Culture + c25*Product_Assortment +c26*Gourmet_Food + c27*Trendiness + c28*Professionalism
-
-## MEDIATOR
-
-### CONSTRUCTS -> MEDIATORS
-
-Consumer_Satisfaction ~ a12*Store_Decoration + a13*Luxury_Brands + a14*French_Culture + a15*Product_Assortment +a16*Gourmet_Food + a17*Trendiness + a18*Professionalism
-
-Affective_Commitment  ~ a22*Store_Decoration + a23*Luxury_Brands + a24*French_Culture + a25*Product_Assortment +a26*Gourmet_Food + a27*Trendiness + a28*Professionalism
-
-### MEDIATORS ON OUTCOMES
-
-Repurchase_Intention ~ b11*Consumer_Satisfaction
-Repurchase_Intention ~ b12*Affective_Commitment
-
-Cocreation_Intention ~ b21*Consumer_Satisfaction
-Cocreation_Intention ~ b22*Affective_Commitment
-
-## INDIRECT EFFECT
-
-### REPURCHASE INTENTION
-
-a12_b11 := a12*b11
-a22_b12 := a22*b12
-
-a13_b11 := a13*b11
-a23_b12 := a23*b12
-
-a14_b11 := a14*b11
-a24_b12 := a24*b12
-
-a15_b11 := a15*b11
-a25_b12 := a25*b12
-
-a16_b11 := a16*b11
-a26_b12 := a26*b12
-
-a17_b11 := a17*b11
-a27_b12 := a27*b12
-
-a18_b11 := a18*b11
-a28_b12 := a28*b12
-
-### COCREATION INTENTION
-
-a12_b21 := a12*b21
-a22_b22 := a22*b22
-
-a13_b21 := a13*b21
-a23_b22 := a23*b22
-
-a14_b21 := a14*b21
-a24_b22 := a24*b22
-
-a15_b21 := a15*b21
-a25_b22 := a25*b22
-
-a16_b21 := a16*b21
-a26_b22 := a26*b22
-
-a17_b21 := a17*b21
-a27_b22 := a27*b22
-
-a18_b21 := a18*b21
-a28_b22 := a28*b22
-
-## TOTAL EFFECT
-
-### REPURCHASE INTENTION
-
-RI_Total_Store_Decoration := c12 + (a12*b11) + (a22*b12)
-RI_Total_Luxury_Brands := c13 + (a13*b11) + (a23*b12)
-RI_Total_French_Culture := c14 + (a14*b11) + (a24*b12)
-RI_Total_Product_Assortment := c15 + (a15*b11) + (a25*b12)
-RI_Total_Gourmet_Food := c16 + (a16*b11) + (a26*b12)
-RI_Total_Trendiness := c17 + (a17*b11) + (a27*b12)
-RI_Total_Professionalism := c18 + (a18*b11) + (a28*b12)
-
-### COCREATION INTENTION
-
-CI_Total_Store_Decoration := c22 + (a12*b21) + (a22*b22)
-CI_Total_Luxury_Brands := c23 + (a13*b21) + (a23*b22)
-CI_Total_French_Culture := c24 + (a14*b21) + (a24*b22)
-CI_Total_Product_Assortment := c25 + (a15*b21) + (a25*b22)
-CI_Total_Gourmet_Food := c26 + (a16*b21) + (a26*b22)
-CI_Total_Trendiness := c27 + (a17*b21) + (a27*b21)
-CI_Total_Professionalism := c28 + (a18*b21) + (a28*b22)
-
-
-"
-
-
-fit_SEM <- lavaan::sem(model_SEM2, data=df, missing="ML")
-
-summary(fit_SEM,fit.measures=TRUE, standardized=TRUE)
-
-
-```
-
-### Model Criterions
-
-RMSEA: 0.035
-
-Akaike (AIC): 38776.151
-
-Bayesian (BIC): 39371.670
-
-Comparative Fit Index (CFI): 0.980
-
-Tucker-Lewis Index (TLI): 0.974
-
-Overall good fitting of this model even better than the previous model with 8 factors
-
-### Significant Coefficients at 10% alpha level
-
-```{r}
-
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.1) %>% filter(row_number() > 117)
-
-```
-
-### Significant Coefficients at 5% alpha level
-
-We will only account those coefficient and variables for this model.
-
-```{r}
-
-parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalue,ci.lower, ci.upper) %>% filter(pvalue < 0.05) %>% filter(row_number() > 114) 
- 
-```
-
-**Coefficient Interpretation**
-
-**Indirect Effect**
-
-a12_b11: Store_Decoration -\> Consumer_Satisfaction -\> Repurchase_Intention (Negative)
-
-a14_b11: French_Culture -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
-
-a24_b12: French_Culture -\> Affective_Commitment -\> Repurchase_Intention (Positive)
-
-a15_b11: Product_Assortment -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
-
-a25_b12: Product_Assortment -\> Affective_Commitment -\> Repurchase_Intention (Positive)
-
-a18_b11: Professionalism -\> Consumer Satisfaction -\> Repurchase_Intention (Positive)
-
-a24_b12: French_Culture -\> Affective_Commitment -\> Repurchase_Intention (Positive)
-
-a15_b21: Product_Assortment -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
-
-a25_b22: Product_Assortment -\> Affective_Commitment -\> Cocreation_Intention (Positive)
-
-a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
 
 ## **SEM Visualization**
 
