@@ -1331,9 +1331,14 @@ There is overall a very small impact from the indirect effects.
 |:----------------:|:----------------:|:----------------:|:----------------:|
 | Shopping Experience | Affective Commitment  |         0.069         | Repurchase Intention |
 | Shopping Experience | Affective Commitment  |         0.202         | Cocreation Intention |
-|  Store Decoration   | Consumer_Satisfaction |        -0.023         | Repurchase Intention |
-|                     |                       |                       |                      |
-|                     |                       |                       |                      |
-|                     |                       |                       |                      |
+|  Store Decoration   | Consumer Satisfaction |        -0.023         | Repurchase Intention |
+|   French Culture    | Affective Commitment  |         0.041         | Repurchase Intention |
+|   French Culture    | Affective Commitment  |         0.120         | Cocreation Intention |
+| Product_Assortment  |        CS + AC        | 0.028 + 0.020 = 0.048 | Repurchase_Intention |
+|   Professionalism   | Consumer_Satisfaction |         0.098         | Repurchase_Intention |
+|   Professionalism   | Consumer_Satisfaction |        -0.165         | Cocreation Intention |
+|    Luxury_Brands    | Affective_Commitment  |        -0.031         | Repurchase Intention |
+|    Luxury_Brands    | Affective_Commitment  |        -0.091         | Cocreation Intention |
+| Product_Assortment  |        CS + AC        | 0.057 - 0.048 = 0.009 | Cocreation Intention |
 
 ------------------------------------------------------------------------
