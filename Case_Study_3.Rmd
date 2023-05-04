@@ -1159,11 +1159,13 @@ parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalu
 
 a21_b12: Shopping_Experience -\> Affective_Commitment -\> Repurchase_Intention (Positive)
 
+a21_b22: Shopping_Experience -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+
 a12_b11: Store_Decoration -\> Consumer_Satisfaction -\> Repurchase_Intention (Negative)
 
-a23_b12: Luxury_Brands -\> Affective_Commitment -\> Repurchase_Intention (Negative)
-
 a24_b12: French_Culture -\> Affective_Commitment -\> Repurchase_Intention (Positive)
+
+a24_b22: French_Culture -\> Affective_Commitment -\> Cocreation_Intention (Positive)
 
 a15_b11: Product_Assortment -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
 
@@ -1171,17 +1173,23 @@ a25_b12: Product_Assortment -\> Affective_Commitment -\> Repurchase_Intention (P
 
 a18_b11: Professionalism -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
 
-a21_b22: Shopping_Experience -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
 
 a23_b22: Luxury_Brands -\> Affective_Commitment -\> Cocreation_Intention (Negative)
 
-a24_b22: French_Culture -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+a23_b12: Luxury_Brands -\> Affective_Commitment -\> Repurchase_Intention (Negative)
 
 a15_b21: Product_Assortment -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
 
 a25_b22: Product_Assortment -\> Affective_Commitment -\> Cocreation_Intention (Positive)
 
-a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
+**Mediations Statistics**
+
+We have **8** mediation effects from **Affective Commitment** and **5** from the **Consumer Satisfaction**.
+
+There is **4** mediations from **Affective Commitment to Repurchase Intention** and \***4** mediations **from Affective Commitment to Cocreation Intention.**
+
+There is **3** mediations from **Consumer Satisfaction to Repurchase Intention** and 2 mediations from **Consumer Satisfaction to Cocreation**
 
 **Total Effect**
 
@@ -1238,44 +1246,94 @@ Answer1
 
 **Shopping Experience**: This group pertains to the overall shopping experience, including elements such as relaxing shopping, a great place to stroll, and an intimate shop atmosphere.
 
-**Exclusion of some Images**
+**Exclusion of some Images:**
 
-We excluded Images 8, 9, 11 and 15 from EFA and CFA processes. We can check their actually meaning to see if there is any logical reasons of those processes to have behave that way. 
+We excluded Images 8, 9, 11 and 15 from EFA and CFA processes. We can check their actually meaning to see if there is any logical reasons of those processes to have behave that way.
 
-**Im8**
-What do GLB represent from your point of view?  Expertise in French Traditional Cuisine
+**Im8** What do GLB represent from your point of view? Expertise in French Traditional Cuisine
 
 Previously loaded into French Culture or Gourmet Food. We can see that both Factor are actually leading to the same concept, French Culture is associated with Gourmet Food since the 17th century:
 
-"During the 17th and 18th century, there was an advancement in Haute Cuisine or simply "High Cuisine", and its origins can be discovered in the recipes of a gourmet specialist named La Varenne. He was the writer of what is referred to today as the first "true French cookbook"."
+"During the 17th and 18th century, there was an advancement in Haute Cuisine or simply"High Cuisine", and its origins can be discovered in the recipes of a gourmet specialist named La Varenne. He was the writer of what is referred to today as the first "true French cookbook"."
 
 [A Brief History of French Cuisine](https://www.ecpi.edu/blog/a-brief-history-of-french-cuisine#:~:text=The%20Advent%20of%20Haute%20Cuisine,first%20%22true%20French%20cookbook%22.)
 
-**Im9**
-What do GLB represent from your point of view? French Fashion
+**Im9** What do GLB represent from your point of view? French Fashion
 
-Previously loaded into French Culture. As we can see, French Fashion is obviously associated with Haute Couture at the international level since the mid-19th century. We don't have Fashion Construct (Factor) in our Images, therefore Im9 was very low in loadings, but also showed instability in item from Cronbach'alpha. 
+Previously loaded into French Culture. As we can see, French Fashion is obviously associated with Haute Couture at the international level since the mid-19th century. We don't have Fashion Construct (Factor) in our Images, therefore Im9 was very low in loadings, but also showed instability in item from Cronbach'alpha.
 
 [Haute couture](https://en.wikipedia.org/wiki/Haute_couture)
 
-**Im11**
-What do GLB represent from your point of view?  High-quality Cosmetics
+**Im11** What do GLB represent from your point of view? High-quality Cosmetics
 
-Previously loaded into Luxury Brand. High-quality products is often associated with Luxury Brand, but since Cosmetics was also considered in this Image, the loadings were very low and may have more explain the Factor "Cosmetic", which didn't existed among other images. 
+Previously loaded into Luxury Brand. High-quality products is often associated with Luxury Brand, but since Cosmetics was also considered in this Image, the loadings were very low and may have more explain the Factor "Cosmetic", which didn't existed among other images.
 
-**Im15**
-What do GLB represent from your point of view?  Professional Selection of Brands
+**Im15** What do GLB represent from your point of view? Professional Selection of Brands
 
-Previously loaded into Professionalism or Product Assortments. As we can see this Image is associated with Selection + Professional themes, therefore Product Assortments and Professional images are both blurried in this image. Maybe we should have selected a better formulation of Selection of Brands without Professional terms in it, thus would have only this image loaded to Products Assortments rather than Professionals. We kept Im15 until CFA, but saw very high instability of this item and therefore needed to remove it from the SEM. 
-
+Previously loaded into Professionalism or Product Assortments. As we can see this Image is associated with Selection + Professional themes, therefore Product Assortments and Professional images are both blurried in this image. Maybe we should have selected a better formulation of Selection of Brands without Professional terms in it, thus would have only this image loaded to Products Assortments rather than Professionals. We kept Im15 until CFA, but saw very high instability of this item and therefore needed to remove it from the SEM.
 
 **2. Are the mechanism driving satisfaction and affective commitment similar? Are satisfaction and affective commitment mediating the impact of image perceptions on outcomes? If yes for which outcomes?**
 
+Most Images (Mechanisms) indirectly affect Consumer Satisfaction and Affective Commitment at the same time, except for Store Decoration who is passing through Consumer Satisfaction only. Yes, there are mediations effects coming from our SEM. We can show the following impacts of our factors through our mediators Consumer Satisfaction and Affective Commitment (constructs):
 
+------------------------------------------------------------------------
 
+**Indirect Effects**
 
+a21_b12: Shopping_Experience -\> Affective_Commitment -\> Repurchase_Intention (Positive)
+
+a21_b22: Shopping_Experience -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+
+a12_b11: Store_Decoration -\> Consumer_Satisfaction -\> Repurchase_Intention (Negative)
+
+a24_b12: French_Culture -\> Affective_Commitment -\> Repurchase_Intention (Positive)
+
+a24_b22: French_Culture -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+
+a15_b11: Product_Assortment -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
+
+a25_b12: Product_Assortment -\> Affective_Commitment -\> Repurchase_Intention (Positive)
+
+a18_b11: Professionalism -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
+
+a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
+
+a23_b22: Luxury_Brands -\> Affective_Commitment -\> Cocreation_Intention (Negative)
+
+a23_b12: Luxury_Brands -\> Affective_Commitment -\> Repurchase_Intention (Negative)
+
+a15_b21: Product_Assortment -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
+
+a25_b22: Product_Assortment -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+
+------------------------------------------------------------------------
+
+There is overall a very small impact from the indirect effects.
 
 **3. What is driving the two distinct outcomes (repurchase and co-creation intention): Please rank the image dimensions with respect to the total effect on each outcome? Interpret your results.**
 
+**Total Effects**
 
+------------------------------------------------------------------------
 
+|       Factor        |      Images      | Total Effect |       Outcome        |
+|:-------------------:|:----------------:|:------------:|:--------------------:|
+| Shopping Experience | Im20, Im21, Im22 |    0.341     | Cocreation Intention |
+| Shopping Experience | Im20, Im21, Im22 |    0.120     | Repurchase Intention |
+
+------------------------------------------------------------------------
+
+**Total Indirect Effects**
+
+------------------------------------------------------------------------
+
+|       Factor        |       Mediators       | Total Indirect Effect |       Outcome        |
+|:----------------:|:----------------:|:----------------:|:----------------:|
+| Shopping Experience | Affective Commitment  |         0.069         | Repurchase Intention |
+| Shopping Experience | Affective Commitment  |         0.202         | Cocreation Intention |
+|  Store Decoration   | Consumer_Satisfaction |        -0.023         | Repurchase Intention |
+|                     |                       |                       |                      |
+|                     |                       |                       |                      |
+|                     |                       |                       |                      |
+
+------------------------------------------------------------------------
