@@ -710,7 +710,7 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
-Im9 is the main issue here, with mi over 10 < 19 < <20.5 < 22.7< 74. 
+Im9 is the main issue here, with mi over 10 \< 19 \< \<20.5 \< 22.7\< 74.
 
 ## **Individual item Reliability**
 
@@ -728,8 +728,7 @@ IIR
 
 ```
 
-We can confirm that Im9 is also the problem here, with value under 0.4 in Individual Item Reliability. 
-
+We can confirm that Im9 is also the problem here, with value under 0.4 in Individual Item Reliability.
 
 ## **Summary of CFA Model with 8 Factors - Removing Im9**
 
@@ -761,7 +760,6 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
-
 Now most mi are between 10 or 23 mi which can considered okay compared to sample size. Im11 and Im13 give high mi (over 20) as well.
 
 ## **Individual item Reliability**
@@ -779,7 +777,7 @@ IIR=std.loadings2/(colSums(std.theta)+std.loadings2)
 IIR
 ```
 
-Nevertheless, Im11 is still not reliable as an individual item < 0.4. We can consider removing it. 
+Nevertheless, Im11 is still not reliable as an individual item \< 0.4. We can consider removing it.
 
 ## **Summary of CFA Model with 8 Factors - Removing Im9 + Im11**
 
@@ -811,7 +809,7 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 
 ```
 
-Now most mi values are good. 
+Now most mi values are good.
 
 ## **Individual item Reliability**
 
@@ -828,7 +826,7 @@ IIR=std.loadings2/(colSums(std.theta)+std.loadings2)
 IIR
 ```
 
-Now most Items are reliable individually > 0.4. 
+Now most Items are reliable individually \> 0.4.
 
 ## **Cronbachs alpha**
 
@@ -846,7 +844,6 @@ Trendiness <- c("Im17","Im18")
 Professionalism <- c("Im16","Im19")
 
 ```
-
 
 **Shopping Experience**
 
@@ -934,7 +931,6 @@ std_fit$psi
 ```
 
 We see that the biggest correlation is 0.653 Thereby there are no really big correlations. Professionalism is slightly correlated with Store Decoration.
-
 
 ## **Composite Construct Reliability**
 
@@ -1137,9 +1133,7 @@ Comparative Fit Index (CFI): 0.977
 
 Tucker-Lewis Index (TLI): 0.971
 
-
 Overall, we have a very good fitting of the SEM model.
-
 
 ### Significant Coefficients at 10% alpha level
 
@@ -1159,7 +1153,7 @@ parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalu
 
 ```
 
-**Coefficient Interpretation**
+### **Coefficient Interpretation**
 
 **Indirect Effect**
 
@@ -1167,27 +1161,33 @@ a21_b12: Shopping_Experience -\> Affective_Commitment -\> Repurchase_Intention (
 
 a12_b11: Store_Decoration -\> Consumer_Satisfaction -\> Repurchase_Intention (Negative)
 
-a14_b11: French_Culture -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
+a23_b12: Luxury_Brands -> Affective_Commitment -> Repurchase_Intention (Negative)
 
 a24_b12: French_Culture -\> Affective_Commitment -\> Repurchase_Intention (Positive)
 
-a15_b11: Product_Assortment -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
+a15_b11: Product_Assortment -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
+
+a25_b12: Product_Assortment -> Affective_Commitment -> Repurchase_Intention (Positive)
 
 a18_b11: Professionalism -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
 
 a21_b22: Shopping_Experience -\> Affective_Commitment -\> Cocreation_Intention (Positive)
 
+a23_b22: Luxury_Brands -> Affective_Commitment -> Cocreation_Intention (Negative)
+
 a24_b22: French_Culture -\> Affective_Commitment -\> Cocreation_Intention (Positive)
 
 a15_b21: Product_Assortment -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
 
+a25_b22: Product_Assortment -> Affective_Commitment -> Cocreation_Intention (Positive)
+ 
 a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
 
 **Total Effect**
 
-RI_Total_Shopping_Experience (Positive) = 0.120	
+RI_Total_Shopping_Experience (Positive) = 0.120
 
-CI_Total_Shopping_Experience (Positive) = 0.341	
+CI_Total_Shopping_Experience (Positive) = 0.341
 
 
 ## **SEM Visualization**
@@ -1201,6 +1201,7 @@ lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helve
 
 ```
 
+
 ### **Model with Covariances**
 
 ```{r, fig.height=4, fig.width=10}
@@ -1213,6 +1214,24 @@ lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helve
 
 **1. What are the dimensions by which Galeries Lafayette is perceived? Please explain your findings and rational for your final result.**
 
+
+
+
+
+
+
 **2. Are the mechanism driving satisfaction and affective commitment similar? Are satisfaction and affective commitment mediating the impact of image perceptions on outcomes? If yes for which outcomes?**
 
+
+
+
+
+
 **3. What is driving the two distinct outcomes (repurchase and co-creation intention): Please rank the image dimensions with respect to the total effect on each outcome? Interpret your results.**
+
+
+
+
+
+
+
