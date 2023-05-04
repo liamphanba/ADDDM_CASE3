@@ -963,7 +963,7 @@ Also finally this output is also good as all the average variance extracted for 
 
 ```{r, fig.height=4, fig.width=10}
 
-lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
+Answer1 <- lavaanPlot(model = fit_CFA, node_options = list(shape = "box", fontname = "Helvetica"), edge_options = list(color = "palegreen4"), coefs = TRUE, sig = 0.05, covs = FALSE, digits = 2)
 
 ```
 
@@ -1161,26 +1161,26 @@ a21_b12: Shopping_Experience -\> Affective_Commitment -\> Repurchase_Intention (
 
 a12_b11: Store_Decoration -\> Consumer_Satisfaction -\> Repurchase_Intention (Negative)
 
-a23_b12: Luxury_Brands -> Affective_Commitment -> Repurchase_Intention (Negative)
+a23_b12: Luxury_Brands -\> Affective_Commitment -\> Repurchase_Intention (Negative)
 
 a24_b12: French_Culture -\> Affective_Commitment -\> Repurchase_Intention (Positive)
 
-a15_b11: Product_Assortment -> Consumer_Satisfaction -> Repurchase_Intention (Positive)
+a15_b11: Product_Assortment -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
 
-a25_b12: Product_Assortment -> Affective_Commitment -> Repurchase_Intention (Positive)
+a25_b12: Product_Assortment -\> Affective_Commitment -\> Repurchase_Intention (Positive)
 
 a18_b11: Professionalism -\> Consumer_Satisfaction -\> Repurchase_Intention (Positive)
 
 a21_b22: Shopping_Experience -\> Affective_Commitment -\> Cocreation_Intention (Positive)
 
-a23_b22: Luxury_Brands -> Affective_Commitment -> Cocreation_Intention (Negative)
+a23_b22: Luxury_Brands -\> Affective_Commitment -\> Cocreation_Intention (Negative)
 
 a24_b22: French_Culture -\> Affective_Commitment -\> Cocreation_Intention (Positive)
 
 a15_b21: Product_Assortment -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
 
-a25_b22: Product_Assortment -> Affective_Commitment -> Cocreation_Intention (Positive)
- 
+a25_b22: Product_Assortment -\> Affective_Commitment -\> Cocreation_Intention (Positive)
+
 a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Negative)
 
 **Total Effect**
@@ -1188,7 +1188,6 @@ a18_b21: Professionalism -\> Consumer_Satisfaction -\> Cocreation_Intention (Neg
 RI_Total_Shopping_Experience (Positive) = 0.120
 
 CI_Total_Shopping_Experience (Positive) = 0.341
-
 
 ## **SEM Visualization**
 
@@ -1200,7 +1199,6 @@ lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helve
 
 
 ```
-
 
 ### **Model with Covariances**
 
@@ -1214,6 +1212,36 @@ lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helve
 
 **1. What are the dimensions by which Galeries Lafayette is perceived? Please explain your findings and rational for your final result.**
 
+Here we show the dimensions by which Galeries Layfayette is perceived according to CFA and SEM.
+
+```{r , fig.width = 12}
+
+Answer1
+
+```
+
+**Dimensions Definitions:**
+
+**Product Assortment**: This group pertains to the variety and range of products offered by the store.
+
+**Store Decoration**: This group pertains to the aesthetic elements of the store's interior and exterior, such as the artistic and creative decoration of the sales area, and the appealing arrangement of shop windows.
+
+**French Culture**: This group pertains to elements of French culture, such as French savoir-vivre, fashion.
+
+**Gourmet Food**: This group pertains to high-quality offered by the store.
+
+**Luxury Brands**: This group pertains to the presence of luxury and designer brands in the store.
+
+**Professionalism**: This group pertains to elements of professionalism, such as the store's professional appearance towards customers and professional organization.
+
+**Trendiness**: This group pertains to the store's ability to stay current and up-to-date with the latest trends in the market.
+
+**Shopping Experience**: This group pertains to the overall shopping experience, including elements such as relaxing shopping, a great place to stroll, and an intimate shop atmosphere.
+
+**Exclusion of some Images**
+
+We exclude Images 8, 9, 11 and 15 from EFA and CFA processes. We can check their actually sentences to see if there is any logical reasons of those processes to have behave that way. 
+
 
 
 
@@ -1226,12 +1254,7 @@ lavaanPlot(model = fit_SEM, node_options = list(shape = "box", fontname = "Helve
 
 
 
-
 **3. What is driving the two distinct outcomes (repurchase and co-creation intention): Please rank the image dimensions with respect to the total effect on each outcome? Interpret your results.**
-
-
-
-
 
 
 
