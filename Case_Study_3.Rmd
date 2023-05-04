@@ -1,5 +1,5 @@
 ---
-title: "Case Study 3"
+title: "**Case Study 3 - Galleries Lafayette**"
 author: "Michael Daniel Bigler and Liam Arthur Phan"
 date: "`r Sys.Date()`"
 output:
@@ -702,6 +702,16 @@ summary(fit_CFA,fit.measures=TRUE, standardized=TRUE)
 
 ```
 
+**Model Criterion**
+
+    Comparative Fit Index (CFI) = 0.968
+    Tucker-Lewis Index (TLI) = 0.957
+    Akaike (AIC) = 27780.060
+    Bayesian (BIC) = 28159.811
+    RMSEA = 0.055
+
+The Model is very good when looking at the criterion for model fitting.
+
 ### Modification indices of CFA Model with 8 Factor
 
 ```{r}
@@ -810,6 +820,20 @@ modificationindices(fit_CFA) %>% filter(mi>10)
 ```
 
 Now most mi values are good.
+
+**Model Criterion**
+
+Comparative Fit Index (CFI) = 0.986
+
+Tucker-Lewis Index (TLI) = 0.980
+
+Akaike (AIC) = 24633.709
+
+Bayesian (BIC) = 24987.568
+
+RMSEA = 0.040
+
+The Model fitting criterions are all better than the previous CFA model with the previous images. Lower AIC and BIC as well as RMSEA indicate better fitting.
 
 ## **Individual item Reliability**
 
@@ -1155,6 +1179,8 @@ parameterestimates(fit_SEM, standardized = TRUE) %>% select(lhs, rhs, est, pvalu
 
 ### **Coefficient Interpretation**
 
+------------------------------------------------------------------------
+
 **Indirect Effect**
 
 a21_b12: Shopping_Experience -\> Affective_Commitment -\> Repurchase_Intention (Positive)
@@ -1183,13 +1209,17 @@ a15_b21: Product_Assortment -\> Consumer_Satisfaction -\> Cocreation_Intention (
 
 a25_b22: Product_Assortment -\> Affective_Commitment -\> Cocreation_Intention (Positive)
 
+------------------------------------------------------------------------
+
 **Mediations Statistics**
 
 We have **8** mediation effects from **Affective Commitment** and **5** from the **Consumer Satisfaction**.
 
-There is **4** mediations from **Affective Commitment to Repurchase Intention** and \***4** mediations **from Affective Commitment to Cocreation Intention.**
+There is **4** mediations from **Affective Commitment to Repurchase Intention** and \***4** mediations **from Affective Commitment to Co-creation Intention.**
 
-There is **3** mediations from **Consumer Satisfaction to Repurchase Intention** and 2 mediations from **Consumer Satisfaction to Cocreation**
+There is **3** mediations from **Consumer Satisfaction to Repurchase Intention** and 2 mediations from **Consumer Satisfaction to Co-creation**
+
+------------------------------------------------------------------------
 
 **Total Effect**
 
@@ -1228,7 +1258,9 @@ Answer1
 
 ```
 
-**Dimensions Definitions:**
+**Dimensions Definitions**
+
+------------------------------------------------------------------------
 
 **Product Assortment**: This group pertains to the variety and range of products offered by the store.
 
@@ -1246,9 +1278,13 @@ Answer1
 
 **Shopping Experience**: This group pertains to the overall shopping experience, including elements such as relaxing shopping, a great place to stroll, and an intimate shop atmosphere.
 
-**Exclusion of some Images:**
+------------------------------------------------------------------------
+
+**Exclusion of some Images**
 
 We excluded Images 8, 9, 11 and 15 from EFA and CFA processes. We can check their actually meaning to see if there is any logical reasons of those processes to have behave that way.
+
+------------------------------------------------------------------------
 
 **Im8** What do GLB represent from your point of view? Expertise in French Traditional Cuisine
 
@@ -1258,23 +1294,31 @@ Previously loaded into French Culture or Gourmet Food. We can see that both Fact
 
 [A Brief History of French Cuisine](https://www.ecpi.edu/blog/a-brief-history-of-french-cuisine#:~:text=The%20Advent%20of%20Haute%20Cuisine,first%20%22true%20French%20cookbook%22.)
 
+------------------------------------------------------------------------
+
 **Im9** What do GLB represent from your point of view? French Fashion
 
-Previously loaded into French Culture. As we can see, French Fashion is obviously associated with Haute Couture at the international level since the mid-19th century. We don't have Fashion Construct (Factor) in our Images, therefore Im9 was very low in loadings, but also showed instability in item from Cronbach'alpha.
+Previously loaded into French Culture. As we can see, French Fashion is obviously associated with Haute Couture at the international level since the mid-19th century. We don't have Fashion Construct (Factor) in our Images, therefore **Im9** was very low in loadings, but also showed instability in item from Cronbach'alpha.
 
 [Haute couture](https://en.wikipedia.org/wiki/Haute_couture)
+
+------------------------------------------------------------------------
 
 **Im11** What do GLB represent from your point of view? High-quality Cosmetics
 
 Previously loaded into Luxury Brand. High-quality products is often associated with Luxury Brand, but since Cosmetics was also considered in this Image, the loadings were very low and may have more explain the Factor "Cosmetic", which didn't existed among other images.
 
+------------------------------------------------------------------------
+
 **Im15** What do GLB represent from your point of view? Professional Selection of Brands
 
-Previously loaded into Professionalism or Product Assortments. As we can see this Image is associated with Selection + Professional themes, therefore Product Assortments and Professional images are both blurried in this image. Maybe we should have selected a better formulation of Selection of Brands without Professional terms in it, thus would have only this image loaded to Products Assortments rather than Professionals. We kept Im15 until CFA, but saw very high instability of this item and therefore needed to remove it from the SEM.
+Previously loaded into Professionalism or Product Assortments. As we can see this Image is associated with Selection + Professional themes, therefore Product Assortments and Professional images are both blurried in this image. Maybe we should have selected a better formulation of Selection of Brands without Professional terms in it, thus would have only this image loaded to Products Assortments rather than Professionals. We kept **Im15** until CFA, but saw very high instability of this item and therefore needed to remove it from the SEM.
+
+------------------------------------------------------------------------
 
 **2. Are the mechanism driving satisfaction and affective commitment similar? Are satisfaction and affective commitment mediating the impact of image perceptions on outcomes? If yes for which outcomes?**
 
-Most Images (Mechanisms) indirectly affect Consumer Satisfaction and Affective Commitment at the same time, except for Store Decoration who is passing through Consumer Satisfaction only. Yes, there are mediations effects coming from our SEM. We can show the following impacts of our factors through our mediators Consumer Satisfaction and Affective Commitment (constructs):
+Most Images (Mechanisms) indirectly affect **Consumer Satisfaction** and **Affective Commitment** at the same time, except for **Store Decoration** who is passing through **Consumer Satisfaction** only. Yes, there are Mediations effects coming from our SEM. We can show the following impacts of our factors through our Mediators **Consumer Satisfaction** and **Affective Commitment**:
 
 ------------------------------------------------------------------------
 
@@ -1308,18 +1352,38 @@ a25_b22: Product_Assortment -\> Affective_Commitment -\> Cocreation_Intention (P
 
 ------------------------------------------------------------------------
 
-There is overall a very small impact from the indirect effects.
+There is overall a very small impact from the indirect effects. Therefore we can already see that **Affective Commitment** is more represented than **Consumer Satisfaction** (8 times versus 5 times) Mediator. There is also very equivalent outcomes for both of those mediators.
+
+------------------------------------------------------------------------
 
 **3. What is driving the two distinct outcomes (repurchase and co-creation intention): Please rank the image dimensions with respect to the total effect on each outcome? Interpret your results.**
+
+The positive drivers for **Repurchase Intention** and **Co-creation Intention** are the following dimensions:
+
+<center>**Shopping Experience (Total Effect) \| French Culture (Indirect Effect) \| Product Assortment (Indirect Effect)**</center>
+
+And the negative drivers are:
+
+<center>**Store Decoration (Indirect Effect) \| Luxury Brands (Indirect Effect)**</center>
+
+Ambiguous drivers are:
+
+<center>
+
+**Professionalism (Indirect Effect)**
+
+Ambiguous since drives down **Co-creation** , but positively affects **Repurchase Intention**.
+
+</center>
 
 **Total Effects**
 
 ------------------------------------------------------------------------
 
-|       Factor        |      Images      | Total Effect |       Outcome        |
-|:-------------------:|:----------------:|:------------:|:--------------------:|
-| Shopping Experience | Im20, Im21, Im22 |    0.341     | Cocreation Intention |
-| Shopping Experience | Im20, Im21, Im22 |    0.120     | Repurchase Intention |
+|       Factor        |      Images      | Total Effect |        Outcome        |
+|:----------------:|:----------------:|:----------------:|:-----------------:|
+| Shopping Experience | Im20, Im21, Im22 |    0.341     | Co-creation Intention |
+| Shopping Experience | Im20, Im21, Im22 |    0.120     | Repurchase Intention  |
 
 ------------------------------------------------------------------------
 
@@ -1327,18 +1391,24 @@ There is overall a very small impact from the indirect effects.
 
 ------------------------------------------------------------------------
 
-|       Factor        |       Mediators       | Total Indirect Effect |       Outcome        |
+|       Factor        |       Mediators       | Total Indirect Effect |        Outcome        |
 |:----------------:|:----------------:|:----------------:|:----------------:|
-| Shopping Experience | Affective Commitment  |         0.069         | Repurchase Intention |
-| Shopping Experience | Affective Commitment  |         0.202         | Cocreation Intention |
-|  Store Decoration   | Consumer Satisfaction |        -0.023         | Repurchase Intention |
-|   French Culture    | Affective Commitment  |         0.041         | Repurchase Intention |
-|   French Culture    | Affective Commitment  |         0.120         | Cocreation Intention |
-| Product_Assortment  |        CS + AC        | 0.028 + 0.020 = 0.048 | Repurchase_Intention |
-|   Professionalism   | Consumer_Satisfaction |         0.098         | Repurchase_Intention |
-|   Professionalism   | Consumer_Satisfaction |        -0.165         | Cocreation Intention |
-|    Luxury_Brands    | Affective_Commitment  |        -0.031         | Repurchase Intention |
-|    Luxury_Brands    | Affective_Commitment  |        -0.091         | Cocreation Intention |
-| Product_Assortment  |        CS + AC        | 0.057 - 0.048 = 0.009 | Cocreation Intention |
+| Shopping Experience | Affective Commitment  |         0.202         | Co-creation Intention |
+| Shopping Experience | Affective Commitment  |         0.069         | Repurchase Intention  |
+|   French Culture    | Affective Commitment  |         0.120         | Co-creation Intention |
+|   French Culture    | Affective Commitment  |         0.041         | Repurchase Intention  |
+|   Professionalism   | Consumer Satisfaction |        -0.165         | Co-creation Intention |
+|   Professionalism   | Consumer Satisfaction |         0.098         | Repurchase Intention  |
+|    Luxury Brands    | Affective Commitment  |        -0.091         | Co-creation Intention |
+|    Luxury Brands    | Affective Commitment  |        -0.031         | Repurchase Intention  |
+|  Store Decoration   | Consumer Satisfaction |        -0.023         | Repurchase Intention  |
+| Product Assortment  |        CS + AC        | 0.028 + 0.020 = 0.048 | Repurchase_Intention  |
+| Product Assortment  |        CS + AC        | 0.057 - 0.048 = 0.009 | Co-creation Intention |
 
 ------------------------------------------------------------------------
+
+<center>This table contains standardized coefficients\*</center>
+
+**Interpretations**
+
+Since the Total Effect (standardized) of **Shopping Experience** is the main driver for increasing up the **Repurchase Intention** and **Co-creation**, this dimension in **Galleries Lafayette** should be more analyzed to get more detailed insights on how Consumer would behave with changes in this dimension.
